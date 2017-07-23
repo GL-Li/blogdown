@@ -1,45 +1,51 @@
 baseurl = "/"
+relativeurls = true
 languageCode = "en-us"
-title = "Steam - a minimal theme for Hugo"
-theme = "hugo-steam-theme"
-disqusShortname = "gl-li-github-io"
-# Enable Google Analytics be inserting your tracking code
+title = "PlayeR and useR"
+theme = "mainroad"
+paginate = "10" # Number of posts per page
 googleAnalytics = ""
-# Number of posts per page
-paginate = 10
+disqusShortname = "gl-li-github-io"
+ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
-[params]
-	#title = "Steam"
-	#subtitle = "a minimal theme for ~~Ghost~~ Hugo"
-	copyright = "Released under the MIT license."
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
 
-	# You can choose between green, orange, red and blue.
-	themecolor = "green"
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+[[menu.main]]
+    name = "links"
+    url = "/links/"
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/gl-li/blogdown"
+[[menu.main]]
+    name = "Twitter"
+    url = "https://twitter.com/difo_li"
 
-	# Link custom assets relative to /static
-	favicon   = "favicon.ico"
-	customCSS = []
-	customJS  = []
+[Params]
+    #subtitle = "Just another site" # Subtitle of your site
+    #description = " John Doe's Personal blog about everything" # Description of your site
+    #opengraph = true
+    readmore = false # Show "Read more" button in list if true
+    leftsidebar = false # Move sidebar to the left side if true
+    #authorbox = true
+    post_navigation = true
+    postSections = ["post"] # the section pages to show on home page and the "Recent articles" widget
+    #postSections = ["blog", "news"] # alternative that shows more than one section's pages
+    #dateformat = "2006-01-02" # change the format of dates
 
-	# To provide some metadata for search engines and the about section in the footer
-	# feel free to add a few information about you and your website.
-	name = "John Doe"
-	bio = "programmer - blogger - coffee aficionado"
-	description = "Your description of the blog"
-	
-	# Link your social networks (optional)
-	location = ""
-	twitter = "difo_li"
-	linkedin = ""
-	googleplus = ""
-	facebook = ""
-	instagram = ""
-	github = "GL-Li"
-	gitlab = ""
-	bitbucket = ""
-
-	# Customize or translate the strings
-	keepReadingStr = "Keep reading"
-	backtotopStr = "Back to top"
-	shareStr = "Share"
-	pageNotFoundTitle = "404 - Page not found"
+[Params.widgets]
+    #search = true # Enable "Search" widget
+    recent_articles = true # Enable "Recent articles" widget
+    recent_articles_num = 10 # Set the number of articles in the "Recent articles" widget
+    categories = true # Enable "Categories" widget
+    tags = true # Enable "Tags" widget
+    tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+    social = true # Enable "Social" widget
+    #social_facebook = "username"
+    social_twitter = "username"
+    #social_linkedin = "username"
+    social_github = "username"
+    #social_email = "example@example.com"
