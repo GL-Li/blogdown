@@ -1,54 +1,45 @@
-# Site settings
-baseurl = "/"
-#themesDir = "../.."
+baseurl = "https://example.org/"
 languageCode = "en-us"
-title = "Hugo Cactus Theme"
-theme = "hugo-cactus-theme"
-# Enter your tracking code to enable Google Analytics
+title = "Steam - a minimal theme for Hugo"
+theme = "hugo-steam-theme"
+disqusShortname = "spf13"
+# Enable Google Analytics be inserting your tracking code
 googleAnalytics = ""
-# Disable comments by leaving disqusShortname empty
-disqusShortname = "gl-li-github-io"
+# Number of posts per page
+paginate = 10
 
 [params]
-	name = "John Doe"
-	description = "Describe your website"
-	bio = "learneR & useR"
-	# Enter optionally your twitter account
-	twitter = "Your Twitter account"
-	enableRSS = true
+	title = "Steam"
+	subtitle = "a minimal theme for ~~Ghost~~ Hugo"
+	copyright = "Released under the MIT license."
 
-	# Integrate Javascript files or stylesheets by adding the url to the external assets or by
-	# linking local files with their path relative to the static folder, e.g. "css/styles.css"
+	# You can choose between green, orange, red and blue.
+	themecolor = "green"
+
+	# Link custom assets relative to /static
+	favicon   = "favicon.ico"
 	customCSS = []
 	customJS  = []
 
-	# The variables below are optionally too and can be used to
-	# translate or customize each string of the theme.
+	# To provide some metadata for search engines and the about section in the footer
+	# feel free to add a few information about you and your website.
+	name = "John Doe"
+	bio = "programmer - blogger - coffee aficionado"
+	description = "Your description of the blog"
+	
+	# Link your social networks (optional)
+	location = ""
+	twitter = "spf13"
+	linkedin = ""
+	googleplus = ""
+	facebook = ""
+	instagram = ""
+	github = "spf13"
+	gitlab = ""
+	bitbucket = ""
 
-	# Navigation links
-	home = ""
-	subscribe = ""
-	# Pagination links
-	olderPosts = ""
-	newerPosts = ""
-	readMore = ""
-	copyright = ""
-	# Sharing options and author information in posts
-	aboutAuthor = "I'm an blogger."
-	tweet = ""
-	share = ""
-	# 404 page
-	title404 = ""
-	subtitle404 = ""
-
-	# Choose a font for the social icons in the footer. Either "mono-social" or "font-awesome"
-	iconFont = "mono-social"
-    # The social icons can be styled differently if you use mono as font - circle, rounded, or empty
-    socialIconStyle = "circle"
-
-# Add additional social link entries underneath
-[social]
-    twitter  = "https://www.twitter.com/"
-    facebook = "https://www.facebook.com/"
-    github   = "https://www.github.com/"
-    dribble  = "https://www.dribbble.com/"
+	# Customize or translate the strings
+	keepReadingStr = "Keep reading"
+	backtotopStr = "Back to top"
+	shareStr = "Share"
+	pageNotFoundTitle = "404 - Page not found"
