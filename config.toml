@@ -1,7 +1,7 @@
 baseurl = "/"
 relativeurls = true
 languageCode = "en-us"
-title = "PlayeR and useR"
+title = "learneR and useR"
 theme = "mainroad"
 paginate = "10" # Number of posts per page
 googleAnalytics = ""
@@ -37,15 +37,15 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     #dateformat = "2006-01-02" # change the format of dates
 
 [Params.widgets]
-    #search = true # Enable "Search" widget
+    search = true # Enable "Search" widget
     recent_articles = true # Enable "Recent articles" widget
-    recent_articles_num = 10 # Set the number of articles in the "Recent articles" widget
-    categories = true # Enable "Categories" widget
-    tags = true # Enable "Tags" widget
-    tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
-    social = true # Enable "Social" widget
+    recent_articles_num = 30 # Set the number of articles in the "Recent articles" widget
+    #categories = true # Enable "Categories" widget
+    #tags = true # Enable "Tags" widget
+    #tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+    #social = true # Enable "Social" widget
     #social_facebook = "username"
-    social_twitter = "username"
+    social_twitter = "difo_li"
     #social_linkedin = "username"
-    social_github = "username"
+    #social_github = "GL-Li"
     #social_email = "example@example.com"
