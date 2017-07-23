@@ -1,16 +1,16 @@
-baseurl = "https://example.org/"
+baseurl = "/"
 languageCode = "en-us"
 title = "Steam - a minimal theme for Hugo"
 theme = "hugo-steam-theme"
-disqusShortname = "spf13"
+disqusShortname = "gl-li-github-io"
 # Enable Google Analytics be inserting your tracking code
 googleAnalytics = ""
 # Number of posts per page
 paginate = 10
 
 [params]
-	title = "Steam"
-	subtitle = "a minimal theme for ~~Ghost~~ Hugo"
+	#title = "Steam"
+	#subtitle = "a minimal theme for ~~Ghost~~ Hugo"
 	copyright = "Released under the MIT license."
 
 	# You can choose between green, orange, red and blue.
@@ -29,12 +29,12 @@ paginate = 10
 	
 	# Link your social networks (optional)
 	location = ""
-	twitter = "spf13"
+	twitter = "difo_li"
 	linkedin = ""
 	googleplus = ""
 	facebook = ""
 	instagram = ""
-	github = "spf13"
+	github = "GL-Li"
 	gitlab = ""
 	bitbucket = ""
 
