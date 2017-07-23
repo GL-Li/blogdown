@@ -1,51 +1,54 @@
+# Site settings
 baseurl = "/"
-relativeurls = true
+#themesDir = "../.."
 languageCode = "en-us"
-title = "PlayeR and useR"
-theme = "mainroad"
-paginate = "10" # Number of posts per page
+title = "Hugo Cactus Theme"
+theme = "hugo-cactus-theme"
+# Enter your tracking code to enable Google Analytics
 googleAnalytics = ""
+# Disable comments by leaving disqusShortname empty
 disqusShortname = "gl-li-github-io"
-ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
-[permalinks]
-    post = "/:year/:month/:day/:slug/"
+[params]
+	name = "John Doe"
+	description = "Describe your website"
+	bio = "learneR & useR"
+	# Enter optionally your twitter account
+	twitter = "Your Twitter account"
+	enableRSS = true
 
-[[menu.main]]
-    name = "About"
-    url = "/about/"
-[[menu.main]]
-    name = "links"
-    url = "/links/"
-[[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/gl-li/blogdown"
-[[menu.main]]
-    name = "Twitter"
-    url = "https://twitter.com/difo_li"
+	# Integrate Javascript files or stylesheets by adding the url to the external assets or by
+	# linking local files with their path relative to the static folder, e.g. "css/styles.css"
+	customCSS = []
+	customJS  = []
 
-[Params]
-    #subtitle = "Just another site" # Subtitle of your site
-    #description = " John Doe's Personal blog about everything" # Description of your site
-    #opengraph = true
-    readmore = false # Show "Read more" button in list if true
-    leftsidebar = false # Move sidebar to the left side if true
-    authorbox = true
-    post_navigation = true
-    postSections = ["post"] # the section pages to show on home page and the "Recent articles" widget
-    #postSections = ["blog", "news"] # alternative that shows more than one section's pages
-    #dateformat = "2006-01-02" # change the format of dates
+	# The variables below are optionally too and can be used to
+	# translate or customize each string of the theme.
 
-[Params.widgets]
-    #search = true # Enable "Search" widget
-    recent_articles = true # Enable "Recent articles" widget
-    recent_articles_num = 10 # Set the number of articles in the "Recent articles" widget
-    categories = true # Enable "Categories" widget
-    tags = true # Enable "Tags" widget
-    tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
-    social = true # Enable "Social" widget
-    #social_facebook = "username"
-    social_twitter = "username"
-    #social_linkedin = "username"
-    social_github = "username"
-    #social_email = "example@example.com"
+	# Navigation links
+	home = ""
+	subscribe = ""
+	# Pagination links
+	olderPosts = ""
+	newerPosts = ""
+	readMore = ""
+	copyright = ""
+	# Sharing options and author information in posts
+	aboutAuthor = "I'm an blogger."
+	tweet = ""
+	share = ""
+	# 404 page
+	title404 = ""
+	subtitle404 = ""
+
+	# Choose a font for the social icons in the footer. Either "mono-social" or "font-awesome"
+	iconFont = "mono-social"
+    # The social icons can be styled differently if you use mono as font - circle, rounded, or empty
+    socialIconStyle = "circle"
+
+# Add additional social link entries underneath
+[social]
+    twitter  = "https://www.twitter.com/"
+    facebook = "https://www.facebook.com/"
+    github   = "https://www.github.com/"
+    dribble  = "https://www.dribbble.com/"
