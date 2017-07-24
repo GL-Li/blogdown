@@ -45,7 +45,6 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     #tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
     #social = true # Enable "Social" widget
     #social_facebook = "username"
-    #social_twitter = "difo_li"
     #social_linkedin = "username"
     #social_github = "GL-Li"
     #social_email = "example@example.com"
