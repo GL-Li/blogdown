@@ -5,8 +5,7 @@
     <link>/tags/plot/</link>
     <description>Recent content in Plot on learneR &amp; useR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/tanksuzuki&#34;&gt;Asuka Suzuki&lt;/a&gt; 2016</copyright>
+    <language>en-us</language>
     <lastBuildDate>Sun, 23 Jul 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
@@ -14,20 +13,20 @@
     
     <item>
       <title>ggplot test</title>
-      <link>/post/ggplot-test/</link>
+      <link>/2017/07/23/ggplot-test/</link>
       <pubDate>Sun, 23 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/ggplot-test/</guid>
+      <guid>/2017/07/23/ggplot-test/</guid>
       <description>this is just a test
 library(ggplot2) ggplot(mpg, aes(hwy, cty, color = drv)) + geom_point() + stat_smooth() ## `geom_smooth()` using method = &amp;#39;loess&amp;#39; </description>
     </item>
     
     <item>
       <title>Hello R Markdown</title>
-      <link>/post/2015-07-23-r-rmarkdown/</link>
+      <link>/2015/07/23/hello-r-markdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/post/2015-07-23-r-rmarkdown/</guid>
+      <guid>/2015/07/23/hello-r-markdown/</guid>
       <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>

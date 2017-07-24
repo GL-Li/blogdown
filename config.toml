@@ -1,25 +1,51 @@
 baseurl = "/"
-languageCode = "en"
+relativeurls = true
+languageCode = "en-us"
 title = "learneR & useR"
-theme = "hemingway"
-copyright = "&copy; <a href=\"https://github.com/tanksuzuki\">Asuka Suzuki</a> 2016"
-disqusShortname = "gl-li-github-io"
+theme = "mainroad"
+paginate = "10" # Number of posts per page
 googleAnalytics = ""
+disqusShortname = "gl-li-github-io"
+ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
-[params]
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
 
-[params.highlight]
-style = "github"
-languages = ["go", "dockerfile"]
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+[[menu.main]]
+    name = "links"
+    url = "/links/"
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/gl-li/blogdown"
+[[menu.main]]
+    name = "Twitter"
+    url = "https://twitter.com/difo_li"
 
-[[params.social]]
-url = "https://github.com/tanksuzuki"
-fa_icon = "fa-github"
+[Params]
+    subtitle = "learn R and use R" # Subtitle of your site
+    #description = " John Doe's Personal blog about everything" # Description of your site
+    #opengraph = true
+    readmore = false # Show "Read more" button in list if true
+    leftsidebar = false # Move sidebar to the left side if true
+    #authorbox = true
+    post_navigation = true
+    postSections = ["post"] # the section pages to show on home page and the "Recent articles" widget
+    #postSections = ["blog", "news"] # alternative that shows more than one section's pages
+    #dateformat = "2006-01-02" # change the format of dates
 
-[[params.social]]
-url = "https://twitter.com/tanksuzuki"
-fa_icon = "fa-twitter"
-
-[[params.social]]
-url = "/index.xml"
-fa_icon = "fa-rss"
+[Params.widgets]
+    #search = true # Enable "Search" widget
+    recent_articles = true # Enable "Recent articles" widget
+    recent_articles_num = 30 # Set the number of articles in the "Recent articles" widget
+    categories = true # Enable "Categories" widget
+    #tags = true # Enable "Tags" widget
+    #tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+    #social = true # Enable "Social" widget
+    #social_facebook = "username"
+    #social_twitter = "difo_li"
+    #social_linkedin = "username"
+    #social_github = "GL-Li"
+    #social_email = "example@example.com"
