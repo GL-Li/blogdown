@@ -1,45 +1,25 @@
 baseurl = "/"
-languageCode = "en-us"
+languageCode = "en"
 title = "learneR & useR"
-theme = "hugo-steam-theme"
+theme = "hemingway"
+copyright = "&copy; <a href=\"https://github.com/tanksuzuki\">Asuka Suzuki</a> 2016"
 disqusShortname = "gl-li-github-io"
-# Enable Google Analytics be inserting your tracking code
 googleAnalytics = ""
-# Number of posts per page
-paginate = 10
 
 [params]
-	title = "learneR & useR"
-	subtitle = "well, it is learn R and use R"
-	copyright = "Released under the MIT license."
 
-	# You can choose between green, orange, red and blue.
-	themecolor = "green"
+[params.highlight]
+style = "github"
+languages = ["go", "dockerfile"]
 
-	# Link custom assets relative to /static
-	favicon   = "favicon.ico"
-	customCSS = []
-	customJS  = []
+[[params.social]]
+url = "https://github.com/tanksuzuki"
+fa_icon = "fa-github"
 
-	# To provide some metadata for search engines and the about section in the footer
-	# feel free to add a few information about you and your website.
-	name = "John Doe"
-	bio = "programmer - blogger - coffee aficionado"
-	description = "Your description of the blog"
-	
-	# Link your social networks (optional)
-	location = ""
-	twitter = "spf13"
-	linkedin = ""
-	googleplus = ""
-	facebook = ""
-	instagram = ""
-	github = "spf13"
-	gitlab = ""
-	bitbucket = ""
+[[params.social]]
+url = "https://twitter.com/tanksuzuki"
+fa_icon = "fa-twitter"
 
-	# Customize or translate the strings
-	keepReadingStr = "Keep reading"
-	backtotopStr = "Back to top"
-	shareStr = "Share"
-	pageNotFoundTitle = "404 - Page not found"
+[[params.social]]
+url = "/index.xml"
+fa_icon = "fa-rss"
