@@ -25,7 +25,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     url = "https://twitter.com/difo_li"
 
 [Params]
-    #subtitle = "Just another site" # Subtitle of your site
+    subtitle = "learn R and use R" # Subtitle of your site
     #description = " John Doe's Personal blog about everything" # Description of your site
     #opengraph = true
     readmore = false # Show "Read more" button in list if true
@@ -45,7 +45,6 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     #tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
     #social = true # Enable "Social" widget
     #social_facebook = "username"
-    #social_twitter = "difo_li"
     #social_linkedin = "username"
     #social_github = "GL-Li"
     #social_email = "example@example.com"
