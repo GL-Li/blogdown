@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Data.Table on Hemingway</title>
+    <title>Data.Table on learneR &amp; useR</title>
     <link>/categories/data.table/</link>
-    <description>Recent content in Data.Table on Hemingway</description>
+    <description>Recent content in Data.Table on learneR &amp; useR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/tanksuzuki&#34;&gt;Asuka Suzuki&lt;/a&gt; 2016</copyright>
+    <language>en-us</language>
+    <copyright>Released under the MIT license.</copyright>
     <lastBuildDate>Tue, 25 Jul 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/data.table/index.xml" rel="self" type="application/rss+xml" />

@@ -3,19 +3,17 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>ggplot test &middot; My Name</title>
-        <meta name="description" content="this is just a test
-library(ggplot2) ggplot(mpg, aes(hwy, cty, color = drv)) &#43; geom_point() &#43; stat_smooth() ## `geom_smooth()` using method = &#39;loess&#39; ">
+        <title>Improve data.table readability with pipes &middot; My Name</title>
+        <meta name="description" content="Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
         <meta name="generator" content="Hugo 0.25.1" />
         <meta name="robots" content="index,follow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="ggplot test">
-<meta property="og:description" content="this is just a test
-library(ggplot2) ggplot(mpg, aes(hwy, cty, color = drv)) &#43; geom_point() &#43; stat_smooth() ## `geom_smooth()` using method = &#39;loess&#39; ">
+        <meta property="og:title" content="Improve data.table readability with pipes">
+<meta property="og:description" content="Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="/2017/07/23/2017-07-23-ggplot-test/">
+<meta property="og:url" content="/2017/07/25/2017-07-25-improve-data-table-readability-with-pipes/">
         <link rel="stylesheet" href="/dist/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -109,10 +107,10 @@ ga('send', 'pageview');
 <div class="container">
     <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
         <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">ggplot test</h1>
+    <h1 class="post-title" itemprop="name headline">Improve data.table readability with pipes</h1>
     
     <p class="post-date">
-        <span>Published <time datetime="2017-07-23" itemprop="datePublished">Sun, Jul 23, 2017</time></span>
+        <span>Published <time datetime="2017-07-25" itemprop="datePublished">Tue, Jul 25, 2017</time></span>
         <span>by</span>
         <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
             <span itemprop="name">
@@ -125,13 +123,92 @@ ga('send', 'pageview');
         <div class="post-content clearfix" itemprop="articleBody">
     
 
-    <p>this is just a test</p>
-<pre class="r"><code>library(ggplot2)
-ggplot(mpg, aes(hwy, cty, color = drv)) +
-    geom_point() +
-    stat_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
-<p><img src="/post/2017-07-23-ggplot-test_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+    <p>Package <code>data.table</code> is sometimes criticized for its lower readability than its competitor <code>dplyr</code>. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with <code>dt[i, j, by]</code>. You can put many codes at the <code>j</code> section. You can even chain <code>[i, j, by]</code> together and make train-like code <code>dt[...][...]...</code>. I enjoyed loading a lot of code in one big train <code>dt[...][...]...</code>, which looks very cool. When I look back at those codes, I realized that this big chunk of <code>dt[...][...]...</code> and the temptation of showing off are the causes of poor code readability.</p>
+<p>I would like use an example from this <a href="http://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">stackoverflow thread</a>, where Hadley Wickman shows the poor readability of <code>data.table</code> through the follow codes. This train only has two cars but is alread hard to read.</p>
+<pre class="r"><code>library(magrittr)
+library(data.table)
+library(ggplot2)
+diamondsDT &lt;- data.table(diamonds)
+
+# this is the train with two cars
+diamondsDT[
+  cut != &quot;Fair&quot;, 
+  .(AvgPrice = mean(price),
+    MedianPrice = as.numeric(median(price)),
+    Count = .N
+  ), 
+  by = cut
+][ 
+  order(-Count) 
+]</code></pre>
+<pre><code>##          cut AvgPrice MedianPrice Count
+## 1:     Ideal 3457.542      1810.0 21551
+## 2:   Premium 4584.258      3185.0 13791
+## 3: Very Good 3981.760      2648.0 12082
+## 4:      Good 3928.864      3050.5  4906</code></pre>
+<p>Pipes <code>%&gt;%</code> in the <code>magrittr</code> package can improve the readability. It explicitly break the train apart. Each new car then starts a new line with a confortable indentation. It helps more when the train has more cars.</p>
+<pre class="r"><code>diamondsDT[cut != &quot;Fair&quot;, 
+           .(AvgPrice = mean(price),
+             MedianPrice = as.numeric(median(price)),
+             Count = .N), 
+           by = cut] %&gt;% 
+    .[order(-Count)]    # this car starts with a conforable indentation</code></pre>
+<pre><code>##          cut AvgPrice MedianPrice Count
+## 1:     Ideal 3457.542      1810.0 21551
+## 2:   Premium 4584.258      3185.0 13791
+## 3: Very Good 3981.760      2648.0 12082
+## 4:      Good 3928.864      3050.5  4906</code></pre>
+<p>The pipe <code>%&gt;%</code> is particularly useful when adding or updating columns. Here is a dummy example. It does not make scientific sense but just to show how readable the code can be. The use of pipe <code>%&gt;%</code> makes the code look like <code>dplyr</code> code but is more powerful. Each car focuses on one job and each job focuses on a columnb with selected rows. The selected rows can be independent from other cars. This is a big advantage over <code>dplyr</code> where <code>filter()</code> affects all codes that follow.</p>
+<pre class="r"><code>avg &lt;- data.table(iris) %&gt;%
+    # add a new column &quot;is_setosa&quot;, 1 if yes and 0 if no, use two lines of code 
+    # to clearly show the values
+    .[Species == &quot;setosa&quot;, is_setosa := 1] %&gt;%                         
+    .[Species != &quot;setosa&quot;, is_setosa := 0] %&gt;%
+    # changes the Petal.Length of Species &quot;versicolor&quot;, other species not affected
+    .[Species == &quot;versicolor&quot;, Petal.Length := 999] %&gt;%   
+    # calculate sepal area when length &gt; 5. Area is NA if length &lt;= 5
+    .[Sepal.Length &gt; 5, Sepal.Area := Sepal.Length * Sepal.Width] %&gt;%  
+    # select columns
+    .[, .(Species, is_setosa, Petal.Length, Sepal.Area)] %&gt;%    
+    # average of columns grouped by species
+    .[, lapply(.SD, mean, na.rm = TRUE), by = Species] %&gt;%  
+    # display result
+    print()                                                            </code></pre>
+<pre><code>##       Species is_setosa Petal.Length Sepal.Area
+## 1:     setosa         1        1.462   19.76364
+## 2: versicolor         0      999.000   16.87340
+## 3:  virginica         0        5.552   19.83633</code></pre>
+<p>How about speed? <code>data.table</code> is built for its fast speed. Will the use of pipes <code>%&gt;%</code> slow down the computing? Usually we do not care when data is not that big. But what if we care? In the following example, we add three new columns to a made-up data table with and without using the pipes. The pipes actually makes the computing faster in this example.</p>
+<pre class="r"><code>time &lt;- data.table(pipe = &quot; &quot;, time = rep(0, 2000))
+
+# elapsed time of adding three columns in a data table with one dt[]
+set.seed(123)
+dt &lt;- data.table(a = 1:1e7,
+                 b = rnorm(10))
+for (i in 1:1000) {
+    aaa &lt;- system.time({
+        dt[, &quot;:=&quot; (x = sqrt(a), y = b^2, z = a * b)]
+    })
+    time[i, &quot;:=&quot; (pipe = &quot;no pipe&quot;, time = aaa[3])]
+}
+
+# elapsed time of adding the same three columns in three cars connected with pipes
+set.seed(123)
+dt &lt;- data.table(a = 1:1e7,
+                 b = rnorm(10))
+for (i in 1001:2000) {
+    aaa &lt;- system.time({
+        dt[, x := sqrt(a)] %&gt;%
+            .[, y := b^2] %&gt;%
+            .[, z := a * b]
+    })
+    time[i, &quot;:=&quot; (pipe = &quot;with pipe&quot;, time = aaa[3])]
+}
+
+# compare the distribution of time
+ggplot(time, aes(time, fill = pipe, color = pipe)) +
+    geom_freqpoly(binwidth = 0.001) +
+    xlim(c(0.1, 0.25))</code></pre>
 
 </div>
 
@@ -141,14 +218,14 @@ ggplot(mpg, aes(hwy, cty, color = drv)) +
             <span>Tagged:</span>
             
             
-                <a href="/tags/plot/">plot</a>
+                <a href="/tags/data-wrangling/">data wrangling</a>
             
         </p>
     
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?text=ggplot%20test&url=%2f2017%2f07%2f23%2f2017-07-23-ggplot-test%2f"
+            <a class="icon-twitter" href="https://twitter.com/share?text=Improve%20data.table%20readability%20with%20pipes&url=%2f2017%2f07%2f25%2f2017-07-25-improve-data-table-readability-with-pipes%2f"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -156,7 +233,7 @@ ggplot(mpg, aes(hwy, cty, color = drv)) +
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f07%2f23%2f2017-07-23-ggplot-test%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f07%2f25%2f2017-07-25-improve-data-table-readability-with-pipes%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -164,7 +241,7 @@ ggplot(mpg, aes(hwy, cty, color = drv)) +
         
 
         
-            <a class="icon-google-plus" href="https://plus.google.com/share?url=%2f2017%2f07%2f23%2f2017-07-23-ggplot-test%2f"
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=%2f2017%2f07%2f25%2f2017-07-25-improve-data-table-readability-with-pipes%2f"
               onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
               <i class="fa fa-google-plus"></i>
                 <span class="hidden">Google+</span>
