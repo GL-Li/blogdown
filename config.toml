@@ -1,55 +1,50 @@
 baseurl = "/"
-title = "Ghostwriter example"
-theme = "ghostwriter"
+relativeurls = true
 languageCode = "en-us"
-copyright = "My Name"
-disqusShortname = "XXX"
-googleAnalytics = "XXX"
+title = "learneR & useR"
+theme = "mainroad"
+paginate = "10" # Number of posts per page
+googleAnalytics = ""
+disqusShortname = "gl-li-github-io"
+ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
-[Author]
-    name = "My Name"
-    profile = "https://google.com/+XXX"
-
-[Taxonomies]
-    tag = "tags"
-
-[Params]
-    intro = true
-    headline = "Ghostwriter example"
-    description = "Ghostwriter example description"
-    github = "https://github.com/XXX"
-    gitlab = "https://gitlab.com/XXX"
-    linkedin = "https://linkedin.com/in/XXX/"
-    gplus = "https://google.com/+XXX"
-    twitter = "https://twitter.com/XXX"
-    stackoverflow = "https://stackoverflow.com/users/XXX/YYY"
-    email = "XXX@example.com"
-    opengraph = true
-    shareTwitter = true
-    shareFacebook = true
-    shareGooglePlus = true
-    shareLinkedIn = false
-    dateFormat = "Mon, Jan 2, 2006"
-
-[Permalinks]
-    post = "/:year/:month/:day/:filename/"
-
-[[menu.main]]
-    name = "Blog"
-    url = "/"
-    weight = 1
-
-[[menu.main]]
-    name = "Projects"
-    url = "/project/"
-    weight = 2
-
-[[menu.main]]
-    name = "Contact"
-    url = "/page/contact/"
-    weight = 3
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
 
 [[menu.main]]
     name = "About"
-    url = "/page/about/"
-    weight = 4
+    url = "/about/"
+[[menu.main]]
+    name = "links"
+    url = "/links/"
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/gl-li/blogdown"
+[[menu.main]]
+    name = "Twitter"
+    url = "https://twitter.com/difo_li"
+
+[Params]
+    subtitle = "learn R and use R" # Subtitle of your site
+    #description = " John Doe's Personal blog about everything" # Description of your site
+    #opengraph = true
+    readmore = false # Show "Read more" button in list if true
+    leftsidebar = false # Move sidebar to the left side if true
+    #authorbox = true
+    post_navigation = true
+    postSections = ["post"] # the section pages to show on home page and the "Recent articles" widget
+    #postSections = ["blog", "news"] # alternative that shows more than one section's pages
+    #dateformat = "2006-01-02" # change the format of dates
+
+[Params.widgets]
+    #search = true # Enable "Search" widget
+    recent_articles = true # Enable "Recent articles" widget
+    recent_articles_num = 30 # Set the number of articles in the "Recent articles" widget
+    categories = true # Enable "Categories" widget
+    #tags = true # Enable "Tags" widget
+    #tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+    #social = true # Enable "Social" widget
+    #social_facebook = "username"
+    #social_linkedin = "username"
+    #social_github = "GL-Li"
+    #social_email = "example@example.com"

@@ -6,7 +6,6 @@
     <description>Recent content in R on learneR &amp; useR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Released under the MIT license.</copyright>
     <lastBuildDate>Sun, 23 Jul 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
@@ -14,10 +13,10 @@
     
     <item>
       <title>ggplot test</title>
-      <link>/post/ggplot-test/</link>
+      <link>/2017/07/23/ggplot-test/</link>
       <pubDate>Sun, 23 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/ggplot-test/</guid>
+      <guid>/2017/07/23/ggplot-test/</guid>
       <description>this is just a test
 library(ggplot2) ggplot(mpg, aes(hwy, cty, color = drv)) + geom_point() + stat_smooth() ## `geom_smooth()` using method = &amp;#39;loess&amp;#39; </description>
     </item>
