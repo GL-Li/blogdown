@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Improve data.table readability with pipes</title>
+
+<meta name="generator" content="Hugo 0.25.1" />
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="../../../../css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="../../../../js/scripts.js"></script>
+<link rel="shortcut icon" href="../../../../favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="../../../../" title="learneR &amp; useR" rel="home">
+						<h1 class="logo__title">learneR &amp; useR</h1>
+						<h2 class="logo__tagline">learn R and use R</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item "><a class="menu__link" href="../../../../about/">ABOUT</a></li>
+		<li class="menu__item "><a class="menu__link" href="https://github.com/gl-li/blogdown">GITHUB</a></li>
+		<li class="menu__item "><a class="menu__link" href="https://twitter.com/difo_li">TWITTER</a></li>
+		<li class="menu__item "><a class="menu__link" href="../../../../links/">LINKS</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<div class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">Improve data.table readability with pipes</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2017-07-25T00:00:00">July 25, 2017</time>
+				<span class="post__meta-categories meta-categories">
+					<svg class="icon icon-category" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+					<a class="meta-categories__link" href="../../../../categories/data.table" rel="category">data.table</a></span>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			<p>Package <code>data.table</code> is sometimes criticized for its lower readability than its competitor <code>dplyr</code>. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with <code>dt[i, j, by]</code>. You can put many codes at the <code>j</code> section. You can even chain <code>[i, j, by]</code> together and make train-like code <code>dt[...][...]...</code>. I enjoyed loading a lot of code in one big train <code>dt[...][...]...</code>, which looks very cool. When I look back at those codes, I realized that this big chunk of <code>dt[...][...]...</code> and the temptation of showing off are the causes of poor code readability.</p>
+<p>I would like use an example from this <a href="http://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">stackoverflow thread</a>, where Hadley Wickman shows the poor readability of <code>data.table</code> through the follow codes. This train only has two cars but is alread hard to read.</p>
+<pre class="r"><code>library(magrittr)
+library(data.table)
+library(ggplot2)
+diamondsDT &lt;- data.table(diamonds)
+
+# this is the train with two cars
+diamondsDT[
+  cut != &quot;Fair&quot;, 
+  .(AvgPrice = mean(price),
+    MedianPrice = as.numeric(median(price)),
+    Count = .N
+  ), 
+  by = cut
+][ 
+  order(-Count) 
+]</code></pre>
+<pre><code>##          cut AvgPrice MedianPrice Count
+## 1:     Ideal 3457.542      1810.0 21551
+## 2:   Premium 4584.258      3185.0 13791
+## 3: Very Good 3981.760      2648.0 12082
+## 4:      Good 3928.864      3050.5  4906</code></pre>
+<p>Pipes <code>%&gt;%</code> in the <code>magrittr</code> package can improve the readability. It explicitly break the train apart. Each new car then starts a new line with a confortable indentation. It helps more when the train has more cars.</p>
+<pre class="r"><code>diamondsDT[cut != &quot;Fair&quot;, 
+           .(AvgPrice = mean(price),
+             MedianPrice = as.numeric(median(price)),
+             Count = .N), 
+           by = cut] %&gt;% 
+    .[order(-Count)]    # this car starts with a conforable indentation</code></pre>
+<pre><code>##          cut AvgPrice MedianPrice Count
+## 1:     Ideal 3457.542      1810.0 21551
+## 2:   Premium 4584.258      3185.0 13791
+## 3: Very Good 3981.760      2648.0 12082
+## 4:      Good 3928.864      3050.5  4906</code></pre>
+<p>The pipe <code>%&gt;%</code> is particularly useful when adding or updating columns. Here is a dummy example. It does not make scientific sense but just to show how readable the code can be. The use of pipe <code>%&gt;%</code> makes the code look like <code>dplyr</code> code but is more powerful. Each car focuses on one job and each job focuses on a columnb with selected rows. The selected rows can be independent from other cars. This is a big advantage over <code>dplyr</code> where <code>filter()</code> affects all codes that follow.</p>
+<pre class="r"><code>avg &lt;- data.table(iris) %&gt;%
+    # add a new column &quot;is_setosa&quot;, 1 if yes and 0 if no, use two lines of code 
+    # to clearly show the values
+    .[Species == &quot;setosa&quot;, is_setosa := 1] %&gt;%                         
+    .[Species != &quot;setosa&quot;, is_setosa := 0] %&gt;%
+    # changes the Petal.Length of Species &quot;versicolor&quot;, other species not affected
+    .[Species == &quot;versicolor&quot;, Petal.Length := 999] %&gt;%   
+    # calculate sepal area when length &gt; 5. Area is NA if length &lt;= 5
+    .[Sepal.Length &gt; 5, Sepal.Area := Sepal.Length * Sepal.Width] %&gt;%  
+    # select columns
+    .[, .(Species, is_setosa, Petal.Length, Sepal.Area)] %&gt;%    
+    # average of columns grouped by species
+    .[, lapply(.SD, mean, na.rm = TRUE), by = Species] %&gt;%  
+    # display result
+    print()                                                            </code></pre>
+<pre><code>##       Species is_setosa Petal.Length Sepal.Area
+## 1:     setosa         1        1.462   19.76364
+## 2: versicolor         0      999.000   16.87340
+## 3:  virginica         0        5.552   19.83633</code></pre>
+<p>How about speed? <code>data.table</code> is built for its fast speed. Will the use of pipes <code>%&gt;%</code> slow down the computing? Usually we do not care when data is not that big. But what if we care? In the following example, we add three new columns to a made-up data table with and without using the pipes. The pipes actually makes the computing faster in this example.</p>
+<pre class="r"><code>time &lt;- data.table(pipe = &quot; &quot;, time = rep(0, 2000))
+
+# elapsed time of adding three columns in a data table with one dt[]
+set.seed(123)
+dt &lt;- data.table(a = 1:1e7,
+                 b = rnorm(10))
+for (i in 1:1000) {
+    aaa &lt;- system.time({
+        dt[, &quot;:=&quot; (x = sqrt(a), y = b^2, z = a * b)]
+    })
+    time[i, &quot;:=&quot; (pipe = &quot;no pipe&quot;, time = aaa[3])]
+}
+
+# elapsed time of adding the same three columns in three cars connected with pipes
+set.seed(123)
+dt &lt;- data.table(a = 1:1e7,
+                 b = rnorm(10))
+for (i in 1001:2000) {
+    aaa &lt;- system.time({
+        dt[, x := sqrt(a)] %&gt;%
+            .[, y := b^2] %&gt;%
+            .[, z := a * b]
+    })
+    time[i, &quot;:=&quot; (pipe = &quot;with pipe&quot;, time = aaa[3])]
+}
+
+# compare the distribution of time
+ggplot(time, aes(time, fill = pipe, color = pipe)) +
+    geom_freqpoly(binwidth = 0.001) +
+    xlim(c(0.1, 0.25))</code></pre>
+
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m4.73135 3.3795002q0-.5597-.39604-.9557-.39604-.3961-.95577-.3961-.55974 0-.95578.3961-.39604.396-.39604.9557 0 .5598.39604.9558.39604.3961.95578.3961.55973 0 .95577-.3961.39604-.396.39604-.9558zm11.26865 6.0832q0 .5596998-.39076.9504998l-5.18548 5.196q-.41188.3908-.9610504.3908-.55974 0-.9505-.3908l-7.5511496-7.5616998q-.40132-.3907-.68119-1.0666-.27987-.6759-.27987-1.2357v-4.3934q0-.54920004.40132-.95050004.40132-.4013.9505-.4013h4.39339q.55974 0 1.23565.2799.67591.2798 1.07723.6812l7.55115 7.54060004q.39076.4118.39076.961z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link" href="../../../../tags/data-wrangling/" rel="tag">data wrangling</a></li>
+	</ul>
+</div>
+
+	</article>
+	
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="../../../../2017/07/23/ggplot-test/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">ggplot test</p></a>
+	</div>
+</nav>
+
+	
+<div class="comments">
+	<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "gl-li-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+</div>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="../../../../2017/07/25/improve-data-table-readability-with-pipes/">Improve data.table readability with pipes</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../../../2017/07/23/ggplot-test/">ggplot test</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="../../../../categories/data.table">Data.Table</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../../../categories/r">R</a></li>
+		</ul>
+	</div>
+</div>
+	
+	
+</aside>
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2017 learneR &amp; useR. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

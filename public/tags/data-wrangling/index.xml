@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Wrangling on Hemingway</title>
+    <link>/tags/data-wrangling/</link>
+    <description>Recent content in Data Wrangling on Hemingway</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/tanksuzuki&#34;&gt;Asuka Suzuki&lt;/a&gt; 2016</copyright>
+    <lastBuildDate>Tue, 25 Jul 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/data-wrangling/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Improve data.table readability with pipes</title>
+      <link>/post/improve-data-table-readability-with-pipes/</link>
+      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/improve-data-table-readability-with-pipes/</guid>
+      <description>Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.</description>
+    </item>
+    
+  </channel>
+</rss>

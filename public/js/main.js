@@ -1,66 +1,143 @@
-window.onload = function() {
+/*
+	Future Imperfect by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
 
-    var $menuIcon = document.getElementsByClassName('menu-icon')[0],
-        $offCanva = document.getElementsByClassName('off-canvas')[0];
-        $siteWrap = document.getElementsByClassName('site-wrapper')[0];
+(function($) {
 
-    $menuIcon.addEventListener('click', function() {
-        toggleClass($menuIcon, 'close');
-        toggleClass($offCanva, 'toggled');
-        toggleClass($siteWrap, 'open');
-    }, false);
+	skel.breakpoints({
+		xlarge:	'(max-width: 1680px)',
+		large:	'(max-width: 1280px)',
+		medium:	'(max-width: 980px)',
+		small:	'(max-width: 736px)',
+		xsmall:	'(max-width: 480px)'
+	});
 
-    $menuIcon.addEventListener('mouseenter', function() {
-        addClass($menuIcon, 'hover');
-    });
+	$(function() {
 
-    $menuIcon.addEventListener('mouseleave', function() {
-        removeClass($menuIcon, 'hover');
-    });
+		var	$window = $(window),
+			$body = $('body'),
+			$menu = $('#menu'),
+			$shareMenu = $('#share-menu'),
+			$sidebar = $('#sidebar'),
+			$main = $('#main');
 
-    function addClass(element, className) {
-        element.className += " " + className;
-    }
+		// Disable animations/transitions until the page has loaded.
+			$body.addClass('is-loading');
 
-    function removeClass(element, className) {
-        // Capture any surrounding space characters to prevent repeated
-        // additions and removals from leaving lots of spaces.
-        var classNameRegEx = new RegExp("\\s*" + className + "\\s*");
-        element.className = element.className.replace(classNameRegEx, " ");
-    }
+			$window.on('load', function() {
+				window.setTimeout(function() {
+					$body.removeClass('is-loading');
+				}, 100);
+			});
 
-    function toggleClass(element, className) {
-        if (!element || !className) {
-            return;
-        }
+		// Fix: Placeholder polyfill.
+			$('form').placeholder();
 
-        if (element.className.indexOf(className) === -1) {
-            addClass(element, className);
-        } else {
-            removeClass(element, className);
-        }
-    }
+		// Prioritize "important" elements on medium.
+			skel.on('+medium -medium', function() {
+				$.prioritize(
+					'.important\\28 medium\\29',
+					skel.breakpoint('medium').active
+				);
+			});
 
-    // Open Twitter/share in a Pop-Up
-    var $popup = document.getElementsByClassName('popup')[0];
-    if (!$popup) {
-        return;
-    }
-    $popup.addEventListener('click', function(e) {
-        e.preventDefault()
-        var width  = 575,
-            height = 400,
-            left   = (document.documentElement.clientWidth  - width)  / 2,
-            top    = (document.documentElement.clientHeight - height) / 2,
-            url    = this.href,
-            opts   = 'status=1' +
-                     ',width='  + width  +
-                     ',height=' + height +
-                     ',top='    + top    +
-                     ',left='   + left;
+		// IE<=9: Reverse order of main and sidebar.
+			if (skel.vars.IEVersion <= 9)
+				$main.insertAfter($sidebar);
 
-        window.open(url, 'twitter', opts);
+		$menu.appendTo($body);
+		$shareMenu.appendTo($body);
 
-        return false;
-    });
-}
+		$menu.panel({
+			delay: 500,
+			hideOnClick: true,
+			hideOnEscape: true,
+			hideOnSwipe: true,
+			resetScroll: true,
+			resetForms: true,
+			side: 'right',
+			target: $body,
+			visibleClass: 'is-menu-visible'
+		});
+
+		$shareMenu.panel({
+			delay: 500,
+			hideOnClick: true,
+			hideOnEscape: true,
+			hideOnSwipe: true,
+			resetScroll: true,
+			resetForms: true,
+			side: 'right',
+			target: $body,
+			visibleClass: 'is-share-visible'
+		});
+
+		// Menu.
+			/*$menu
+				.appendTo($body)
+				.panel({
+					delay: 500,
+					hideOnClick: true,
+					hideOnSwipe: true,
+					resetScroll: true,
+					resetForms: true,
+					side: 'right',
+					target: $body,
+					visibleClass: 'is-menu-visible'
+				});*/
+
+		// Search (header).
+			var $search = $('#search'),
+				$search_input = $search.find('input');
+
+			$body
+				.on('click', '[href="#search"]', function(event) {
+
+					event.preventDefault();
+
+					// Not visible?
+						if (!$search.hasClass('visible')) {
+
+							// Reset form.
+								$search[0].reset();
+
+							// Show.
+								$search.addClass('visible');
+
+							// Focus input.
+								$search_input.focus();
+
+						}
+
+				});
+
+			$search_input
+				.on('keydown', function(event) {
+
+					if (event.keyCode == 27)
+						$search_input.blur();
+
+				})
+				.on('blur', function() {
+					window.setTimeout(function() {
+						$search.removeClass('visible');
+					}, 100);
+				});
+
+		// Intro.
+			var $intro = $('#intro');
+
+			// Move to main on <=large, back to sidebar on >large.
+				skel
+					.on('+large', function() {
+						$intro.prependTo($main);
+					})
+					.on('-large', function() {
+						$intro.prependTo($sidebar);
+					});
+
+	});
+
+})(jQuery);

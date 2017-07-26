@@ -1,95 +1,138 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.25.1" />
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hemingway</title>
+<link rel="stylesheet" href="//css/style.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css">
 
 
-<title>A Hugo website</title>
-<meta property="og:title" content="A Hugo website">
-<meta property="og:type" content="website">
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="/"><h1 class="title is-4">Hemingway</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/tanksuzuki">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/tanksuzuki">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
 
-
-
-<meta property="description" content="A website built through Hugo and blogdown.">
-
-
-
-
-
-<link href="./index.xml" rel="alternate" type="application/rss+xml" title="A Hugo website" />
-
-
-
-<link rel="stylesheet" href="./css/fonts.css" media="all">
-<link rel="stylesheet" href="./css/main.css" media="all">
-
-
-
-  </head>
-  <body>
-    <div class="wrapper">
-      <header class="header">
-        <nav class="nav">
-  <a href="./" class="nav-logo">
-    <img src="./images/logo.png"
-         width="50"
-         height="50"
-         alt="Logo">
-  </a>
-
-  <ul class="nav-links">
+<section class="section">
+  <div class="container">
     
-    <li><a href="./about/">About</a></li>
-    
-    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
-    
-    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
-    
-  </ul>
-</nav>
-
-      </header>
-
-
-<main class="content" role="main">
-
-  
-  <div class="archive">
-    
-    <h2 class="archive-title">2017</h2>
-    
-    <article class="archive-item">
-      <a href="./2017/07/23/ggplot-test/" class="archive-item-link">ggplot test</a>
-      <span class="archive-item-date">
-        2017/07/23
-      </span>
+    <article>
+      <h2 class="subtitle is-6">July 25, 2017</h2>
+      <h1 class="title"><a href="/post/improve-data-table-readability-with-pipes/">Improve data.table readability with pipes</a></h1>
+      <div class="content">
+        Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.
+        
+        ...<a class="button is-link" href="/post/improve-data-table-readability-with-pipes/" style="height:28px">
+          Read more
+          <span class="icon is-small">
+            <i class="fa fa-angle-double-right"></i>
+          </span>
+        </a>
+        
+      </div>
     </article>
     
+    <article>
+      <h2 class="subtitle is-6">July 23, 2017</h2>
+      <h1 class="title"><a href="/post/ggplot-test/">ggplot test</a></h1>
+      <div class="content">
+        this is just a test
+library(ggplot2) ggplot(mpg, aes(hwy, cty, color = drv)) + geom_point() + stat_smooth() ## `geom_smooth()` using method = &#39;loess&#39; 
+        
+      </div>
+    </article>
+    
+    <article>
+      <h2 class="subtitle is-6">May 5, 2016</h2>
+      <h1 class="title"><a href="/about/">About</a></h1>
+      <div class="content">
+        To be completed.
+        
+      </div>
+    </article>
+    
+    <article>
+      <h2 class="subtitle is-6">January 1, 0001</h2>
+      <h1 class="title"><a href="/links/"></a></h1>
+      <div class="content">
+        This is new md file.
+        
+      </div>
+    </article>
     
   </div>
-  
+</section>
+<section class="section">
+  <div class="container">
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <div class="level-item">
+          
+          <a class="button is-disabled">
+            <span class="icon is-small is-marginless">
+              <i class="fa fa-angle-left"></i>
+            </span>
+            Newer
+          </a>
+          
+        </div>
+      </div>
+      <div class="level-right is-marginless">
+        <div class="level-item">
+          
+          <a class="button is-disabled">
+            Older
+            <span class="icon is-small is-marginless">
+              <i class="fa fa-angle-right"></i>
+            </span>
+          </a>
+          
+        </div>
+      </div>
+    </nav>
+  </div>
+</section>
 
-</main>
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; <a href="https://github.com/tanksuzuki">Asuka Suzuki</a> 2016</p>
+  </div>
+</section>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 
-      <footer class="footer">
-        <ul class="footer-links">
-          <li>
-            <a href="./index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
-          </li>
-          <li>
-            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="./images/hugo-logo.png" width="22" height="22"></a>
-          </li>
-        </ul>
-      </footer>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/go.min.js"></script>
 
-    </div>
-    
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/dockerfile.min.js"></script>
 
-    
+<script>hljs.initHighlightingOnLoad();</script>
 
-    
-  </body>
-</html>
 
