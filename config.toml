@@ -1,10 +1,10 @@
-baseurl = "/"
+baseurl = "https://glli.netlify.com/"
 title = "learneR & useR"
 theme = "ghostwriter"
 languageCode = "en-us"
-copyright = "glli"
+#copyright = "glli"
 disqusShortname = "gl-li-github-io"
-googleAnalytics = ""
+#googleAnalytics = ""
 ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
 [Author]
@@ -16,8 +16,8 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
 [Params]
     intro = true
-    headline = "learneR & useR"
-    description = "learn and use R programming language"
+    #headline = "learneR & useR"
+    description = "learn R and use R"
     github = "https://github.com/GL-Li"
     #gitlab = "https://gitlab.com/XXX"
     #linkedin = "https://linkedin.com/in/XXX/"
@@ -45,10 +45,10 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     url = "/project/"
     weight = 2
 
-[[menu.main]]
-    name = "Contact"
-    url = "/page/contact/"
-    weight = 3
+#[[menu.main]]
+#    name = "Contact"
+#    url = "/page/contact/"
+#    weight = 3
 
 [[menu.main]]
     name = "About"
