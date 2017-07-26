@@ -1,107 +1,132 @@
 <!DOCTYPE html>
-<html lang="en-us">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Wrangling</title>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Data Wrangling &middot; GL Li</title>
+        <meta name="description" content="learn and use R programming language">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.25.1" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+            <link href="/tags/data-wrangling/index.xml" rel="alternate" type="application/rss+xml">
+        
+    </head>
+    <body>
+        
 
-<meta name="generator" content="Hugo 0.25.1" />
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="learneR &amp; useR" href="/">learneR &amp; useR</a>
+                            </h1>
+                        
+                        <a class="button-square" href="/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/difo_li">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/GL-Li">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                        
+                    </div>
 
-<link rel="dns-prefetch" href="//fonts.googleapis.com" />
-<link rel="dns-prefetch" href="//fonts.gstatic.com" />
-<link rel="alternate" type="application/rss+xml" title="learneR &amp; useR Feed" href="../../tags/data-wrangling/index.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
-<link rel="stylesheet" href="../../css/style.css" type="text/css" media="all" />
-<script type="text/javascript" src="../../js/scripts.js"></script>
-<link rel="shortcut icon" href="../../favicon.ico">
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/">Blog</a>
+    </li>
 
-</head>
-<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
-	<div class="container container-outer">
-		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
-			<div class="container container-inner clearfix">
-				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
-					<a class="logo__link" href="../../" title="learneR &amp; useR" rel="home">
-						<h1 class="logo__title">learneR &amp; useR</h1>
-						<h2 class="logo__tagline">learn R and use R</h2>
-					</a>
-				</div>
-			</div>
-			
-<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
-	<ul class="menu__list">
-		<li class="menu__item "><a class="menu__link" href="../../about/">ABOUT</a></li>
-		<li class="menu__item "><a class="menu__link" href="https://github.com/gl-li/blogdown">GITHUB</a></li>
-		<li class="menu__item "><a class="menu__link" href="https://twitter.com/difo_li">TWITTER</a></li>
-		<li class="menu__item "><a class="menu__link" href="../../links/">LINKS</a></li>
-	</ul>
-</nav>
+    <li class="site-nav-item">
+        <a title="Projects" href="/project/">Projects</a>
+    </li>
 
-		</header>
-		<div class="wrapper clearfix">
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
 
-	<div class="main-content list content" role="main">
-		<header class="page-header">
-			<h1 class="page-header__title">Data Wrangling</h1>
-		</header><article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="list__header">
-			<h3 class="list__title post__title ">
-				<a href="../../2017/07/25/improve-data-table-readability-with-pipes/" rel="bookmark">Improve data.table readability with pipes</a>
-			</h3>
-			<div class="list__meta meta">
-				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
-				<time class="list__meta-date" datetime="2017-07-25T00:00:00">July 25, 2017</time>
-			</div>
-		</header>
-		<div class="list__excerpt">
-			Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.
-		</div>
-	</div>
-</article>
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
 
 
-		
-	</div>
+<div id="post-index" class="container">
+    
+    <header class="post-header">
+        <h1 class="post-title">learneR &amp; useR</h1>
+        <p>learn and use R programming language</p>
+    </header>
 
-<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
-	
-	
-<div class="widget-recent widget">
-	<h4 class="widget__title">Recent Posts</h4>
-	<div class="widget__content">
-		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="../../2017/07/25/improve-data-table-readability-with-pipes/">Improve data.table readability with pipes</a></li>
-			<li class="widget__item"><a class="widget__link" href="../../2017/07/23/ggplot-test/">ggplot test</a></li>
-		</ul>
-	</div>
+
+    <ol class="post-list">
+        
+        
+            <li class="post-stub">
+    <a href="/2017/07/25/improve-data-table-readability-with-pipes/">
+        <h4 class="post-stub-title">Improve data.table readability with pipes</h4>
+        
+        
+    </a>
+</li>
+        
+    </ol>
+
+    <div class="post-navigation">
+        
+
+    </div>
 </div>
 
-	
-<div class="widget-categories widget">
-	<h4 class="widget__title">Categories</h4>
-	<div class="widget__content">
-		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="../../categories/data.table">Data.Table</a></li>
-			<li class="widget__item"><a class="widget__link" href="../../categories/r">R</a></li>
-		</ul>
-	</div>
-</div>
-	
-	
-</aside>
-	</div>
-		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
-			<div class="container container-inner">
-				<p class="footer__copyright">&copy; 2017 learneR &amp; useR. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
-			</div>
-		</footer>
-	</div>
+            </div>
+        </div>
 
-<script>
-	var navigation = responsiveNav(".menu", {
-		navClass: "menu--collapse",
-	});
-</script>
-</body>
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="learneR &amp; useR" href="/">learneR &amp; useR</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2017 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+        <script src="/js/jquery.fitvids.js"></script>
+        <script src="/js/scripts.js"></script>
+    </body>
 </html>
