@@ -14,9 +14,7 @@ tags:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-Package ```data.table```  is sometimes criticized for its lower readability than its competitor ```dplyr```. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with ```dt[i, j, by]```. You can put many codes at the ``j`` section. You can even chain ``[i, j, by]`` together and make  train-like code ```dt[...][...]...```. I enjoyed loading a lot of code in one big train ```dt[...][...]...```, which looks very cool. When I look back at those codes, I realized that this big chunk of ```dt[...][...]...``` and the temptation of showing off are the causes of poor code readability.
-
-I would like use an example from this [stackoverflow thread](http://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly), where Hadley Wickman shows the poor readability of ```data.table``` through the follow codes. This train only has two cars but is alread hard to read.
+Package ```data.table```  is sometimes criticized for its poorer readability than its competitor ```dplyr```. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with ```dt[i, j, by]```. You can put many codes at the ``j`` section. You can even chain ``[i, j, by]`` together and make  train-like code ```dt[...][...]...```. In a [stackoverflow thread](http://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly), Hadley Wickman, the creator of ```dplyr```, criticizes the poor readability of ```data.table``` caused by the train through the follow example. This train only has two cars but is alread hard to read.
 ```{r}
 library(magrittr)
 library(data.table)
@@ -47,10 +45,10 @@ diamondsDT[cut != "Fair",
 ```
 
 
-The pipe ```%>%``` is particularly useful when adding or updating columns. Here is a dummy example. It does not make scientific sense but just to show how readable the code can be. The use of pipe ```%>%``` makes the code look like ```dplyr``` code but is more powerful. Each car focuses on one job and each job focuses on a columnb with selected rows. The selected rows can be independent from other cars. This is a big advantage over ```dplyr``` where ```filter()``` affects all codes that follow. 
+The pipe ```%>%``` is particularly useful when adding or updating columns. Here is a dummy example. It does not make scientific sense but demonstrates how readable the code can be. The use of pipe ```%>%``` makes the code look like ```dplyr``` code but is more powerful. Each car focuses on one job and each job focuses on a columnb with selected rows. The selected rows can be independent from other cars. This is a big advantage over ```dplyr``` where ```filter()``` affects all codes that follow. 
 ```{r}
 avg <- data.table(iris) %>%
-    # add a new column "is_setosa", 1 if yes and 0 if no, use two lines of code 
+    # add a new column "is_setosa", 1 if yes and 0 if no, use two lines of codes 
     # to clearly show the values
     .[Species == "setosa", is_setosa := 1] %>%                         
     .[Species != "setosa", is_setosa := 0] %>%
@@ -68,35 +66,21 @@ avg <- data.table(iris) %>%
 
 How about speed?  ```data.table``` is built for its fast speed. Will the use of pipes ```%>%``` slow down the computing? Usually we do not care when data is not that big. But what if we care? In the following example, we add three new columns to a made-up data table with and without using the pipes. The pipes actually makes the computing faster in this example. 
 
-```{r, eval=FALSE}
-time <- data.table(pipe = " ", time = rep(0, 2000))
-
+```{r}
 # elapsed time of adding three columns in a data table with one dt[]
 set.seed(123)
 dt <- data.table(a = 1:1e7,
-                 b = rnorm(10))
-for (i in 1:1000) {
-    aaa <- system.time({
-        dt[, ":=" (x = sqrt(a), y = b^2, z = a * b)]
-    })
-    time[i, ":=" (pipe = "no pipe", time = aaa[3])]
+                 b = rnorm(1e7))
+
+no_pipe <- function(){
+    dt[, ":=" (x = sqrt(a), y = b^2, z = a * b)]
 }
 
-# elapsed time of adding the same three columns in three cars connected with pipes
-set.seed(123)
-dt <- data.table(a = 1:1e7,
-                 b = rnorm(10))
-for (i in 1001:2000) {
-    aaa <- system.time({
+with_pipe <- function(){
         dt[, x := sqrt(a)] %>%
             .[, y := b^2] %>%
             .[, z := a * b]
-    })
-    time[i, ":=" (pipe = "with pipe", time = aaa[3])]
 }
 
-# compare the distribution of time
-ggplot(time, aes(time, fill = pipe, color = pipe)) +
-    geom_freqpoly(binwidth = 0.001) +
-    xlim(c(0.1, 0.25))
+rbenchmark::benchmark(s1 <- no_pipe(), s2 <- with_pipe(), order="elapsed", replications=10)
 ```

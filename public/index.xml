@@ -17,7 +17,7 @@
       <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://glli.netlify.com/2017/07/25/improve-data-table-readability-with-pipes/</guid>
-      <description>Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.</description>
+      <description>Package data.table is sometimes criticized for its poorer readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... In a stackoverflow thread, Hadley Wickman, the creator of dplyr, criticizes the poor readability of data.</description>
     </item>
     
     <item>
