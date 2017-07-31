@@ -29,6 +29,8 @@ code {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
+img, iframe, video { max-width: 100%; }
+
 .wrapper {
   overflow: hidden;
   position: relative;

@@ -81,10 +81,10 @@ magrittr_pipe &lt;- function(){
         .[, z := paste0(a , b)]
 }
 
-rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=100)</code></pre>
+rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=10)</code></pre>
 <pre><code>##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()          100  17.097     1.05    17.096    0.004
-## 2  magrittr_pipe()          100  16.283     1.00    16.288    0.000
+## 1 datatable_pipe()           10   1.926    1.064     1.928        0
+## 2  magrittr_pipe()           10   1.810    1.000     1.808        0
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0</code></pre>

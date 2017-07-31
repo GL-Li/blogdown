@@ -2,74 +2,39 @@
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.25.1" />
-
-
-<title>Compare data.table pipes and magrittr pipes - A Hugo website</title>
-<meta property="og:title" content="Compare data.table pipes and magrittr pipes - A Hugo website">
-
-
-
-  
-
-
-
-
-
-
-
-
-<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
-
-
-
-<link rel="stylesheet" href="../../../../css/fonts.css" media="all">
-<link rel="stylesheet" href="../../../../css/main.css" media="all">
-
-
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compare data.table pipes and magrittr pipes | A minimal Hugo website</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
   </head>
+
   <body>
-    <div class="wrapper">
-      <header class="header">
-        <nav class="nav">
-  <a href="../../../../" class="nav-logo">
-    <img src="../../../../images/logo.png"
-         width="50"
-         height="50"
-         alt="Logo">
-  </a>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
 
-  <ul class="nav-links">
-    
-    <li><a href="../../../../about/">About</a></li>
-    
-    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
-    
-    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
-    
-  </ul>
-</nav>
+<div class="article-meta">
+<h1><span class="title">Compare data.table pipes and magrittr pipes</span></h1>
+<h2 class="author">GL</h2>
+<h2 class="date">2017/07/25</h2>
+</div>
 
-      </header>
-
-
-<main class="content" role="main">
-
-  <article class="article">
-    
-    <span class="article-duration">3 min read</span>
-    
-
-    <h1 class="article-title">Compare data.table pipes and magrittr pipes</h1>
-
-    
-    <span class="article-date">2017/07/25</span>
-    
-
-    <div class="article-content">
-      <p>There are two ways to chain <code>data.table</code> operation, using <code>data.table</code> pipes or using <code>magrittr</code> pipes. For a data.table <code>dt</code>, the <code>data.table</code> pipes take the form of <code>dt[][][]...</code> and <code>magrittr</code> pipes <code>dt %&gt;% .[] %&gt;% .[] %&gt;% ...</code>.</p>
+<main>
+<p>There are two ways to chain <code>data.table</code> operation, using <code>data.table</code> pipes or using <code>magrittr</code> pipes. For a data.table <code>dt</code>, the <code>data.table</code> pipes take the form of <code>dt[][][]...</code> and <code>magrittr</code> pipes <code>dt %&gt;% .[] %&gt;% .[] %&gt;% ...</code>.</p>
 <p>Below is an example that compares their readability. The readability of <code>data.table</code> pipes has been criticized in this <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">stackoverflow post</a>. It seems, however, not that hard to follow for those who have basic knowledge of <code>data.table</code>. To my eyes, the <code>magrittr</code> pipes improves the readability but not enough to replace the <code>data.table</code> pipes. It is more of a personal choice.</p>
 <pre class="r"><code>library(data.table)
 library(magrittr)
@@ -141,49 +106,21 @@ magrittr_pipe &lt;- function(){
 
 rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=10)</code></pre>
 <pre><code>##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           10   1.926    1.064     1.928        0
-## 2  magrittr_pipe()           10   1.810    1.000     1.808        0
+## 1 datatable_pipe()           10   1.866    1.049     1.864    0.004
+## 2  magrittr_pipe()           10   1.779    1.000     1.776    0.004
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0</code></pre>
 
-    </div>
-  </article>
-
-  
-
-
 </main>
 
-      <footer class="footer">
-        <ul class="footer-links">
-          <li>
-            <a href="../../../../index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
-          </li>
-          <li>
-            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../../../images/hugo-logo.png" width="22" height="22"></a>
-          </li>
-        </ul>
-      </footer>
-
-    </div>
-    
-
-
-
-<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-
-
-
-<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
-
-    
-
-    
+  <footer>
+  
+  
+  <hr/>
+  &copy; <a href="https://yihui.name">Yihui Xie</a> 2017 | <a href="https://github.com/yihui">Github</a> | <a href="https://twitter.com/xieyihui">Twitter</a>
+  
+  </footer>
   </body>
 </html>
 

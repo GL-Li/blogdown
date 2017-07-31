@@ -84,6 +84,6 @@ magrittr_pipe <- function(){
         .[, z := paste0(a , b)]
 }
 
-rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=100)
+rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=10)
 
 ```
