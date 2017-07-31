@@ -270,8 +270,12 @@ img, iframe, video { max-width: 100%; }
   }
 
   .content {
-    font-size: 19px;
-    line-height: 1.8;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  pre {
+      font-size: 12px;
   }
 
   .highlight {
@@ -301,7 +305,7 @@ img, iframe, video { max-width: 100%; }
   }
 
   .article-title {
-    font-size: 42px;
+    font-size: 32px;
   }
 
   .article-duration {
