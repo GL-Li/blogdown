@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Plot on learneR &amp; useR</title>
-    <link>https://glli.netlify.com/tags/plot/</link>
-    <description>Recent content in Plot on learneR &amp; useR</description>
+    <title>Plot on A Hugo website</title>
+    <link>/tags/plot/</link>
+    <description>Recent content in Plot on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 23 Jul 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://glli.netlify.com/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ggplot test</title>
-      <link>https://glli.netlify.com/2017/07/23/ggplot-test/</link>
+      <link>/2017/07/23/ggplot-test/</link>
       <pubDate>Sun, 23 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://glli.netlify.com/2017/07/23/ggplot-test/</guid>
+      <guid>/2017/07/23/ggplot-test/</guid>
       <description>this is just a test
 library(ggplot2) ggplot(mpg, aes(hwy, cty, color = drv)) + geom_point() + stat_smooth() ## `geom_smooth()` using method = &amp;#39;loess&amp;#39; </description>
     </item>
