@@ -4,7 +4,7 @@ languageCode = "en-us"
 title = "A Hugo website"
 theme = "hugo-lithium-theme"
 googleAnalytics = ""
-disqusShortname = ""
+disqusShortname = "gl-li-github-io"
 ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
 [permalinks]
@@ -15,13 +15,13 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     url = "/about/"
 [[menu.main]]
     name = "GitHub"
-    url = "https://github.com/rstudio/blogdown"
+    url = "https://github.com/GL-Li/police_shooting"
 [[menu.main]]
     name = "Twitter"
-    url = "https://twitter.com/rstudio"
+    url = "https://twitter.com/difo_li"
 
 [params]
-    description = "A website built through Hugo and blogdown."
+    description = "learn and use R programming language"
 
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"
