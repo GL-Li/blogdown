@@ -19,7 +19,10 @@ h4,
 h5,
 h6 {
   color: #222;
+  font-weight: bold;
 }
+
+
 
 a {
   outline: none;
@@ -270,12 +273,12 @@ img, iframe, video { max-width: 100%; }
   }
 
   .content {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
   }
   
   pre {
-      font-size: 13px;
+      font-size: 12px;
   }
 
   .highlight {
