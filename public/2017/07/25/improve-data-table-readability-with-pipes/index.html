@@ -6,8 +6,8 @@
 <meta name="generator" content="Hugo 0.25.1" />
 
 
-<title>Compare data.table pipes and magrittr pipes - A Hugo website</title>
-<meta property="og:title" content="Compare data.table pipes and magrittr pipes - A Hugo website">
+<title>Compare data.table pipes and magrittr pipes - learn R and use R</title>
+<meta property="og:title" content="Compare data.table pipes and magrittr pipes - learn R and use R">
 
 
 
@@ -46,6 +46,8 @@
     <li><a href="../../../../about/">About</a></li>
     
     <li><a href="https://github.com/GL-Li/police_shooting">GitHub</a></li>
+    
+    <li><a href="../../../../projects">Projects</a></li>
     
     <li><a href="https://twitter.com/difo_li">Twitter</a></li>
     
@@ -141,8 +143,8 @@ magrittr_pipe &lt;- function(){
 
 rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)</code></pre>
 <pre><code>##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           20   3.779    1.044     3.776    0.004
-## 2  magrittr_pipe()           20   3.620    1.000     3.620    0.000
+## 1 datatable_pipe()           20   3.747    1.046     3.744    0.000
+## 2  magrittr_pipe()           20   3.581    1.000     3.576    0.004
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0</code></pre>

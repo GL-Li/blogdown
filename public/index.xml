@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>A Hugo website</title>
+    <title>learn R and use R</title>
     <link>/</link>
-    <description>Recent content on A Hugo website</description>
+    <description>Recent content on learn R and use R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 31 Jul 2017 00:00:00 +0000</lastBuildDate>
@@ -47,6 +47,15 @@ Below is an example that compares their readability. The readability of data.tab
       
       <guid>/links/</guid>
       <description>This is new md file.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/</guid>
+      <description>Fatal police shooting in the United States Black people are more likely to be killed by police in blue states than in red states In large urban areas, black people are 1.96 time as likely to be fatally shot by police as non-black people in red states while it is 3.00 times in blue states. For those unarmed victims, the disparity is 3.02 in red states and as high as 4.</description>
     </item>
     
   </channel>
