@@ -29,7 +29,7 @@ a {
 }
 
 code {
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
 img, iframe, video { max-width: 100%; }
