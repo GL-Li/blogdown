@@ -11,41 +11,40 @@ tags:
 
 
 
-<p>Just finished reading Hadley Wickman’s <code>ggplot2</code> book (link to the book). Before that I have been using <code>ggplot2</code> for a couple of years by mainly learned by reading documentation and searching help online.</p>
-<p>My feeling is that <code>ggplot2</code> is flexible graphing tool. The same plot can be achieved with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion (how to express this meaning?) and extra burden of memorization.</p>
-<p>After reading this book, I learned that there are even more ways to do the same job and I am not happy with it. I am a lazy user and do not want to memorize all these different methods. What I want is an appoach that get the job done, that is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use <code>ggplot2</code>.</p>
-<p>Here I discuss how I like to organize <code>ggplot2</code> plotting. It is my personal preference. Every one can find their best way, but I will give the reason why I am doing this way.</p>
-<div id="what-to-be-included-in-ggplot" class="section level3">
-<h3>What to be included in <code>ggplot()</code>?</h3>
+<p>Just finished reading Hadley Wickman’s <code>ggplot2</code> book, (<a href="http://www.springer.com/us/book/9783319242750">second eition</a>). Before that I have been using <code>ggplot2</code> for a couple of years, mainly learned by reading documentation and searching for help online. This package is a powerful and comprehensive tool for generating static plots.</p>
+<p>But I also feel that <code>ggplot2</code> is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. This is not a good feature for a lazy user like me. I just do not want to memorize all these different methods. What I want is an appoach that get the job done, that is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use <code>ggplot2</code>.</p>
+<p>Here I discuss how I like to organize <code>ggplot2</code> plottings. It is my personal preference. Every one can find their best way. I will give the reason why I am doing this way.</p>
+<div id="what-to-be-included-in-ggplot" class="section level2">
+<h2>What to be included in <code>ggplot()</code></h2>
 <p>Every <code>ggplot2</code> plotting starts with the function <code>ggplot()</code>. Typically <code>data</code> and <code>aes()</code> are included as arguments. The <code>aes()</code> can include <code>x</code>, <code>y</code> and more aesthetic mapping such as <code>color</code>, <code>shape</code>, <code>fill</code>, …, as in the code below,</p>
 <pre class="r"><code>ggplot(data = mpg, aes(x = displ, y = cty, color = drv, shape = year, fill = cyl))
 # or to simplify
 ggplot((mpg, aes(displ, cty, color = drv, shape = year, fill = cyl)))</code></pre>
-<p>My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in these layers, then that is good; you save a few keystroke. But if it is not what you want, it is where trouble hides. For example, if your want to a linear fit to all data points but has <code>color</code> in aesthetic mapping, the fit is applied to each color. You’d better move the <code>color</code> of <code>ggplot()</code>.</p>
+<p>My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in these layers, then that is good; you save a few keystroke. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has <code>color</code> in aesthetic mapping, the fit is applied to each color. You’d better move the <code>color</code> out of <code>ggplot()</code>.</p>
 <pre class="r"><code>library(ggplot2)
 ggplot(mpg, aes(cty, hwy, color = drv)) +
     geom_point() +
     stat_smooth(method = &quot;lm&quot;)</code></pre>
 <p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="480" /></p>
 </div>
-<div id="geom_xxx-or-stat_xxx" class="section level3">
-<h3><code>geom_xxx()</code> or <code>stat_xxx()</code>?</h3>
-<p>This is one of the reasons for flexibility and confusion; some <code>geom</code>s have equivalent <code>stats</code>, such as <code>geom_smooth()</code> and <code>stat_smooth()</code>, <code>geom_bar()</code> and <code>stat_count</code>, and <code>geom_boxplot()</code> and <code>stat_boxplot()</code>. Even <code>geom_point()</code> has an equivalent <code>stat_identity()</code>. So which one to use?</p>
-<p>I like to use <code>geom_xxx()</code> for layers that directly plot the original data and <code>stat_xxx()</code> for layers that plot statistical transformation of the original data. The former includes <code>geom_point()</code>, <code>geom_line()</code>, and <code>geom_col()</code>. The latter includes <code>stat_smooth()</code>, <code>stat_count</code>, and <code>stat_boxplot()</code>. This a naturla choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly. Using <code>stat_xxx()</code> has additional benefit: we can choose the right <code>geom</code> as desired. In the following code, the counts of <code>drv</code> are displayed as bar, point and line.</p>
+<div id="which-to-choose-geom_xxx-or-stat_xxx" class="section level2">
+<h2>Which to choose, <code>geom_xxx()</code> or <code>stat_xxx()</code></h2>
+<p>These two functions caused a lot of headache to me. Both <code>geom_xxx()</code> and <code>stat_xxx()</code> plot layers. Many <code>geom</code>s have equivalent <code>stats</code>, such as <code>geom_smooth()</code> and <code>stat_smooth()</code>, <code>geom_bar()</code> and <code>stat_count</code>, and <code>geom_boxplot()</code> and <code>stat_boxplot()</code>. Even <code>geom_point()</code> has an equivalent <code>stat_identity()</code>. So which one to use?</p>
+<p>I like to use <code>geom_xxx()</code> for layers that directly plot the original data and <code>stat_xxx()</code> for layers that plot statistical transformation of the original data. The former includes <code>geom_point()</code>, <code>geom_line()</code>, and <code>geom_col()</code> etc. The latter includes <code>stat_smooth()</code>, <code>stat_count</code>, and <code>stat_boxplot()</code> etc. This a naturla choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with <code>stat</code>. Using <code>stat_xxx()</code> has additional benefit: we can choose the right <code>geom</code> as desired without losing sense of what data are being displayed. In the following code, the counts of <code>drv</code> are displayed as bar, point and line. No matter what <code>geom</code> you choose, the <code>stat_count</code> always explicitly tells you that you are plotting the count.</p>
 <pre class="r"><code>ggplot(mpg, aes(drv)) +
     stat_count(geom = &quot;bar&quot;, fill = &quot;grey70&quot;) +
     stat_count(geom = &quot;point&quot;, size = 6, color = &quot;blue&quot;) +
     stat_count(geom = &quot;line&quot;, aes(group = 1), color = &quot;red&quot;)</code></pre>
 <p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="384" /></p>
-<p>A few words about bar plot. Above count of one categorical variable are often plotted with <code>geom_bar()</code>. The awkward thing is that <code>geom_bar(stat = &quot;identity&quot;)</code> also make bar plot when two variables <code>aes(x, y)</code> are provided. To solve this issue, <code>ggplot2</code> version 2.2.0 introduced <code>geom_col(aes(x, y))</code> to take care bar plot from two variables.</p>
+<p>A few words about bar plot. Above count of one categorical variable are often plotted with <code>geom_bar()</code>. The awkward thing is that <code>geom_bar(stat = &quot;identity&quot;)</code> also make bar plot when two variables <code>aes(x, y)</code> are provided. To solve this issue, <code>ggplot2</code> version 2.2.0 introduced <code>geom_col(aes(x, y))</code> to take care bar plot from two variables. With <code>stat_count()</code> and <code>geom_col()</code>, <code>geom_bar()</code> are ready to retire.</p>
 </div>
-<div id="axis-and-legend" class="section level3">
-<h3>axis and legend</h3>
-<p>Almost all components regarding axis and legend can be specified in <code>scale_xxx_xxx()</code> funtions. You will get the job done by only using them. The code may be too busy though. Several help functions do part of <code>scale_xxx_xxx()</code>’s job and make the code succint, such as <code>xlab()</code> and <code>ylim()</code>.</p>
+<div id="how-to-organize-axis-and-legend" class="section level2">
+<h2>How to organize axis and legend</h2>
+<p>Almost all components regarding axis and legend can be specified in <code>scale_xxx_xxx()</code> funtions. You will get the job done by only using them. The code may be too busy though. Several help functions do part of <code>scale_xxx_xxx()</code>’s job and make the code succint, such as <code>xlab()</code> and <code>ylim()</code>. But these help functions also make code less structured.</p>
 <p>I like two help functions: <code>labs()</code> sets titles of all axis and lengends and <code>guides()</code> arranges multiple legends. Together with <code>scale_xxx_xxx()</code>, the three take care axis and legend in a logical way:</p>
 <ul>
-<li><code>scale_xxx_xxx()</code> determines what to show. They are used to set breaks and labels of each aesthetics, which are the real data to show.</li>
-<li><code>guides()</code> determines how to display. It is a best practice arrange each legend by considering all of them the same.</li>
+<li><code>scale_xxx_xxx()</code> determines what to show. They are used to set limits, breaks and labels of each aesthetics, which are the real data to show.</li>
+<li><code>guides()</code> determines how to display. It is a best practice to arrange each legend by considering all others the same time.</li>
 <li><code>labs()</code> determines how to call them. It names axis and legend in one place by treating all axis and legend as a whole, which helps to name them in the same style.</li>
 </ul>
 <pre class="r"><code>ggplot(mpg, aes(hwy, cty, color = factor(cyl), shape = drv)) +
@@ -81,4 +80,87 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
          shape = &quot;drive train&quot;, 
          size = &quot;haha you cannot see me&quot;) </code></pre>
 <p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="lets-do-a-quick-annotation-with-annotate" class="section level2">
+<h2>Let’s do a quick annotation with <code>annotate()</code></h2>
+<p>Annotation with <code>annotate()</code> is handy when you simply want to draw something using vectors. It can draw <code>text</code>, <code>segment</code>, <code>rect</code>, and pretty much everything <code>geom_xxx()</code> offers. Do not get confused with <code>geom_text()</code> and <code>geom_segment()</code>, and <code>geom_rect</code>, …, which use dataframes. Reserve <code>annotate()</code> for drawing simple things manually and it belongs to its own group.</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy, color = drv)) +
+    geom_point() +
+    annotate(&quot;text&quot;, x = 6, y = 35, label = &quot;These big guys\nare gas efficient&quot;) +
+    annotate(&quot;segment&quot;, x = c(5.8, 6, 6.2), y = 32.5, 
+             xend = c(5.7, 6.15, 6.9), yend = c(27, 27, 25.1),
+             arrow = arrow(angle = 20, length = unit(2, &quot;mm&quot;), type = &quot;closed&quot;))</code></pre>
+<p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="finally-a-comprehensive-example" class="section level2">
+<h2>Finally a comprehensive example</h2>
+<p>In addition to the confusing parts discussed above, a normal <code>ggplot2</code> plot may contains <code>position</code>, <code>facet</code>, and of course <code>theme()</code>. I will conclude this post with an example that covers all major components of a <code>ggplot2</code> plot. This is the uniform way I am using <code>ggplot2</code>.</p>
+<pre class="r"><code>ggplot(mpg, aes(factor(cyl), cty)) +
+    # leave color and size in geom_point() so that stat_boxplot works on all data
+    geom_point(aes(color = drv, size = displ), position = &quot;jitter&quot;) +
+    stat_boxplot(fill = NA) + 
+    facet_wrap(~year) +
+
+    # === take care axis and legend ===
+    
+    # determine what values and labels to display
+    scale_x_discrete(breaks = c(4, 5, 6, 8),
+                     labels = c(&quot;Four&quot;, &quot;Five&quot;, &quot;Six&quot;, &quot;Eight&quot;)) +
+    scale_y_continuous(limits = c(4, 36),
+                       breaks = 1:4 * 8) +
+    scale_color_manual(breaks = c(&quot;4&quot;, &quot;f&quot;, &quot;r&quot;),
+                       values = c(&quot;4&quot; = &quot;red&quot;, &quot;f&quot; = &quot;blue&quot;, &quot;r&quot; = &quot;cyan&quot;),
+                       labels = c(&quot;four-wheel&quot;, &quot;front-wheel&quot;, &quot;rear-wheel&quot;)) +
+    scale_size_area(limits = c(2, 7),
+                          max_size = 4) +
+    
+    # make arrangement for each legend
+    guides(
+        size = guide_legend(
+            title.position = &quot;top&quot;,
+            nrow = 2,
+            byrow = TRUE,
+            override.aes = list(shape = 1),
+            reverse = TRUE
+        ),
+        color = guide_legend(
+            order = 1,
+            nrow = 3,
+            override.aes = list(size = 3)
+        )
+    ) +
+    
+    # using labs() for all of the titles and labels in one place
+    labs(title = &quot;This plot displays all major ggplot components&quot;,
+         subtitle = &quot;including data, aes mapping, geom, stat, position, facet, scale, guides, annotaion, and theme&quot;,
+         caption = &quot;Source: what so ever&quot;,
+         x = &quot;Cylinders&quot;,
+         y = &quot;City Mileage (miles/gallon)&quot;,
+         color = NULL,
+         size = &quot;displacement&quot;) +
+    
+    # === provide extra information ===
+    
+    # annotate extra geoms mannually. Play with geom_text() if want to label in
+    # a specific facet panel
+    annotate(&quot;text&quot;, x = 0.5, y = 6, label = &quot;boxplot is applied to all data&quot;, 
+             hjust = 0, vjust = 1) +
+    
+    # === use theme() to make it beautiful ===
+    
+    theme(plot.background = element_rect(fill = &quot;#F5E6E3&quot;),
+          plot.title = element_text(family = &quot;monospace&quot;),
+          plot.subtitle = element_text(face = &quot;italic&quot;),
+          panel.background = element_rect(fill = &quot;lightblue&quot;, color = &quot;red&quot;),
+          panel.grid.major.y = element_line(color = &quot;grey95&quot;, size = 0.2),
+          panel.grid.minor.y = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title = element_text(family = &quot;monospace&quot;),
+          legend.position = &quot;top&quot;,
+          legend.key = element_blank(),
+          legend.margin = margin(0, 0, 0, 0),
+          legend.background = element_blank(),
+          strip.background = element_blank(),
+          strip.text = element_text(size = 12))</code></pre>
+<p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>

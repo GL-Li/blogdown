@@ -17,31 +17,8 @@
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/08/03/a-uniform-way-to-use-ggplot2/</guid>
-      <description>Just finished reading Hadley Wickman’s ggplot2 book (link to the book). Before that I have been using ggplot2 for a couple of years by mainly learned by reading documentation and searching help online.
-My feeling is that ggplot2 is flexible graphing tool. The same plot can be achieved with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion (how to express this meaning?) and extra burden of memorization.</description>
-    </item>
-    
-    <item>
-      <title>test heading size</title>
-      <link>/2017/08/02/test-heading-size/</link>
-      <pubDate>Wed, 02 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/08/02/test-heading-size/</guid>
-      <description>This is h1 heading normal text size
-This is h2 normal text size
-This is h3 normal text size
-This is h4 normal text size
-This is h5 normal text size</description>
-    </item>
-    
-    <item>
-      <title>ggplot test</title>
-      <link>/2017/07/31/ggplot-test/</link>
-      <pubDate>Mon, 31 Jul 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/07/31/ggplot-test/</guid>
-      <description>this is only a test
-library(ggplot2) ggplot(mpg, aes(hwy, cty, color = drv)) + geom_point() </description>
+      <description>Just finished reading Hadley Wickman’s ggplot2 book, (second eition). Before that I have been using ggplot2 for a couple of years, mainly learned by reading documentation and searching for help online. This package is a powerful and comprehensive tool for generating static plots.
+But I also feel that ggplot2 is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization.</description>
     </item>
     
     <item>
