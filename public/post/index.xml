@@ -6,10 +6,21 @@
     <description>Recent content in Posts on learn R and use R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 13 Aug 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ggplot2: aes(group = ...) overrides default grouping</title>
+      <link>/2017/08/13/ggplot2-group-overrides-default-grouping/</link>
+      <pubDate>Sun, 13 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/08/13/ggplot2-group-overrides-default-grouping/</guid>
+      <description>Default grouping in ggplot2 ggplot2 can subset all data into groups and give each group its own appearance or transformation. In many cases new users are not aware that default groups have been created, and are surprised to see the unwanted plot.
+There are two ways in which groups are created implicitly:
+ If x or y are categorical variables, the rows of date with the same level form a group.</description>
+    </item>
     
     <item>
       <title>A uniform way to use ggplot2</title>
