@@ -1,8 +1,9 @@
 baseurl = "/"
 relativeurls = true
 languageCode = "en-us"
-title = "learn R and use R"
-theme = "hugo-lithium-theme"
+title = "learneR & useR"
+theme = "mainroad"
+paginate = "10" # Number of posts per page
 googleAnalytics = ""
 disqusShortname = "gl-li-github-io"
 ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
@@ -14,30 +15,36 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     name = "About"
     url = "/about/"
 [[menu.main]]
-    name = "Projects"
-    url = "/projects"
-#[[menu.main]]
-#    name = "GitHub"
-#    url = "https://github.com/GL-Li/police_shooting"
+    name = "links"
+    url = "/links/"
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/gl-li/blogdown"
 [[menu.main]]
     name = "Twitter"
     url = "https://twitter.com/difo_li"
 
-[params]
-    description = "learn and use R programming language"
+[Params]
+    subtitle = "learn R and use R" # Subtitle of your site
+    #description = " John Doe's Personal blog about everything" # Description of your site
+    #opengraph = true
+    readmore = false # Show "Read more" button in list if true
+    leftsidebar = false # Move sidebar to the left side if true
+    #authorbox = true
+    post_navigation = true
+    postSections = ["post"] # the section pages to show on home page and the "Recent articles" widget
+    #postSections = ["blog", "news"] # alternative that shows more than one section's pages
+    #dateformat = "2006-01-02" # change the format of dates
 
-    # options for highlight.js (version, additional languages, and theme)
-    highlightjsVersion = "9.11.0"
-    highlightjsCDN = "//cdn.bootcss.com"
-    highlightjsLang = ["r", "yaml"]
-    highlightjsTheme = "github"
-
-    MathJaxCDN = "//cdn.bootcss.com"
-    MathJaxVersion = "2.7.1"
-
-    [params.logo]
-    url = "logo.png"
-    width = 50
-    height = 50
-    alt = "Logo"
-
+[Params.widgets]
+    #search = true # Enable "Search" widget
+    recent_articles = true # Enable "Recent articles" widget
+    recent_articles_num = 30 # Set the number of articles in the "Recent articles" widget
+    categories = true # Enable "Categories" widget
+    #tags = true # Enable "Tags" widget
+    #tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+    #social = true # Enable "Social" widget
+    #social_facebook = "username"
+    #social_linkedin = "username"
+    #social_github = "GL-Li"
+    #social_email = "example@example.com"

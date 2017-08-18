@@ -1,94 +1,109 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Wrangling</title>
+
 <meta name="generator" content="Hugo 0.25.1" />
 
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+<link rel="alternate" type="application/rss+xml" title="learneR &amp; useR Feed" href="../../tags/data-wrangling/index.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="../../js/scripts.js"></script>
+<link rel="shortcut icon" href="../../favicon.ico">
 
-<title>Data Wrangling - learn R and use R</title>
-<meta property="og:title" content="Data Wrangling - learn R and use R">
-
-
-
-  
-
-
-
-
-
-<link href="../../tags/data-wrangling/index.xml" rel="alternate" type="application/rss+xml" title="learn R and use R" />
-
-
-
-<link rel="stylesheet" href="../../css/fonts.css" media="all">
-<link rel="stylesheet" href="../../css/main.css" media="all">
-
-
-
-  </head>
-  <body>
-    <div class="wrapper">
-      <header class="header">
-        <nav class="nav">
-  <a href="../../" class="nav-logo">
-    <img src="../../images/logo.png"
-         width="50"
-         height="50"
-         alt="Logo">
-  </a>
-
-  <ul class="nav-links">
-    
-    <li><a href="../../about/">About</a></li>
-    
-    <li><a href="../../projects">Projects</a></li>
-    
-    <li><a href="https://twitter.com/difo_li">Twitter</a></li>
-    
-  </ul>
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="../../" title="learneR &amp; useR" rel="home">
+						<h1 class="logo__title">learneR &amp; useR</h1>
+						<h2 class="logo__tagline">learn R and use R</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item "><a class="menu__link" href="../../about/">ABOUT</a></li>
+		<li class="menu__item "><a class="menu__link" href="https://github.com/gl-li/blogdown">GITHUB</a></li>
+		<li class="menu__item "><a class="menu__link" href="https://twitter.com/difo_li">TWITTER</a></li>
+		<li class="menu__item "><a class="menu__link" href="../../links/">LINKS</a></li>
+	</ul>
 </nav>
 
-      </header>
+		</header>
+		<div class="wrapper clearfix">
+
+	<div class="main-content list content" role="main">
+		<header class="page-header">
+			<h1 class="page-header__title">Data Wrangling</h1>
+		</header><article class="list__item post clearfix">
+	<div class="list__content clearfix">
+		<header class="list__header">
+			<h3 class="list__title post__title ">
+				<a href="../../2017/07/25/improve-data-table-readability-with-pipes/" rel="bookmark">Compare data.table pipes and magrittr pipes</a>
+			</h3>
+			<div class="list__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="list__meta-date" datetime="2017-07-25T00:00:00">July 25, 2017</time>
+			</div>
+		</header>
+		<div class="list__excerpt">
+			There are two ways to chain data.table operation, using data.table pipes or using magrittr pipes. For a data.table dt, the data.table pipes take the form of dt[][][]... and magrittr pipes dt %&gt;% .[] %&gt;% .[] %&gt;% ....
+Below is an example that compares their readability. The readability of data.table pipes has been criticized in this stackoverflow post. It seems, however, not that hard to follow for those who have basic knowledge of data.
+		</div>
+	</div>
+</article>
 
 
-<main class="content" role="main">
+		
+	</div>
 
-  
-  <div class="archive">
-    
-    <h2 class="archive-title">2017</h2>
-    
-    <article class="archive-item">
-      <a href="../../2017/07/25/improve-data-table-readability-with-pipes/" class="archive-item-link">Compare data.table pipes and magrittr pipes</a>
-      <span class="archive-item-date">
-        2017/07/25
-      </span>
-    </article>
-    
-    
-  </div>
-  
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="../../2017/08/13/ggplot2-group-overrides-default-grouping/">ggplot2: aes(group = ...) overrides default grouping</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../2017/08/03/a-uniform-way-to-use-ggplot2/">A uniform way to use ggplot2</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../2017/07/25/improve-data-table-readability-with-pipes/">Compare data.table pipes and magrittr pipes</a></li>
+		</ul>
+	</div>
+</div>
 
-</main>
+	
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="../../categories/data.table">Data.Table</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../categories/ggplot">Ggplot</a></li>
+		</ul>
+	</div>
+</div>
+	
+	
+</aside>
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2017 learneR &amp; useR. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
 
-      <footer class="footer">
-        <ul class="footer-links">
-          <li>
-            <a href="../../index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
-          </li>
-          <li>
-            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../images/hugo-logo.png" width="22" height="22"></a>
-          </li>
-        </ul>
-      </footer>
-
-    </div>
-    
-
-    
-
-    
-  </body>
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
 </html>
-
