@@ -6,10 +6,20 @@
     <description>Recent content in Posts on learn R and use R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Aug 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Place text at right location</title>
+      <link>/2017/08/18/place-text-at-right-location/</link>
+      <pubDate>Fri, 18 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/08/18/place-text-at-right-location/</guid>
+      <description>A common tast in plotting is adding texts as labels or annotations to specific locations. ggplot() has functions geom_text(), geom_label() and annotate() for this purpose. In this post we discuss how ggplot2 controls positioning of text.
+First we need to specify (x, y) coordinate in the plot to where the text is placed. As shown in the following example, the actual positioning of the text is sometimes not what you want.</description>
+    </item>
     
     <item>
       <title>ggplot2: aes(group = ...) overrides default grouping</title>

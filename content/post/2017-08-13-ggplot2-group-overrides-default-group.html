@@ -41,14 +41,23 @@ grid.arrange(g1, g2, nrow = 1,
 <div id="what-if-you-do-not-want-the-default-grouping" class="section level2">
 <h2>What if you do not want the default grouping</h2>
 <p>The simplest solution to remove default grouping if it is caused by aesthetic mapping: do not include the mapping in the <code>ggplot(aes())</code> as they are inherited by all layers.</p>
-<p>In other cases we can break the default grouping with <code>aes(group = ...)</code>. It overrides default grouping by explicitly setting the <code>group</code>. I will demonstrate how it works using the simple examples below.</p>
+<p>In all cases we can break the default grouping with <code>aes(group = ...)</code>. It overrides default grouping by explicitly setting the <code>group</code>. I will demonstrate how it works using the simple examples below.</p>
 <p>We have the following data and we want connect the path of all data in <code>x</code> and <code>y</code> space. With the default grouping, the path, however, only connect within each group of <code>x</code>, as <code>x</code> is categorical.</p>
 <pre class="r"><code># make up a simple dummy data frame
 df &lt;- data.frame(x = c(&quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;, &quot;b&quot;, &quot;b&quot;),
                  y = c(1, 2, 3, 4, 4, 3, 2, 1),
                  z = c(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;A&quot;))
-
-ggplot(df, aes(x, y)) +
+df</code></pre>
+<pre><code>##   x y z
+## 1 a 1 A
+## 2 a 2 A
+## 3 a 3 B
+## 4 a 4 B
+## 5 b 4 B
+## 6 b 3 B
+## 7 b 2 A
+## 8 b 1 A</code></pre>
+<pre class="r"><code>ggplot(df, aes(x, y)) +
     geom_point() +
     geom_path() +
     labs(subtitle = &quot;x set the default groups as it is categorical&quot;)</code></pre>
