@@ -6,13 +6,24 @@
     <description>Recent content in Posts on learn R and use R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Aug 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Place text at right location</title>
+      <title>Extract US Census 2010 data with data.table and dplyr</title>
+      <link>/2017/08/29/process-2010-census-data-with-data-table/</link>
+      <pubDate>Tue, 29 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/08/29/process-2010-census-data-with-data-table/</guid>
+      <description>This post explains how to extract information from the original dataset of the US 2010 census summary file 1 with urban/rural update, using data.table or dplyr package in R.
+Why do we want to work with the original data? You may ask, when there are already R packages, such as UScensus2010, censusapi, and tidycensus, which help user get the data.
+The biggest benefit is that you will have full access to all the census 2010 data.</description>
+    </item>
+    
+    <item>
+      <title>ggplot2: place text at right location</title>
       <link>/2017/08/18/place-text-at-right-location/</link>
       <pubDate>Fri, 18 Aug 2017 00:00:00 +0000</pubDate>
       

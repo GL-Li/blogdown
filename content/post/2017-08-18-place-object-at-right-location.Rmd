@@ -1,5 +1,5 @@
 ---
-title: Place text at right location
+title: "ggplot2: place text at right location"
 author: GL Li
 date: '2017-08-18'
 slug: place-text-at-right-location
