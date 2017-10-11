@@ -17,7 +17,7 @@
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/09/14/build-a-r-package-for-yourself/</guid>
-      <description>A R user can benefit a lot from building packages. You don’t have to a be R developer to write packages. Developers write packages for others; you just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use across projects or you may want to use them later. The conventional way to reuse them is to copy and paste them to the new project or to load them by source(xxx.</description>
+      <description>A R user can benefit a lot from building packages. You don’t have to a be R developer to write packages. Developers write packages for others; you can just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use them across projects or you may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by source(xxx.</description>
     </item>
     
     <item>

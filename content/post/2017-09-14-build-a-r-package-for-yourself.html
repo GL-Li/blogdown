@@ -11,22 +11,22 @@ tags:
 
 
 
-<p>A R user can benefit a lot from building packages. You don’t have to a be R developer to write packages. Developers write packages for others; you just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use across projects or you may want to use them later. The conventional way to reuse them is to copy and paste them to the new project or to load them by <code>source(xxx.R)</code>. Either way you need to remember where the functions and datasets are stored, which is not easy job if you have a large collection. If you build the fucntions and datasets into a package, you keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become your great asset.</p>
-<p>Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for yourself and friends, you can save the hassel of publishing it on github or CRAN.</p>
-<p>Here are step by step instructions of building a working package in RStudio. Let’s get started.</p>
+<p>A R user can benefit a lot from building packages. You don’t have to a be R developer to write packages. Developers write packages for others; you can just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use them across projects or you may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by <code>source(xxx.R)</code>, and the conventional way to reuse datasets it to load <code>.Rdata</code> files which store the datasets. You will have to know where the functions and datasets are stored, which is not a easy job if you have a large collection. By building fucntions and datasets into a package, you keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become your great asset.</p>
+<p>Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for yourself, you can save the hassel of publishing it on github or CRAN.</p>
+<p>Below are step by step instructions of building a working package in RStudio. There are many great tutorials for building R packages. I try to make this one to be the simplest and most up to date.</p>
 <div id="preapare-for-a-new-package-project" class="section level2">
 <h2>Preapare for a new package project</h2>
-<p><strong>Step 1 - install necessary packages</strong> Update RStudio if yours is very old. Start RSTudio and install package <code>roxygen2</code>. This package simplifies package documentation.</p>
+<p><strong>Step 1 - install necessary packages</strong> Update RStudio if yours is very old. Start RStudio and install package <code>roxygen2</code>. This package simplifies package documentation.</p>
 <pre class="r"><code>install.packages(&quot;roxygen2&quot;)</code></pre>
-<p><strong>Step 2 - create a new package</strong> From RStudio menu, file –&gt; new project choose to create project in a new directory, then select R package and name you package, for example, as <code>mytoolbox</code> and place it in the directory of your choice.</p>
-<p><strong>Step 3 - allow roxygen2 to take care of documentation</strong> From RStudio menu build –&gt; configure build tools, verify package is selected in Project build tools, check the box for Generate documentation with roxygen, in the popup dialogue box check all boxes.</p>
+<p><strong>Step 2 - create a new package</strong> From RStudio menu, click file then new project and choose to create project in a new directory. Select creating R package and name you package, for example, as <code>mytoolbox</code> and place it in the directory of your choice. RStudio automatically creates several subdirectories and files.</p>
+<p><strong>Step 3 - allow roxygen2 to take care of documentation</strong> From RStudio menu click build then configure build tools, verify package is selected in Project build tools, check the box for Generate documentation with roxygen, in the popup dialogue box check all boxes.</p>
 <p><strong>Step 4 - delete NAMESPACE file</strong> to clear way for roxygen2 to automatically generate this file. Otherwise you will get a warning when building the package.</p>
 </div>
-<div id="create-.r-files-for-functions-in-subdirectory-r" class="section level2">
-<h2>Create <code>.R</code> files for functions in subdirectory <code>/R</code></h2>
-<p>The best practice is to create one <code>.R</code> file for each function. You can have as many files as needed under subdirectory <code>/R</code>.</p>
-<p>The <code>.R</code> file for a function, let’s call it <code>mess_up_function.R</code>, has two sections, as shown in the example code below. The first is comment section but starts with <code>#'</code>, from which roxygens generates documentation of the function. Most elements in the comment section are self-explainatary but pay attention to these two elements: 1) <code>#' @export</code> exports the function for package users. 2) <code>#' @import package_name</code> or <code>#' @importFrom package_name function_1 function_2</code> are to import whole packages or selected functions to be used in building your package. If you use many functions in a package, import the whole package; if only use a couple of functions a lot of times, then just import those functions.</p>
-<p>The second section is the R code where you define the function. If you only need to use a function in another package occasionally, you can do it with <code>pkg_name::func()</code> without importing it. This section is standard R code with one exception: never use <code>library(pkg_name)</code> or <code>require(pkg_name)</code>, as they may mess up with name space.</p>
+<div id="add-a-function-to-the-package" class="section level2">
+<h2>Add a function to the package</h2>
+<p>Create a <code>.R</code> files for the function and save it in subdirectory <code>/R</code>. The best practice is to have only one function in a <code>.R</code> file. You can have as many files as needed for all your functions under subdirectory <code>/R</code>.</p>
+<p>The <code>.R</code> file, let’s call it <code>mess_up_function.R</code>, has two sections, as shown in the example code below. The first is the Roxygen comment section, of which each line starts with <code>#'</code>. Roxygen2 generates documentation of the function from these comments. Most tags in the comment section are self-explainatary, for example <code>@para</code> for parameters and <code>@examples</code> for examples. Pay attention to these three tags: 1) <code>#' @export</code> exports the function for package users. 2) <code>#' @import package_name</code> or <code>#' @importFrom package_name function_1 function_2</code> are to import whole packages or selected functions, depending on how you use these packages in building your own package. Import the whole package if you use many functions in the package; import only selected functions if you know you only need them.</p>
+<p>The second section is the R code where you define your function. This section is standard R code with one exception: never use <code>library(pkg_name)</code> or <code>require(pkg_name)</code> to load packages, as they may mess up with name space. Instead, use <code>#' @import</code> or <code>#' @importFrom</code> as discussed in the Roxygen comment section, or use <code>pkg_name::func()</code>. The later method takes extra 4 microseconds for each run, which is acceptable for processing small datasets.</p>
 <pre class="r"><code>#&#39; mess up function (This is the title.)
 #&#39; 
 #&#39; @description This function mess up with two strings by extracting vowels from
@@ -35,7 +35,7 @@ tags:
 #&#39; @param string_1 the first string
 #&#39; @param string_2 the second string
 #&#39; 
-#&#39; @return string 
+#&#39; @return a string 
 #&#39;
 #&#39; @examples
 #&#39; # example 1
@@ -57,8 +57,8 @@ mess_up &lt;- function(string_1, string_2){
     paste0(string_2, vowels, collapse = &quot;&quot;)
 }</code></pre>
 </div>
-<div id="create-datasets" class="section level2">
-<h2>Create datasets</h2>
+<div id="add-a-dataset-to-the-package" class="section level2">
+<h2>Add a dataset to the package</h2>
 <div id="save-dataset-in-subdirectory-data" class="section level3">
 <h3>save dataset in subdirectory <code>/data</code></h3>
 <p>This dataset can be a vector, a list, a dataframe, or a data table. Let’s call it <code>my_dataset</code>. To add it to the package, simply save it as a <code>.RData</code> file to the subdirectory <code>/data</code> of the package by running</p>
@@ -67,7 +67,7 @@ save(my_dataset, file = &quot;path_to_package/data/my_dataset.RData&quot;)</code
 </div>
 <div id="create-a-.r-file-in-subdirectory-r-to-document-the-dataset" class="section level3">
 <h3>create a <code>.R</code> file in subdirectory <code>/R</code> to document the dataset</h3>
-<p>This dataset is ready to use, but a good practice is always to have a documentation for the dataset. We can make a <code>doc_my_dataset.R</code> file for data documentation. It is almost completely comments starting with <code>#'</code>. The only line of code is dataset name in quotation <code>&quot;my_dataset&quot;</code>, which points to the dataset saved in <code>my_dataset.RData</code>.</p>
+<p>This dataset is ready to use, but a good practice is always to have a documentation for it. We can make a <code>doc_my_dataset.R</code> file for data documentation. The file is almost completely Roxygen comments. The only line of non-comment code is the name of the dataset in quotation <code>&quot;my_dataset&quot;</code>.</p>
 <pre class="r"><code>#&#39; Here is the title of the dataset
 #&#39;
 #&#39; @description More description of the dataset is here
@@ -89,7 +89,7 @@ save(my_dataset, file = &quot;path_to_package/data/my_dataset.RData&quot;)</code
 </div>
 <div id="set-up-the-description-file" class="section level2">
 <h2>Set up the DESCRIPTION file</h2>
-<p>This file mostly provides general information of your package. Many of them you may not care if you just write the package for yourself. But two items are important: 1) If you want to load your dataset whenever loading the package, keep <code>LazyData: true</code>. 2) Place all other packages used in your package under <code>Imports</code>. In case others want to install your package, these packages will installed automatically.</p>
+<p>This file mostly provides general information of your package. Many of them you may not care if you just write the package for yourself. But two items are important: 1) If you want to load your dataset whenever loading the package, keep <code>LazyData: true</code>. 2) Place all other packages used in your package under <code>Imports</code>. In case others want to install your package, these packages will be installed automatically.</p>
 <pre class="r"><code>Package: my_package_name
 Type: Package
 Title: Title of package 
@@ -107,5 +107,5 @@ Imports:
 </div>
 <div id="build-the-package" class="section level2">
 <h2>Build the package</h2>
-<p>The last step is to build the package, which is very easy in RStudio. First clear all object from working space. Then from the menu select Build and then Build and Reload. RStudio will take care of all that follow. After you package is successfully built, you can use you package as any other package in your work with <code>library(mytoolbox)</code> and enjoy the easy access to your functions and datasets.</p>
+<p>The last step is to build the package, which is very easy in RStudio. From the menu select Build and then Build and Reload. RStudio will take care of all that follow. After you package is successfully built, you can use you package as any other package in your work with <code>library(mytoolbox)</code> and enjoy the easy access to your functions and datasets.</p>
 </div>
