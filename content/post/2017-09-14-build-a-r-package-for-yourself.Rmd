@@ -1,0 +1,131 @@
+---
+title: Build a R package for yourself
+author: GL Li
+date: '2017-09-14'
+slug: build-a-r-package-for-yourself
+categories:
+  - package
+tags:
+  - packages
+---
+```{r echo=FALSE}
+library(knitr)
+opts_chunk$set(eval=FALSE)
+```
+
+
+A R user can benefit a lot from building packages. You don't have to a be R developer to write packages. Developers write packages for others; you just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use across projects or you may want to use them later. The conventional way to reuse them is to copy and paste them to the new project or to  load them by `source(xxx.R)`. Either way you need to remember where the functions and datasets are stored, which is not easy job if you have a large collection. If you build the fucntions and datasets into a package, you keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become your great asset.
+
+Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for yourself and friends, you can save the hassel of publishing it on github or CRAN.
+
+Here are step by step instructions of building a working package in RStudio. Let's get started.
+
+## Preapare for a new package project
+
+**Step 1 - install necessary packages** Update RStudio if yours is very old. Start RSTudio and install package `roxygen2`. This package simplifies package documentation.
+```{r}
+install.packages("roxygen2")
+```
+
+**Step 2 - create a new package** From RStudio menu, file --> new project choose to create project in a new directory, then select R package and name you package, for example, as `mytoolbox` and place it in the directory of your choice. 
+
+**Step 3 - allow roxygen2 to take care of documentation** From RStudio menu build --> configure build tools, verify package is selected in Project build tools, check the box for Generate documentation with roxygen, in the popup dialogue box check all boxes. 
+
+**Step 4 - delete NAMESPACE file** to clear way for roxygen2 to automatically generate this file. Otherwise you will get a warning when building the package.
+
+
+## Create `.R` files for functions in subdirectory `/R`
+
+The best practice is to create one `.R` file for each function. You can have as many files as needed under subdirectory `/R`. 
+
+The `.R` file for a function, let's call it `mess_up_function.R`, has two sections, as shown in the example code below. The first is comment section but starts with `#'`, from which roxygens generates documentation of the function. Most elements in the comment section are self-explainatary but pay attention to these two elements: 1) `#' @export` exports the function for package users. 2) `#' @import package_name` or `#' @importFrom package_name function_1 function_2` are to import whole packages or selected functions to be used in building your package. If you use many functions in a package, import the whole package; if only use a couple of functions a lot of times, then just import those functions.  
+
+The second section is the R code where you define the function. If you only need to use a function in another package occasionally, you can do it with `pkg_name::func()` without importing it. This section is standard R code with one exception: never use `library(pkg_name)` or `require(pkg_name)`,  as they may mess up with name space.
+
+```{r}
+#' mess up function (This is the title.)
+#' 
+#' @description This function mess up with two strings by extracting vowels from
+#' the first string and attaching them to the second.
+#'
+#' @param string_1 the first string
+#' @param string_2 the second string
+#' 
+#' @return string 
+#'
+#' @examples
+#' # example 1
+#' mess_up("The United States", "Russia")
+#' 
+#' # example 2
+#' mess_up("Barack Obama", "Donald Trump")
+
+#' @export
+#' 
+#' @importFrom stringr str_extract_all
+
+
+mess_up <- function(string_1, string_2){
+    ## This function extract vowels from string_1 and place it 
+    ## at the end of string_2
+    vowels <- str_extract_all(string_1, "[AEIOUaeiou]")[[1]]
+    vowels <- paste0(vowels, collapse = "")
+    paste0(string_2, vowels, collapse = "")
+}
+```
+
+
+## Create datasets
+### save dataset in subdirectory `/data`
+This dataset can be a vector, a list, a dataframe, or a data table. Let's call it `my_dataset`. To add it to the package, simply save it as a `.RData` file to the subdirectory `/data` of the package by running 
+```{r}
+# one .RData file has ONLY one dataset
+save(my_dataset, file = "path_to_package/data/my_dataset.RData")
+```
+
+### create a `.R` file in subdirectory `/R` to document the dataset
+This dataset is ready to use, but a good practice is always to have a documentation for the dataset. We can make a `doc_my_dataset.R` file for data documentation. It is almost completely comments starting with `#'`. The only line of code is dataset name in quotation `"my_dataset"`, which points to the dataset saved in `my_dataset.RData`.
+```{r}
+#' Here is the title of the dataset
+#'
+#' @description More description of the dataset is here
+#'
+#' @docType data
+#'
+#' @usage data("my_dataset")
+#'
+#' @format data.frame
+#'
+#' @keywords datasets
+#'
+#' @source This is a link to 
+#' \href{http://www.xxx.xxx.com/xxx.csv}{the origin data}
+#'
+
+"my_dataset"
+```
+
+
+
+## Set up the DESCRIPTION file
+This file mostly provides general information of your package. Many of them you may not care if you just write the package for yourself. But two items are important: 1)  If you want to load your dataset whenever loading the package, keep `LazyData: true`. 2) Place all other packages used in your package under `Imports`. In case others want to install your package, these packages will installed automatically.
+
+```{r eval=FALSE}
+Package: my_package_name
+Type: Package
+Title: Title of package 
+Version: 0.1.2
+Author: my name
+Maintainer: my name <myemail@xxx.com>
+Description: Give a little bit more detailed description of the package which can 
+    span multiple lines. 
+License: your_choice
+Encoding: UTF-8
+LazyData: true
+Imports:
+    stringr (>= 1.2.0), 
+    ggplot2 (>= 2.0.0)
+```
+
+## Build the package
+The last step is to build the package, which is very easy in RStudio. First clear all object from working space. Then from the menu select Build and then Build and Reload. RStudio will take care of all that follow. After you package is successfully built, you can use you package as any other package in your work with `library(mytoolbox)` and enjoy the easy access to your functions and datasets.

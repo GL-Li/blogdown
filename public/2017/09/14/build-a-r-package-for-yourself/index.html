@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.25.1" />
+
+
+<title>Build a R package for yourself - learn R and use R</title>
+<meta property="og:title" content="Build a R package for yourself - learn R and use R">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="../../../../css/fonts.css" media="all">
+<link rel="stylesheet" href="../../../../css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="../../../../" class="nav-logo">
+    <img src="../../../../images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="../../../../about/">About</a></li>
+    
+    <li><a href="../../../../projects">Projects</a></li>
+    
+    <li><a href="https://twitter.com/difo_li">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">5 min read</span>
+    
+
+    <h1 class="article-title">Build a R package for yourself</h1>
+
+    
+    <span class="article-date">2017/09/14</span>
+    
+
+    <div class="article-content">
+      <p>A normal R user can benefit a lot from building packages. You don’t need to be R developer to write packages. Developers write packages for others; you just write packages for yourself. As a R user, you must have written functions and collected datasets, and some you want to use across projects or you want to use later. The conventional way to reuse them is to copy and paste them to the new project or to load them by <code>source(xxx.R)</code>. Either way you need to remember where the functions are stored, which is not convenient when you have a lot or you may even forget them one year later. If you build the fucntions and datasets into a package, you keep them in one place and use them the same way as using any packages. With the help of package documentation, these functions and datasets become your great asset.</p>
+<p>Building a R packages is actually far more easier than a average R user could have expected. In RStudio, it is nothing but writing normal R code with special formatted comments. If this package is just for yourself and friend, you can save the hassel of publishing it on github or CRAN.</p>
+<p>Here are step by step instructions of building a working package. Let’s get started.</p>
+<div id="preapare-for-a-new-package-project" class="section level2">
+<h2>Preapare for a new package project</h2>
+<p><strong>Step 1 - install necessary packages</strong> Update RStudio if yours is very old. Start RSTudio and install package <code>roxygen2</code> if you do not have it. This package simplifies package documentation.</p>
+<pre class="r"><code>install.packages(&quot;roxygen2&quot;)</code></pre>
+<p><strong>Step 2 - create a new package</strong> From RStudio menu, file –&gt; new project choose to create project in a new directory, then select R package and name you package, for example, as <code>mytoolbox</code> and place it in the directory of your choice.</p>
+<p><strong>Step 3 - allow roxygen2 to take care of documentation</strong> From RStudio menu build –&gt; configure build tools, verify package is selected in Project build tools, check the box for Generate documentation with roxygen, in the popup dialogue box check all boxes.</p>
+<p><strong>Step 4 - delete NAMESPACE file</strong> to clear way for roxygen2 to automatically generate this file. Otherwise you will get a warning when building the package.</p>
+</div>
+<div id="place-function-and-data-file-in-subdirectory-r" class="section level2">
+<h2>Place function and data file in subdirectory <code>/R</code></h2>
+<p>Now we can turn attention to coding with two examples: add a function and a dataset to the package. We will write a <code>.R</code> file for each and place the files in subdirectory <code>R</code> under the package.</p>
+<div id="r-file-for-a-function" class="section level3">
+<h3><code>.R</code> file for a function</h3>
+<p>The <code>.R</code> file for a function, let’s call it <code>random_function.R</code>, has two basic sections. The first is comment section but starts with <code>#'</code>, from which roxygen generates documentation of the function. Pay attention to these two elements: 1) Set the availability of this function. If you want to this function to be used by users, keep a line of <code>#' @export</code>. 2) How to use other packages. If you use many functions in a package, add a line <code>#' @import pkg_name</code>; if only use a couple of functions a lot of times, add a line <code>#' @importFrom pkg_name func_1 func_2</code>. Once a package or function is imported, it is in the environment of your package and available to all functions in you package, that is, you only need to import once in any <code>.R</code> file in subdirectory R.</p>
+<p>The second section is the R code where you define the function. If you only need to use a function in another package occasionally, you can do it with <code>pkg_name::func()</code> without importing it. This section is standard R code with one exception: never <code>library(pkg_name)</code> or <code>require(pkg_name)</code>, otherwise ??? one sentence for the reason???.</p>
+<pre class="r"><code>#&#39; This is the title of this function
+#&#39; 
+#&#39; @description More description for the function. It is usually brief but can
+#&#39; spans multiple lines
+#&#39;
+#&#39; @param string_1 the first string
+#&#39; @param string_2 the second string
+#&#39; 
+#&#39; @export
+#&#39; 
+#&#39; @importFrom stringr str_extract_all
+#&#39; 
+#&#39; @example
+#&#39; # example 1
+#&#39; mess_up(&quot;The United States&quot;, &quot;Russia&quot;)
+#&#39; 
+#&#39; # example 2
+#&#39; mess_up(&quot;Barack Obama&quot;, &quot;Donald Trump&quot;)
+
+mess_up &lt;- function(string_1, string_2){
+    ## This function extract vowels from string_1 and place it at the end of string_2
+    vowels &lt;- str_extract_all(string_1, &quot;[AEIOUaeiou]&quot;)[[1]]
+    vowels &lt;- paste0(vowels, collapse = &quot;&quot;)
+    paste0(string_2, vowels, collapse = &quot;&quot;)
+}</code></pre>
+</div>
+<div id="r-file-for-a-dataset" class="section level3">
+<h3><code>.R</code> file for a dataset</h3>
+<p>You have a dataset you use it quite often so you want to add it to the package. This dataset can be a vector, a list, a dataframe, or a data table. Let’s call it <code>my_dataset</code>. It is generated in a <code>.R</code> file. To add it to the package, simply save it as a <code>.RData</code> file to the subdirectory <code>/data</code> of the package by running</p>
+<pre class="r"><code>save(my_dataset, file = &quot;path_to_package/data/my_dataset.RData&quot;)</code></pre>
+<p>This dataset is ready to use. But a good practice is always to have a documentation for the dataset. So here is a template of data documentation. It is almost completely comments starting with <code>#' and only line of code is dataset name in quotation</code>“my_dataset”`.</p>
+<pre class="r"><code>#&#39; Here is the title of the dataset
+#&#39;
+#&#39; More description of the dataset is here
+#&#39;
+#&#39; @docType data
+#&#39;
+#&#39; @usage data(&quot;my_dataset&quot;)
+#&#39;
+#&#39; @format data.frame
+#&#39;
+#&#39; @keywords datasets
+#&#39;
+#&#39; @references This is a link to 
+#&#39; \href{http://www.xxx.xxx.com/xxx.csv}{the origin data}
+#&#39;
+
+&quot;my_dataset&quot;</code></pre>
+</div>
+</div>
+<div id="set-up-the-description-file" class="section level2">
+<h2>Set up the DESCRIPTION file</h2>
+<p>This file mostly provides general information of your package. Many of them you may not care if you just write the package for yourself or your friends. But two items are important: 1) If you want to load your dataset whenever loading the package, keep <code>LazyData: true</code>. 2) Place all other packages used in your package under <code>Imports</code>. When users install your package, these packages will installed automatically.</p>
+<pre class="r"><code>Package: my_package_name
+Type: Package
+Title: Title of package 
+Version: 0.1.2
+Author: my name
+Maintainer: my name &lt;myemail@xxx.com&gt;
+Description: Give a little bit more detailed description of the package which can 
+    span multiple lines. 
+License: your_choice
+Encoding: UTF-8
+LazyData: true
+Imports:
+    stringr (&gt;= 1.2.0), 
+    ggplot2 (&gt;= 2.0.0)</code></pre>
+</div>
+
+    </div>
+  </article>
+
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+  <script>
+  var disqus_config = function () {
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var d = document, s = d.createElement('script');
+    s.src = '//gl-li-github-io.disqus.com/embed.js'; s.async = true;
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="../../../../index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../../../images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="../../../../js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
