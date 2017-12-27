@@ -85,12 +85,12 @@ zip_population &lt;- read_acs5year(
     states = &quot;US&quot;,
     geo_headers = &quot;ZCTA5&quot;,
     summary_level = &quot;860&quot;
-)
-
-summary(zip_population$population)
-
-    # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    #    0     714    2780    9656   13040  115104 </code></pre>
+)</code></pre>
+<pre><code>## 
+## Reading US 2016 ACS 5-year survey geography file</code></pre>
+<pre class="r"><code>summary(zip_population$population)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0     714    2780    9656   13040  115104</code></pre>
 </div>
 <div id="median-age-in-a-zcta5" class="section level3">
 <h3>Median age in a ZCTA5</h3>
@@ -108,11 +108,12 @@ median_age &lt;- read_acs5year(
     .[median_age_margin &lt; 0.1 * median_age] %&gt;%
     .[population_margin &lt; 0.1 * population] %&gt;%
     # remove ZCTA5 with population below 1000
-    .[population &gt; 1000]
-
-summary(median_age$median_age)
-    #  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    # 19.00   35.60   40.00   39.89   43.90   75.50 </code></pre>
+    .[population &gt; 1000]</code></pre>
+<pre><code>## 
+## Reading US 2016 ACS 5-year survey geography file</code></pre>
+<pre class="r"><code>summary(median_age$median_age)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   19.00   35.60   39.90   39.89   43.90   75.50</code></pre>
 <p>How are these extreme median ages possible for a zip code area which has thousands population? The young median age is easier to understand - many colleges are assigned exclusively with a zip code and the residents in this zip are mostly students living in dorms so the median age can be very low. The zip code areas with very old median age, though a supprise, are still understandable: these are the communities full of retired people.</p>
 <p>It is said that poeple like to go to South for warm weather after retirement. Can we see this from the median age data? Yes, old people went Florida!</p>
 <pre class="r"><code># download US map
@@ -136,10 +137,7 @@ ggmap(us_map) +
         axis.text = element_blank(),
         axis.ticks = element_blank()
     )</code></pre>
-<div class="figure">
-<img src="../../static/img/zip_old_median_age.png" />
-
-</div>
+<p><img src="../../../../post/2017-12-23-use-totalcensus-package-to-extract-block-level-data-of-boston-grouped-by-zip-code_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 
     </div>
