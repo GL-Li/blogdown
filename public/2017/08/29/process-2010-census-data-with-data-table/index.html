@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.25.1" />
+<meta name="generator" content="Hugo 0.31.1" />
 
 
 <title>Extract US Census 2010 data with data.table and dplyr - learn R and use R</title>
@@ -150,7 +150,6 @@
 <p>Let’s first take a look at the geographic header record file. We convert it to a data.table of which each row is a line in the file. Each line is a string of characters without separator, so we read it into only one column.</p>
 <pre class="r"><code>library(data.table)
 # change path to data based on your local directories
-path_to_data &lt;- &quot;~/dropbox_datasets/US_2010_census/&quot;
 geo_file &lt;- fread(paste0(path_to_data, &quot;IN/ingeo2010.ur1&quot;), 
                   sep = &quot;\n&quot;, 
                   header = FALSE)
@@ -224,7 +223,7 @@ ggmap(map) +
 <p>From the technical documentation we know that population and race information is in file 03. So let’s read this file.</p>
 <pre class="r"><code>f03 &lt;- fread(paste0(path_to_data, &quot;IN/in000032010.ur1&quot;), header = FALSE)</code></pre>
 <pre><code>## 
-Read 93.5% of 331556 rows
+Read 84.5% of 331556 rows
 Read 331556 rows and 199 (of 199) columns from 0.134 GB file in 00:00:03</code></pre>
 <pre class="r"><code># number of rows and columns
 dim(f03)</code></pre>
