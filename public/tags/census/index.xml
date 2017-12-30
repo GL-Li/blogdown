@@ -6,10 +6,20 @@
     <description>Recent content in Census on learn R and use R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Dec 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Dec 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/census/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Using totalcensus package to determine relationship between census geographic entities</title>
+      <link>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
+      <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
+      <description>This is an application example of totalcensus package.
+The geographic hierarchy primer in Census 2010 summary file 1 technical documentation displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other.</description>
+    </item>
     
     <item>
       <title>Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package</title>
