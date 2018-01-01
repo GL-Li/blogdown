@@ -21,7 +21,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 #    url = "https://github.com/GL-Li/police_shooting"
 [[menu.main]]
     name = "Twitter"
-    url = "https://twitter.com/difo_li"
+    url = "https://twitter.com/guanglai_li"
 
 [params]
     description = "learn and use R programming language"
