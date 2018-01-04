@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>learn R and use R</title>
+    <title>R &amp; Census</title>
     <link>/</link>
-    <description>Recent content on learn R and use R</description>
+    <description>Recent content on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 28 Dec 2017 00:00:00 +0000</lastBuildDate>
@@ -94,12 +94,21 @@ Below is an example that compares their readability. The readability of data.tab
     </item>
     
     <item>
-      <title>About</title>
+      <title></title>
       <link>/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>To be completed.</description>
+      <description>This is GL Li&amp;rsquo;s personal website. I love to dig into census data with R to find interesting numbers most people do not know and apply the data to political, social and economic problems. A main focus of this site is to discuss how to process census data with R, in particular, using the totalcensus package I am developing. As a lifelong learner, I also like to share skills and tricks I have learned about R.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/collections/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/collections/</guid>
+      <description> A collection of Interesting online articles Building Dot Density Maps with UK Census Data in R </description>
     </item>
     
     <item>
@@ -108,7 +117,10 @@ Below is an example that compares their readability. The readability of data.tab
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/links/</guid>
-      <description>This is new md file.</description>
+      <description>List of R and census blogs R Bloggers R news and tutorials contributed by (750) R bloggers
+Census Bureau&amp;rsquo;s Blogs Collection of official blogs written by US Census Bureau, includes Director&amp;rsquo;s Blog, Random Sampling, Research Matters, and Global Reach
+The Census Project Blog The Census Project Blog offers commentary on Census and ACS policy and operational issues.
+KYLE WALKER DATA Kyle Walker is the author of tidycensus and tigris packages.</description>
     </item>
     
     <item>
