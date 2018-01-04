@@ -21,10 +21,6 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     url = "/projects/"
     weight = 2
 [[menu.main]]
-    name = "Twitter"
-    url = "https://twitter.com/guanglai_li"
-    weight = 3
-[[menu.main]]
     name = "Blogroll"
     url = "/links/"
     weight = 4

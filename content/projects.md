@@ -1,3 +1,7 @@
+# [totalcensus package: extract census data from summary files](https://github.com/GL-Li/totalcensus)
+The totalcensus package extracts any data available in the raw summary files of decennial census and American Community Survey (ACS) and returns a tidy data.table that can be easily processed with data.table or dplyr packages.
+
+***
 # Fatal police shooting in the United States
 
 ### [Black people are more likely to be killed by police in blue states than in red states](https://github.com/GL-Li/police_shooting)

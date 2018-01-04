@@ -9,5 +9,8 @@ Collection of official blogs written by US Census Bureau, includes [Director's B
 ### [The Census Project Blog](https://thecensusproject.org/blog/)
 The Census Project Blog offers commentary on Census and ACS policy and operational issues.
 
-### [Kyle Walker Ddata](https://walkerke.github.io/)
+### [Kyle Walker Data](https://walkerke.github.io/)
 Kyle Walker is the author of `tidycensus` and `tigris` packages.
+
+### [Yihui's blog](https://yihui.name/en/)
+Yihui is the author of popular packages such as `knitr` and `blogdown`.
