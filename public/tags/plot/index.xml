@@ -8,7 +8,7 @@
     <language>en-us</language>
     <lastBuildDate>Fri, 18 Aug 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,8 +17,61 @@
       <pubDate>Fri, 18 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/08/18/place-text-at-right-location/</guid>
-      <description>A common tast in plotting is adding texts as labels or annotations to specific locations. ggplot() has functions geom_text(), geom_label() and annotate() for this purpose. In this post we discuss how ggplot2 controls positioning of text.
-First we need to specify (x, y) coordinate in the plot to where the text is placed. As shown in the following example, the actual positioning of the text is sometimes not what you want.</description>
+      <description>&lt;p&gt;A common tast in plotting is adding texts as labels or annotations to specific locations. &lt;code&gt;ggplot()&lt;/code&gt; has functions &lt;code&gt;geom_text()&lt;/code&gt;, &lt;code&gt;geom_label()&lt;/code&gt; and &lt;code&gt;annotate()&lt;/code&gt; for this purpose. In this post we discuss how &lt;code&gt;ggplot2&lt;/code&gt; controls positioning of text.&lt;/p&gt;
+&lt;p&gt;First we need to specify &lt;code&gt;(x, y)&lt;/code&gt; coordinate in the plot to where the text is placed. As shown in the following example, the actual positioning of the text is sometimes not what you want. The problem is that &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; are usually vectors or columns of a data frame, which are not easily to be modified.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+df &amp;lt;- data.frame(x = 1:3, 
+                 y = 1:3, 
+                 z = c(&amp;quot;aa\nnew line&amp;quot;, &amp;quot;bb\nnew line 1\nand new line 2&amp;quot;, &amp;quot;cc&amp;quot;))
+g &amp;lt;- ggplot(df, aes(x = x, y = y)) +
+    geom_col() +
+    geom_point(color = &amp;quot;red&amp;quot;) +
+    coord_cartesian(xlim = c(0.3, 3.5), ylim = c(0.5, 3.5))
+g + geom_text(aes(label = z)) +
+    labs(subtitle = &amp;quot;(x, y) set the position of text but usually is not as desired&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;As the text has its own shape and size, we need to determine which part of the text to be superimposed at &lt;code&gt;(x, y)&lt;/code&gt;. This positioning is controlled by parameters &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt;. Imaging the text is surrounded by a rectangle and a local coordinate originates at the bottom left corner of the rectangle, &lt;code&gt;(hjust, vjust)&lt;/code&gt; then is a local position in the local coordinate. By default, &lt;code&gt;hjust = 0.5&lt;/code&gt; and &lt;code&gt;vjust = 0.5&lt;/code&gt;, that is, the center of the rectangle is at &lt;code&gt;(x, y)&lt;/code&gt;. We can change them to match to &lt;code&gt;(x, y)&lt;/code&gt; by borders or corners, as shown in the examples below. The positioning of text is still not ideal as it is too close to &lt;code&gt;(x, y)&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(grid)
+library(gridExtra)
+
+g1 &amp;lt;- g + geom_text(aes(label = z), hjust = 0) +
+    labs(subtitle = &amp;quot;hjust = 0 place left side of the text to (x, y)&amp;quot;)
+g2 &amp;lt;- g + geom_text(aes(label = z), vjust = 1) +
+    labs(subtitle = &amp;quot;vjust = 1 place top of the text to (x, y)&amp;quot;)
+g3 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0) +
+    labs(subtitle = &amp;quot;hjust = 1 and vjust = 0 place tottom\nright cornor of the text to (x, y)&amp;quot;)
+
+grid.arrange(g1, g2, g3, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The parameters &lt;code&gt;nudge_x&lt;/code&gt; and &lt;code&gt;nudge_y&lt;/code&gt; shift whole text along &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; axis. With them we can add a space between text and &lt;code&gt;(x, y)&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;g1 &amp;lt;- g + geom_text(aes(label = z), hjust = 0, nudge_x = 0.1) +
+    labs(subtitle = &amp;quot;nudge_x = 0.1 moves text to the right by 0.1&amp;quot;)
+g2 &amp;lt;- g + geom_text(aes(label = z), vjust = 1, nudge_y = -0.1) +
+    labs(subtitle = &amp;quot;nudge_y = -0.1 moves text down by 0.1&amp;quot;)
+g3 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, nudge_y = 0.1) +
+    labs(subtitle = &amp;quot;nudge_x = -0.1 nudge_y = 0.1 to northwest&amp;quot;)
+
+grid.arrange(g1, g2, g3, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;For multiline text, we also want to adjust the line space. The linespace is set by parameter &lt;code&gt;lineheight&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;g1 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, lineheight = 0) +
+    labs(subtitle = &amp;quot;lineheight = 0&amp;quot;)
+g2 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, lineheight = 0.9) +
+    labs(subtitle = &amp;quot;lineheight = 0.9&amp;quot;)
+g3 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, lineheight = 2) +
+    labs(subtitle = &amp;quot;lineheight = 2&amp;quot;)
+
+grid.arrange(g1, g2, g3, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;As a final note, some people use &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt; to shift text from &lt;code&gt;(x, y)&lt;/code&gt;. This works well to move up and down a single line text but not good to move left and right or multi-line text, as &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt; are relative to dimension of the text. Some bad examples are shown below. So it is better to use &lt;code&gt;nudge_x&lt;/code&gt; and &lt;code&gt;nudge_y&lt;/code&gt; to shift whole text.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;g1 &amp;lt;- g + geom_text(aes(label = z), vjust = 1.3) +
+    labs(subtitle = &amp;quot;vjust = 1.3, more line more space&amp;quot;)
+g2 &amp;lt;- g + geom_text(aes(label = z), hjust = -0.2) +
+    labs(subtitle = &amp;quot;hjust = -0.1, longer lines more space&amp;quot;)
+
+grid.arrange(g1, g2, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -27,9 +80,101 @@ First we need to specify (x, y) coordinate in the plot to where the text is plac
       <pubDate>Sun, 13 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/08/13/ggplot2-group-overrides-default-grouping/</guid>
-      <description>Default grouping in ggplot2 ggplot2 can subset all data into groups and give each group its own appearance or transformation. In many cases new users are not aware that default groups have been created, and are surprised to see the unwanted plot.
-There are two ways in which groups are created implicitly:
- If x or y are categorical variables, the rows of date with the same level form a group.</description>
+      <description>&lt;div id=&#34;default-grouping-in-ggplot2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Default grouping in &lt;code&gt;ggplot2&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;ggplot2&lt;/code&gt; can subset all data into groups and give each group its own appearance or transformation. In many cases new users are not aware that default groups have been created, and are surprised to see the unwanted plot.&lt;/p&gt;
+&lt;p&gt;There are two ways in which groups are created implicitly:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If &lt;code&gt;x&lt;/code&gt; or &lt;code&gt;y&lt;/code&gt; are categorical variables, the rows of date with the same level form a group. Users often overlook this type of default grouping.&lt;/li&gt;
+&lt;li&gt;If aesthetic mapping, such as &lt;code&gt;color&lt;/code&gt;, &lt;code&gt;shape&lt;/code&gt;, and &lt;code&gt;fill&lt;/code&gt;, map to categorical variables, they subset the data into groups. All users know these mappings create groups as data are displayed in different colors or shapes as the names suggest. Many, however, do not know that the default grouping also apply to statistic transformation such as boxplot and smooth.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s use boxplot to explain the default dgrouping. Boxplot displays summary statistics of a group of data. In the left figure, the &lt;code&gt;x&lt;/code&gt; axis is the categorical &lt;code&gt;drv&lt;/code&gt;, which split all data into three groups: &lt;code&gt;4&lt;/code&gt;, &lt;code&gt;f&lt;/code&gt;, and &lt;code&gt;r&lt;/code&gt;. Each group has its own boxplot. In the right figure, aesthetic mapping is included in &lt;code&gt;ggplot(..., aes(..., color = factor(year))&lt;/code&gt;. It displays data points of different years with different colors as expected. It also further split each &lt;code&gt;drv&lt;/code&gt; group into &lt;code&gt;factor(year)&lt;/code&gt; subgroups. The boxplot now applies to all the subgroups, which may or may not be what you want.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+library(grid)
+library(gridExtra)
+
+g1 &amp;lt;- ggplot(mpg, aes(drv, hwy)) +
+    geom_jitter() +
+    stat_boxplot(fill = NA) +
+    labs(subtitle = &amp;quot;stat_boxplot runs on the default groups set by categorical drv&amp;quot;)
+
+g2 &amp;lt;- ggplot(mpg, aes(drv, hwy, color = factor(year))) +
+    geom_jitter() +
+    stat_boxplot(fill = NA) +
+    labs(subtitle = &amp;quot;aes(color) further divides data into more groups&amp;quot;)
+
+grid.arrange(g1, g2, nrow = 1,
+             top = textGrob(&amp;quot;Examples of default grouping created by categorical axis and aesthetic mapping&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-if-you-do-not-want-the-default-grouping&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What if you do not want the default grouping&lt;/h2&gt;
+&lt;p&gt;The simplest solution to remove default grouping if it is caused by aesthetic mapping: do not include the mapping in the &lt;code&gt;ggplot(aes())&lt;/code&gt; as they are inherited by all layers.&lt;/p&gt;
+&lt;p&gt;In all cases we can break the default grouping with &lt;code&gt;aes(group = ...)&lt;/code&gt;. It overrides default grouping by explicitly setting the &lt;code&gt;group&lt;/code&gt;. I will demonstrate how it works using the simple examples below.&lt;/p&gt;
+&lt;p&gt;We have the following data and we want connect the path of all data in &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; space. With the default grouping, the path, however, only connect within each group of &lt;code&gt;x&lt;/code&gt;, as &lt;code&gt;x&lt;/code&gt; is categorical.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# make up a simple dummy data frame
+df &amp;lt;- data.frame(x = c(&amp;quot;a&amp;quot;, &amp;quot;a&amp;quot;, &amp;quot;a&amp;quot;, &amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;b&amp;quot;),
+                 y = c(1, 2, 3, 4, 4, 3, 2, 1),
+                 z = c(&amp;quot;A&amp;quot;, &amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;A&amp;quot;, &amp;quot;A&amp;quot;))
+df&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   x y z
+## 1 a 1 A
+## 2 a 2 A
+## 3 a 3 B
+## 4 a 4 B
+## 5 b 4 B
+## 6 b 3 B
+## 7 b 2 A
+## 8 b 1 A&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y)) +
+    geom_point() +
+    geom_path() +
+    labs(subtitle = &amp;quot;x set the default groups as it is categorical&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;A constant &lt;code&gt;group&lt;/code&gt; removes the default grouping. In the following code, the number &lt;code&gt;123&lt;/code&gt; be any constant such as &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, and &lt;code&gt;group = 123&lt;/code&gt; can be placed outside &lt;code&gt;aes()&lt;/code&gt; as it is a constant. After removing the default grouping, &lt;code&gt;geom_path()&lt;/code&gt; treat all rows as one groups so that there is only one path.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y)) +
+    geom_point() +
+    geom_path(aes(group = 123)) +   # constant group can stay outside of aes()
+    labs(subtitle = &amp;quot;constant group removes categorical grouping in x&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;group-is-for-collective-geoms&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Group is for collective geoms&lt;/h1&gt;
+&lt;p&gt;To better understand the role of &lt;code&gt;group&lt;/code&gt;, we need to know &lt;a href=&#34;https://rpubs.com/hadley/ggplot2-toolbox&#34;&gt;individual geoms and collective geoms&lt;/a&gt;. Geom stands for geometric object. Point plotted with &lt;code&gt;geom_point()&lt;/code&gt; uses one row of data and is an individual geom. Bar plotted with &lt;code&gt;geom_col()&lt;/code&gt; is also an individual geom. A polygon consists of multiple rows of data so it is a collcetive geom. A boxplot is also a collective geom as it is based on the statistic transformation of many rows of data. Individual geoms only depend on one row and do not need &lt;code&gt;group&lt;/code&gt;. Collective geoms need to know groups before making plots.&lt;/p&gt;
+&lt;p&gt;Line and path plot use multiple rows, which qualify them as collective geoms. They, however, retain features of individual geom: each segments can have different style. This is different from polygon, of which all segments must of the same type.&lt;/p&gt;
+&lt;p&gt;Now let’s see how &lt;code&gt;group&lt;/code&gt; acts on individual geoms and collective geoms.&lt;/p&gt;
+&lt;p&gt;We want to connect the path within &lt;code&gt;z&lt;/code&gt; and label them in different colors, what should we do? The first thing jumps out may be &lt;code&gt;aes(color = z)&lt;/code&gt;, but it further breaks the data into four groups, which is not unexpected as we already know how grouping works.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
+    geom_point() +
+    geom_path() +
+    labs(subtitle = &amp;quot;x and color = z split data into 4 groups&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The correct way is to explicitly set the group with &lt;code&gt;aes(group = z)&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
+    geom_point() +
+    geom_path(aes(group = z)) +
+    labs(subtitle = &amp;quot;group = z overrides the default grouping by x&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What if we remove all default grouping with constant &lt;code&gt;group&lt;/code&gt;? It does removes all default grouping for &lt;code&gt;geom_path&lt;/code&gt; as all data points are connected with one path. It, however, preserves color of each segments.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
+    geom_point() +
+    geom_path(aes(group = 123)) +
+    labs(subtitle = &amp;quot;group = 123 removes all default grouping but segments of path retain color&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This will not happen to polygon, a pure collective geom. To draw polygons into groups based on &lt;code&gt;z&lt;/code&gt;, we need to specify &lt;code&gt;group = z&lt;/code&gt; for &lt;code&gt;geom_polygon()&lt;/code&gt;. It overrides all default grouping and we get two distinct polygons.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
+    geom_point() +
+    geom_polygon(aes(group = z), fill = &amp;quot;grey80&amp;quot;) +
+    labs(subtitle = &amp;quot;group = z overrides the default grouping by x&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Set &lt;code&gt;group = 123&lt;/code&gt; removes all the default grouping by both &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;color = z&lt;/code&gt;. The new group is the one of all data. The &lt;code&gt;color&lt;/code&gt; of the segments of the polygon only takes the color of &lt;code&gt;z == &amp;quot;A&amp;quot;&lt;/code&gt; and ignores all other.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
+    geom_point() +
+    geom_polygon(aes(group = 123), fill = &amp;quot;grey80&amp;quot;) +
+    labs(subtitle = &amp;quot;group = 123 removes all default grouping&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -38,8 +183,160 @@ There are two ways in which groups are created implicitly:
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/08/03/a-uniform-way-to-use-ggplot2/</guid>
-      <description>Just finished reading Hadley Wickman’s ggplot2 book, (second eition). Before that I have been using ggplot2 for a couple of years, mainly learned by reading documentation and searching for help online. This package is a powerful and comprehensive tool for generating static plots.
-But I also feel that ggplot2 is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization.</description>
+      <description>&lt;p&gt;Just finished reading Hadley Wickman’s &lt;code&gt;ggplot2&lt;/code&gt; book, (&lt;a href=&#34;http://www.springer.com/us/book/9783319242750&#34;&gt;second eition&lt;/a&gt;). Before that I have been using &lt;code&gt;ggplot2&lt;/code&gt; for a couple of years, mainly learned by reading documentation and searching for help online. This package is a powerful and comprehensive tool for generating static plots.&lt;/p&gt;
+&lt;p&gt;But I also feel that &lt;code&gt;ggplot2&lt;/code&gt; is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. This is not a good feature for a lazy user like me. I just do not want to memorize all these different methods. What I want is an appoach that get the job done, that is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use &lt;code&gt;ggplot2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here I discuss how I like to organize &lt;code&gt;ggplot2&lt;/code&gt; plottings. It is my personal preference. Every one can find their best way. I will give the reason why I am doing this way.&lt;/p&gt;
+&lt;div id=&#34;what-to-be-included-in-ggplot&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What to be included in &lt;code&gt;ggplot()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Every &lt;code&gt;ggplot2&lt;/code&gt; plotting starts with the function &lt;code&gt;ggplot()&lt;/code&gt;. Typically &lt;code&gt;data&lt;/code&gt; and &lt;code&gt;aes()&lt;/code&gt; are included as arguments. The &lt;code&gt;aes()&lt;/code&gt; can include &lt;code&gt;x&lt;/code&gt;, &lt;code&gt;y&lt;/code&gt; and more aesthetic mapping such as &lt;code&gt;color&lt;/code&gt;, &lt;code&gt;shape&lt;/code&gt;, &lt;code&gt;fill&lt;/code&gt;, …, as in the code below,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = mpg, aes(x = displ, y = cty, color = drv, shape = year, fill = cyl))
+# or to simplify
+ggplot((mpg, aes(displ, cty, color = drv, shape = year, fill = cyl)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in these layers, then that is good; you save a few keystroke. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has &lt;code&gt;color&lt;/code&gt; in aesthetic mapping, the fit is applied to each color. You’d better move the &lt;code&gt;color&lt;/code&gt; out of &lt;code&gt;ggplot()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+ggplot(mpg, aes(cty, hwy, color = drv)) +
+    geom_point() +
+    stat_smooth(method = &amp;quot;lm&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;which-to-choose-geom_xxx-or-stat_xxx&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Which to choose, &lt;code&gt;geom_xxx()&lt;/code&gt; or &lt;code&gt;stat_xxx()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;These two functions caused a lot of headache to me. Both &lt;code&gt;geom_xxx()&lt;/code&gt; and &lt;code&gt;stat_xxx()&lt;/code&gt; plot layers. Many &lt;code&gt;geom&lt;/code&gt;s have equivalent &lt;code&gt;stats&lt;/code&gt;, such as &lt;code&gt;geom_smooth()&lt;/code&gt; and &lt;code&gt;stat_smooth()&lt;/code&gt;, &lt;code&gt;geom_bar()&lt;/code&gt; and &lt;code&gt;stat_count&lt;/code&gt;, and &lt;code&gt;geom_boxplot()&lt;/code&gt; and &lt;code&gt;stat_boxplot()&lt;/code&gt;. Even &lt;code&gt;geom_point()&lt;/code&gt; has an equivalent &lt;code&gt;stat_identity()&lt;/code&gt;. So which one to use?&lt;/p&gt;
+&lt;p&gt;I like to use &lt;code&gt;geom_xxx()&lt;/code&gt; for layers that directly plot the original data and &lt;code&gt;stat_xxx()&lt;/code&gt; for layers that plot statistical transformation of the original data. The former includes &lt;code&gt;geom_point()&lt;/code&gt;, &lt;code&gt;geom_line()&lt;/code&gt;, and &lt;code&gt;geom_col()&lt;/code&gt; etc. The latter includes &lt;code&gt;stat_smooth()&lt;/code&gt;, &lt;code&gt;stat_count&lt;/code&gt;, and &lt;code&gt;stat_boxplot()&lt;/code&gt; etc. This a naturla choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with &lt;code&gt;stat&lt;/code&gt;. Using &lt;code&gt;stat_xxx()&lt;/code&gt; has additional benefit: we can choose the right &lt;code&gt;geom&lt;/code&gt; as desired without losing sense of what data are being displayed. In the following code, the counts of &lt;code&gt;drv&lt;/code&gt; are displayed as bar, point and line. No matter what &lt;code&gt;geom&lt;/code&gt; you choose, the &lt;code&gt;stat_count&lt;/code&gt; always explicitly tells you that you are plotting the count.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mpg, aes(drv)) +
+    stat_count(geom = &amp;quot;bar&amp;quot;, fill = &amp;quot;grey70&amp;quot;) +
+    stat_count(geom = &amp;quot;point&amp;quot;, size = 6, color = &amp;quot;blue&amp;quot;) +
+    stat_count(geom = &amp;quot;line&amp;quot;, aes(group = 1), color = &amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;A few words about bar plot. Above count of one categorical variable are often plotted with &lt;code&gt;geom_bar()&lt;/code&gt;. The awkward thing is that &lt;code&gt;geom_bar(stat = &amp;quot;identity&amp;quot;)&lt;/code&gt; also make bar plot when two variables &lt;code&gt;aes(x, y)&lt;/code&gt; are provided. To solve this issue, &lt;code&gt;ggplot2&lt;/code&gt; version 2.2.0 introduced &lt;code&gt;geom_col(aes(x, y))&lt;/code&gt; to take care bar plot from two variables. With &lt;code&gt;stat_count()&lt;/code&gt; and &lt;code&gt;geom_col()&lt;/code&gt;, &lt;code&gt;geom_bar()&lt;/code&gt; are ready to retire.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;how-to-organize-axis-and-legend&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;How to organize axis and legend&lt;/h2&gt;
+&lt;p&gt;Almost all components regarding axis and legend can be specified in &lt;code&gt;scale_xxx_xxx()&lt;/code&gt; funtions. You will get the job done by only using them. The code may be too busy though. Several help functions do part of &lt;code&gt;scale_xxx_xxx()&lt;/code&gt;’s job and make the code succint, such as &lt;code&gt;xlab()&lt;/code&gt; and &lt;code&gt;ylim()&lt;/code&gt;. But these help functions also make code less structured.&lt;/p&gt;
+&lt;p&gt;I like two help functions: &lt;code&gt;labs()&lt;/code&gt; sets titles of all axis and lengends and &lt;code&gt;guides()&lt;/code&gt; arranges multiple legends. Together with &lt;code&gt;scale_xxx_xxx()&lt;/code&gt;, the three take care axis and legend in a logical way:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;scale_xxx_xxx()&lt;/code&gt; determines what to show. They are used to set limits, breaks and labels of each aesthetics, which are the real data to show.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;guides()&lt;/code&gt; determines how to display. It is a best practice to arrange each legend by considering all others the same time.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;labs()&lt;/code&gt; determines how to call them. It names axis and legend in one place by treating all axis and legend as a whole, which helps to name them in the same style.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mpg, aes(hwy, cty, color = factor(cyl), shape = drv)) +
+    geom_point(aes(size = displ)) +
+    # what to display
+    scale_x_continuous(limits = c(0, 50),
+                       breaks = c(0, 20, 40),
+                       labels = c(&amp;quot;zero&amp;quot;, &amp;quot;twenty&amp;quot;, &amp;quot;fourty&amp;quot;), 
+                       minor_breaks = c(5, 10, 15)) +
+    scale_y_continuous(labels = NULL) +   # remove labels with NULL
+    scale_color_discrete(breaks = c(4, 5, 6, 8), 
+                         labels = c(&amp;quot;four&amp;quot;, &amp;quot;five&amp;quot;, &amp;quot;six&amp;quot;, &amp;quot;eight&amp;quot;)) + # asign colors by default
+                                    
+    scale_shape_manual(limits = c(&amp;quot;f&amp;quot;, &amp;quot;r&amp;quot;),      # manually select shape
+                       values = c(f = 0, r = 2)) +
+    # how to display
+    guides(
+        size = &amp;quot;none&amp;quot;,  # hide size
+        color = guide_legend(direction = &amp;quot;horizontal&amp;quot;,
+                             title.position = &amp;quot;top&amp;quot;,
+                             nrow = 2,
+                             byrow = TRUE,  # arrange row by row, default is by column
+                             order = 1),    # first legend to show
+        shape = guide_legend(direction = &amp;quot;vertical&amp;quot;,
+                             reverse = TRUE)  # reverse order of legend keys
+    ) +
+    # what&amp;#39;s your name
+    labs(title = &amp;quot;Use labs(), scale_xxx(), guides() for legend and axis&amp;quot;,
+         subtitle = &amp;quot;scale_xxx for what to display, guides for how to display, labs for titles&amp;quot;,
+         x = &amp;quot;highway mileage&amp;quot;,
+         y = &amp;quot;city mileage&amp;quot;, 
+         color = &amp;quot;cylinder&amp;quot;, 
+         shape = &amp;quot;drive train&amp;quot;, 
+         size = &amp;quot;haha you cannot see me&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;lets-do-a-quick-annotation-with-annotate&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Let’s do a quick annotation with &lt;code&gt;annotate()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Annotation with &lt;code&gt;annotate()&lt;/code&gt; is handy when you simply want to draw something using vectors. It can draw &lt;code&gt;text&lt;/code&gt;, &lt;code&gt;segment&lt;/code&gt;, &lt;code&gt;rect&lt;/code&gt;, and pretty much everything &lt;code&gt;geom_xxx()&lt;/code&gt; offers. Do not get confused with &lt;code&gt;geom_text()&lt;/code&gt; and &lt;code&gt;geom_segment()&lt;/code&gt;, and &lt;code&gt;geom_rect&lt;/code&gt;, …, which use dataframes. Reserve &lt;code&gt;annotate()&lt;/code&gt; for drawing simple things manually and it belongs to its own group.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mpg, aes(displ, hwy, color = drv)) +
+    geom_point() +
+    annotate(&amp;quot;text&amp;quot;, x = 6, y = 35, label = &amp;quot;These big guys\nare gas efficient&amp;quot;) +
+    annotate(&amp;quot;segment&amp;quot;, x = c(5.8, 6, 6.2), y = 32.5, 
+             xend = c(5.7, 6.15, 6.9), yend = c(27, 27, 25.1),
+             arrow = arrow(angle = 20, length = unit(2, &amp;quot;mm&amp;quot;), type = &amp;quot;closed&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;finally-a-comprehensive-example&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Finally a comprehensive example&lt;/h2&gt;
+&lt;p&gt;In addition to the confusing parts discussed above, a normal &lt;code&gt;ggplot2&lt;/code&gt; plot may contains &lt;code&gt;position&lt;/code&gt;, &lt;code&gt;facet&lt;/code&gt;, and of course &lt;code&gt;theme()&lt;/code&gt;. I will conclude this post with an example that covers all major components of a &lt;code&gt;ggplot2&lt;/code&gt; plot. This is the uniform way I am using &lt;code&gt;ggplot2&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mpg, aes(factor(cyl), cty)) +
+    # leave color and size in geom_point() so that stat_boxplot works on all data
+    geom_point(aes(color = drv, size = displ), position = &amp;quot;jitter&amp;quot;) +
+    stat_boxplot(fill = NA) + 
+    facet_wrap(~year) +
+
+    # === take care axis and legend ===
+    
+    # determine what values and labels to display
+    scale_x_discrete(breaks = c(4, 5, 6, 8),
+                     labels = c(&amp;quot;Four&amp;quot;, &amp;quot;Five&amp;quot;, &amp;quot;Six&amp;quot;, &amp;quot;Eight&amp;quot;)) +
+    scale_y_continuous(limits = c(4, 36),
+                       breaks = 1:4 * 8) +
+    scale_color_manual(breaks = c(&amp;quot;4&amp;quot;, &amp;quot;f&amp;quot;, &amp;quot;r&amp;quot;),
+                       values = c(&amp;quot;4&amp;quot; = &amp;quot;red&amp;quot;, &amp;quot;f&amp;quot; = &amp;quot;blue&amp;quot;, &amp;quot;r&amp;quot; = &amp;quot;cyan&amp;quot;),
+                       labels = c(&amp;quot;four-wheel&amp;quot;, &amp;quot;front-wheel&amp;quot;, &amp;quot;rear-wheel&amp;quot;)) +
+    scale_size_area(limits = c(2, 7),
+                          max_size = 4) +
+    
+    # make arrangement for each legend
+    guides(
+        size = guide_legend(
+            title.position = &amp;quot;top&amp;quot;,
+            nrow = 2,
+            byrow = TRUE,
+            override.aes = list(shape = 1),
+            reverse = TRUE
+        ),
+        color = guide_legend(
+            order = 1,
+            nrow = 3,
+            override.aes = list(size = 3)
+        )
+    ) +
+    
+    # using labs() for all of the titles and labels in one place
+    labs(title = &amp;quot;This plot displays all major ggplot components&amp;quot;,
+         subtitle = &amp;quot;including data, aes mapping, geom, stat, position, facet, scale, guides, annotaion, and theme&amp;quot;,
+         caption = &amp;quot;Source: what so ever&amp;quot;,
+         x = &amp;quot;Cylinders&amp;quot;,
+         y = &amp;quot;City Mileage (miles/gallon)&amp;quot;,
+         color = NULL,
+         size = &amp;quot;displacement&amp;quot;) +
+    
+    # === provide extra information ===
+    
+    # annotate extra geoms mannually. Play with geom_text() if want to label in
+    # a specific facet panel
+    annotate(&amp;quot;text&amp;quot;, x = 0.5, y = 6, label = &amp;quot;boxplot is applied to all data&amp;quot;, 
+             hjust = 0, vjust = 1) +
+    
+    # === use theme() to make it beautiful ===
+    
+    theme(plot.background = element_rect(fill = &amp;quot;#F5E6E3&amp;quot;),
+          plot.title = element_text(family = &amp;quot;monospace&amp;quot;),
+          plot.subtitle = element_text(face = &amp;quot;italic&amp;quot;),
+          panel.background = element_rect(fill = &amp;quot;lightblue&amp;quot;, color = &amp;quot;red&amp;quot;),
+          panel.grid.major.y = element_line(color = &amp;quot;grey95&amp;quot;, size = 0.2),
+          panel.grid.minor.y = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title = element_text(family = &amp;quot;monospace&amp;quot;),
+          legend.position = &amp;quot;top&amp;quot;,
+          legend.key = element_blank(),
+          legend.margin = margin(0, 0, 0, 0),
+          legend.background = element_blank(),
+          strip.background = element_blank(),
+          strip.text = element_text(size = 12))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
   </channel>

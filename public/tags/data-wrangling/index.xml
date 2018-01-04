@@ -8,7 +8,7 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 29 Aug 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/data-wrangling/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/data-wrangling/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,9 +17,294 @@
       <pubDate>Tue, 29 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/08/29/process-2010-census-data-with-data-table/</guid>
-      <description>This post explains how to extract information from the original dataset of the US 2010 census summary file 1 with urban/rural update, using data.table or dplyr package in R.
-Why do we want to work with the original data? You may ask, when there are already R packages, such as UScensus2010, censusapi, and tidycensus, which help user get the data.
-The biggest benefit is that you will have full access to all the census 2010 data.</description>
+      <description>&lt;p&gt;This post explains how to extract information from the original dataset of the US 2010 census summary file 1 with urban/rural update, using data.table or dplyr package in R.&lt;/p&gt;
+&lt;p&gt;Why do we want to work with the original data? You may ask, when there are already R packages, such as UScensus2010, censusapi, and tidycensus, which help user get the data.&lt;/p&gt;
+&lt;p&gt;The biggest benefit is that you will have full access to all the census 2010 data. The total size of the US 2010 national census summary 1 file with urban/rural update is nearly 150Gb, which is too heavy to be included as dataset in a package. The stand-alone UScensus2010 package only delivers selected demographic data. Others provide an access to United States Census Bureau’s APIs, which also offers selected data. By dealing with the original data diretly, you can extract whatever data you want.&lt;/p&gt;
+&lt;p&gt;In recent years, fast development of packages data.table and dplyr makes it possible for R to process original 2010 census data in a reasonable time frame. In the following example, I retrieved the latitude, longitude, population of all race and of black people living in each census block in the city of South Bend Indiana. The whole process takes about 4 seconds on a four years old laptop. With these data in hand we can plot nicely where black people live down to census block level on a map downloaded from GoogleMap. In a city most census blocks are equivalent to street blocks.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-29-process-2010-census-data-with-data-table_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This post is organized in this order: I will first give a brief introduction to the 2010 census summary file 1 with urban/rural update. Then I will show how to extract data step by step using R and data.table package with the example shown above. The codes are verbose in this section as I want to show the details. To clean it up I will then give a more concise codes that use pipe operator from magrittr package. As many users are more familiar with dplyr package, I will also translate the data.table code to dplyr code. The dplyr approach is sufficiently fast for most applications.&lt;/p&gt;
+&lt;div id=&#34;file-structure-of-the-census-2010-summary-1-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;File structure of the census 2010 summary 1 file&lt;/h2&gt;
+&lt;p&gt;The 2010 census data with urban/rural update can be downloaded from &lt;a href=&#34;https://www2.census.gov/census_2010/04-Summary_File_1/Urban_Rural_Update/&#34;&gt;United States Census Bureau official site&lt;/a&gt;. The total size is nearly 150 GB so make sure you have enough hard drive space for it. The data is split into 50 states and DC. Click on a state, for example, Indiana, there is a file named in2010.ur1.zip. Download this file and unzip it to a folder named with the abbriation “IN”. Do this for all other state and DC.&lt;/p&gt;
+&lt;p&gt;Inside the folder “IN/” there are a geographic header record file named &lt;code&gt;ingeo2010.ur1&lt;/code&gt; and 48 data files named as &lt;code&gt;in000012010.ur1&lt;/code&gt;, &lt;code&gt;in000022010.ur1&lt;/code&gt;, …, &lt;code&gt;in000482010.ur1&lt;/code&gt;. The first two characters &lt;code&gt;in&lt;/code&gt; is the abbrivation of Indiana. The file extension &lt;code&gt;ur1&lt;/code&gt; stands for summary file &lt;strong&gt;1&lt;/strong&gt; with &lt;strong&gt;u&lt;/strong&gt;rban &lt;strong&gt;r&lt;/strong&gt;ural update. The last four numbers &lt;code&gt;2010&lt;/code&gt; before file extension indicate the census year 2010. The numbers &lt;code&gt;00001&lt;/code&gt;, &lt;code&gt;00002&lt;/code&gt;, …, and &lt;code&gt;00048&lt;/code&gt; are the sequence of the files. These files are called &lt;code&gt;file 01&lt;/code&gt;, &lt;code&gt;file 02&lt;/code&gt;, …, and &lt;code&gt;file 48&lt;/code&gt; in the &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;techinical documentation of the summary file 1&lt;/a&gt;. The documentation is our dictionary in using these files and we will talk more about it later.&lt;/p&gt;
+&lt;p&gt;The geographic header record file &lt;code&gt;ingeo2010.ur1&lt;/code&gt; contains the geographic information. It has 331556 lines; each line corresponds to a geographic entity in the census data of Indiana. A geographic entity can be a state, a county, a city, a census tract, a census block etc. A line can be up to 500 characters long, including spaces. Unique to each line is the logical record number, which is 7 characters long, located from 19 to 25 characters in a line. Page 2-8 of the techincal documentation lists all geographic field in a line. Each field is assigned with a short reference code. Here are list of frequently use ones:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th&gt;geographic field&lt;/th&gt;
+&lt;th&gt;reference&lt;/th&gt;
+&lt;th&gt;starting position&lt;/th&gt;
+&lt;th&gt;ending position&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;logical record number&lt;/td&gt;
+&lt;td&gt;LOGRECNO&lt;/td&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;summary level&lt;/td&gt;
+&lt;td&gt;SUMLEV&lt;/td&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;geographic component&lt;/td&gt;
+&lt;td&gt;GEOCOMP&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;county FIPS&lt;/td&gt;
+&lt;td&gt;COUNTY&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;place FIPS&lt;/td&gt;
+&lt;td&gt;PLACE&lt;/td&gt;
+&lt;td&gt;46&lt;/td&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;Metropolitan Area FIPS&lt;/td&gt;
+&lt;td&gt;CBSA&lt;/td&gt;
+&lt;td&gt;113&lt;/td&gt;
+&lt;td&gt;117&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;internal point (latitude)&lt;/td&gt;
+&lt;td&gt;INTPTLAT&lt;/td&gt;
+&lt;td&gt;337&lt;/td&gt;
+&lt;td&gt;347&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;internal point (longitude)&lt;/td&gt;
+&lt;td&gt;INTPTLON&lt;/td&gt;
+&lt;td&gt;348&lt;/td&gt;
+&lt;td&gt;359&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The data files contain the recorded census data. They are &lt;code&gt;.csv&lt;/code&gt; files, that is, each data field is seperated by a comma. For example, file 02 contains the population in urban and rural area. Its 5th field is the logical record number that matches the geographic header record file. The 6th field is total population, 7th field urban population, 8th field populaition in urbanized area, … The properties of each field is listed in the technical documentation. If you want to know the details of, for example file 17, just search in the pdf file of the technical documentation for “file 17” and read through the description.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extract-the-2010-census-data-step-by-step&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extract the 2010 census data step by step&lt;/h2&gt;
+&lt;p&gt;Say we are interested in the population and race in the city of South Bend, Indiana and we want to plot these data on a map at census block level, what should we do? I will use this as an example to show how to extract 2010 census data in detail.&lt;/p&gt;
+&lt;div id=&#34;read-and-extract-geographic-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;read and extract geographic data&lt;/h3&gt;
+&lt;p&gt;Let’s first take a look at the geographic header record file. We convert it to a data.table of which each row is a line in the file. Each line is a string of characters without separator, so we read it into only one column.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
+# change path to data based on your local directories
+geo_file &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/ingeo2010.ur1&amp;quot;), 
+                  sep = &amp;quot;\n&amp;quot;, 
+                  header = FALSE)
+# show total number of lines
+dim(geo_file)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 331556      1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# display the first line
+head(geo_file, 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                                                                                                                                                                                                                                                                                                                                                                                               V1
+## 1: UR1ST IN04000000  00000012318                                                                                                                                                                            92789193658    1537004191Indiana                                                                                   AN  6483802  2795541+39.9030256-086.283950300            00448508&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This file has 331556 lines. There are many blank spaces in a line as a geographic entity usually does not have all the geographic fields.&lt;/p&gt;
+&lt;p&gt;We want get the logical record number, which is used to match those in data file, and latitude and longitude for plot in map. We want to keep the FIPS of place so that later on we can locate South Bend city with its FIPS number. We also want keep summary levels as we only want data at census blocks level. The references of geographic fields are used as column names.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geo &amp;lt;- geo_file[, .(LOGRECNO = as.numeric(substr(V1, 19, 25)),
+                    SUMLEV = substr(V1, 9, 11),
+                    PLACE = substr(V1, 46, 50),
+                    INTPTLAT = as.numeric(substr(V1, 337, 347)),
+                    INTPTLON = as.numeric(substr(V1, 348, 359)))]
+geo&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         LOGRECNO SUMLEV PLACE INTPTLAT  INTPTLON
+##      1:        1    040       39.90303 -86.28395
+##      2:        2    040       40.13668 -86.23489
+##      3:        3    040       40.43883 -86.21876
+##      4:        4    040       40.12984 -86.21021
+##      5:        5    040       39.92054 -86.27358
+##     ---                                         
+## 331552:   331552    970       41.63835 -85.55221
+## 331553:   331553    970       41.67686 -87.49205
+## 331554:   331554    970       41.15086 -85.66872
+## 331555:   331555    970       39.35130 -86.03878
+## 331556:   331556    970       41.63419 -87.20929&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The column &lt;code&gt;PLACE&lt;/code&gt; has a lot of missing values, as many geographic entities does not belong to any place.&lt;/p&gt;
+&lt;p&gt;Now we can extract geographic data of South Bend. An easy way to find its FIPS number is from &lt;a href=&#34;https://en.wikipedia.org/wiki/South_Bend,_Indiana&#34;&gt;its Wikipedia page&lt;/a&gt;. South Bend’s FIPS is 18-71000. The first two digits are the FIPS of Indiana, so the unique FIPS in Indiana for South Bend is 71000. Let’s keep only the rows for South Bend (sb).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sb_geo &amp;lt;- geo[PLACE == &amp;quot;71000&amp;quot;]
+sb_geo&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       LOGRECNO SUMLEV PLACE INTPTLAT  INTPTLON
+##    1:   241621    070 71000 41.61875 -86.24093
+##    2:   241622    080 71000 41.63354 -86.22549
+##    3:   241623    085 71000 41.63354 -86.22549
+##    4:   241624    091 71000 41.63525 -86.21833
+##    5:   241625    090 71000 41.63525 -86.21833
+##   ---                                         
+## 5461:   321382    614 71000 41.72872 -86.26427
+## 5462:   324739    624 71000 41.70951 -86.20096
+## 5463:   324774    624 71000 41.66799 -86.23096
+## 5464:   324810    624 71000 41.66797 -86.27524
+## 5465:   324851    624 71000 41.70286 -86.27826&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This geographic data includes all summary levels. As we only want the census block level data, we further filt with &lt;code&gt;SUMLEV == &amp;quot;100&amp;quot;&lt;/code&gt;. At this stage we get the geographic data we want.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sb_block &amp;lt;- sb_geo[SUMLEV == &amp;quot;100&amp;quot;]
+sb_block&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       LOGRECNO SUMLEV PLACE INTPTLAT  INTPTLON
+##    1:   241626    100 71000 41.63613 -86.21864
+##    2:   241627    100 71000 41.63670 -86.21659
+##    3:   241628    100 71000 41.63573 -86.22172
+##    4:   241629    100 71000 41.63182 -86.22022
+##    5:   241630    100 71000 41.63367 -86.22093
+##   ---                                         
+## 5002:   252566    100 71000 41.69486 -86.25132
+## 5003:   252567    100 71000 41.69649 -86.25815
+## 5004:   253091    100 71000 41.73058 -86.35508
+## 5005:   253092    100 71000 41.73035 -86.35565
+## 5006:   253093    100 71000 41.72831 -86.35573&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Are we sure we get the correct geographic data? We can plot the latitude and longitude directly on a map. From the map below you will also get a sense of what a census block is; it is basicly a street block in urban area. We need internet connection to download map data from Google Map.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggmap)
+map &amp;lt;- get_map(&amp;quot;south bend, indiana&amp;quot;, zoom = 13)
+ggmap(map) +
+    geom_point(data = sb_block, aes(INTPTLON, INTPTLAT), color = &amp;quot;red&amp;quot;, alpha = 0.3)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-08-29-process-2010-census-data-with-data-table_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;read-and-extract-population-and-race-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;read and extract population and race data&lt;/h3&gt;
+&lt;p&gt;From the technical documentation we know that population and race information is in file 03. So let’s read this file.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f03 &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1&amp;quot;), header = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+Read 84.5% of 331556 rows
+Read 331556 rows and 199 (of 199) columns from 0.134 GB file in 00:00:03&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# number of rows and columns
+dim(f03)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 331556    199&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It has 199 coloumns; which ones are what we want? We still go back to the techincal documentation, page 6-22, and read the description for file 03. The 5th field is logical record number, 6th the total population data and 8th the black population data. Each population data field also has a reference but is hard to follow. For clarity we name these coloumn in plain English. So all the data we need in Indiana is&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;population &amp;lt;- f03[, .(LOGRECNO = V5,
+                      total_popul = V6,
+                      black_popul = V8)]
+population&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         LOGRECNO total_popul black_popul
+##      1:        1     6483802      591397
+##      2:        2     4697100      580128
+##      3:        3     3836584      560288
+##      4:        4      860516       19840
+##      5:        5     1786702       11269
+##     ---                                 
+## 331552:   331552       18918          24
+## 331553:   331553        4636         154
+## 331554:   331554       10537          25
+## 331555:   331555         560         100
+## 331556:   331556           0           0&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;From here it is easy to get the population in South Bend at census block level: just join the data to &lt;code&gt;sb_block&lt;/code&gt; by logical record number:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sb_block_popl &amp;lt;- population[sb_block, on = .(LOGRECNO)]
+sb_block_popl&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       LOGRECNO total_popul black_popul SUMLEV PLACE INTPTLAT  INTPTLON
+##    1:   241626          28          10    100 71000 41.63613 -86.21864
+##    2:   241627           0           0    100 71000 41.63670 -86.21659
+##    3:   241628          52          16    100 71000 41.63573 -86.22172
+##    4:   241629         279          21    100 71000 41.63182 -86.22022
+##    5:   241630          42           1    100 71000 41.63367 -86.22093
+##   ---                                                                 
+## 5002:   252566          64           0    100 71000 41.69486 -86.25132
+## 5003:   252567           0           0    100 71000 41.69649 -86.25815
+## 5004:   253091           0           0    100 71000 41.73058 -86.35508
+## 5005:   253092           0           0    100 71000 41.73035 -86.35565
+## 5006:   253093           0           0    100 71000 41.72831 -86.35573&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There is no need to keep the blocks where there are no people lives.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sb_block_popul &amp;lt;- sb_block_popl[total_popul &amp;gt; 0]
+sb_block_popul&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       LOGRECNO total_popul black_popul SUMLEV PLACE INTPTLAT  INTPTLON
+##    1:   241626          28          10    100 71000 41.63613 -86.21864
+##    2:   241628          52          16    100 71000 41.63573 -86.22172
+##    3:   241629         279          21    100 71000 41.63182 -86.22022
+##    4:   241630          42           1    100 71000 41.63367 -86.22093
+##    5:   241631          48           3    100 71000 41.63525 -86.21833
+##   ---                                                                 
+## 3780:   252543          75           6    100 71000 41.66027 -86.32578
+## 3781:   252551          36           0    100 71000 41.69367 -86.24275
+## 3782:   252559         360          11    100 71000 41.69560 -86.25924
+## 3783:   252561          14           0    100 71000 41.69583 -86.25781
+## 3784:   252566          64           0    100 71000 41.69486 -86.25132&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;plot-on-map-at-block-level&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;plot on map at block level&lt;/h3&gt;
+&lt;p&gt;Now we can plot total and black population on the map. This is the same map we saw at the beginning of the post. It is not shown here.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggmap(map) +
+    geom_point(data = sb_block_popul, 
+               aes(INTPTLON, INTPTLAT, size = total_popul,  color = &amp;quot;red&amp;quot;), 
+               alpha = 0.6) +
+    # remove row with 0 black population, otherwise show a small dot
+    geom_point(data = sb_block_popul[black_popul &amp;gt; 0], 
+               aes(INTPTLON, INTPTLAT, size = black_popul, color = &amp;quot;blue&amp;quot;), 
+               alpha = 0.6) +
+    scale_size_area(breaks = c(1, 50, 100, 300, 600, 1000)) +
+    scale_color_identity(guide = &amp;quot;legend&amp;quot;, 
+                         breaks = c(&amp;quot;red&amp;quot;, &amp;quot;blue&amp;quot;),
+                         label = c(&amp;quot;all&amp;quot;, &amp;quot;black&amp;quot;)) +
+    labs(color = &amp;quot;race&amp;quot;, size = &amp;quot;population&amp;quot;) +
+    guides(size = guide_legend(override.aes = list(shape = 1)))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;more-concise-code&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;More concise code&lt;/h2&gt;
+&lt;div id=&#34;the-data.table-way&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;the data.table way&lt;/h3&gt;
+&lt;p&gt;The above codes that select South Bend data can be squeezed with pipe operator &lt;code&gt;%&amp;gt;%&lt;/code&gt; to get rid of intermeidate variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
+library(magrittr)
+
+## An example to retrieve and plot the total and black population at the census
+## black level of the city South Bend in Indiana
+
+# the directory holding all census 2010 data
+path_to_data &amp;lt;- &amp;quot;~/dropbox_datasets/US_2010_census/&amp;quot;
+
+# geographic record of South Bend (sb) at census block level
+sb_block &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/ingeo2010.ur1&amp;quot;), sep = &amp;quot;\n&amp;quot;, 
+                  header = FALSE) %&amp;gt;%
+    .[, .(LOGRECNO = as.numeric(substr(V1, 19, 25)),
+          SUMLEV = substr(V1, 9, 11),
+          PLACE = substr(V1, 46, 50),
+          INTPTLAT = as.numeric(substr(V1, 337, 347)),
+          INTPTLON = as.numeric(substr(V1, 348, 359)))] %&amp;gt;%
+    .[PLACE == &amp;quot;71000&amp;quot; &amp;amp; SUMLEV == &amp;quot;100&amp;quot;]
+
+# total and black population of South Bend at census block level
+sb_block_popul &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1&amp;quot;), 
+                       header = FALSE) %&amp;gt;%
+    .[, .(LOGRECNO = V5,
+          total_popul = V6,
+          black_popul = V8)] %&amp;gt;%
+    .[sb_block, on = .(LOGRECNO)] %&amp;gt;%
+    .[total_popul &amp;gt; 0]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-dplyr-approach&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;the dplyr approach&lt;/h3&gt;
+&lt;p&gt;We still use data.table’s &lt;code&gt;fread()&lt;/code&gt; to read the data but use dplyr functions to process data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
+library(dplyr)
+path_to_data &amp;lt;- &amp;quot;~/dropbox_datasets/US_2010_census/&amp;quot;
+
+sb_block &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/ingeo2010.ur1&amp;quot;), sep = &amp;quot;\n&amp;quot;, 
+                  header = FALSE) %&amp;gt;%
+    transmute(
+        LOGRECNO = as.numeric(substr(V1, 19, 25)),
+        SUMLEV = substr(V1, 9, 11),
+        PLACE = substr(V1, 46, 50),
+        INTPTLAT = as.numeric(substr(V1, 337, 347)),
+        INTPTLON = as.numeric(substr(V1, 348, 359))
+    ) %&amp;gt;%
+    filter(PLACE == &amp;quot;71000&amp;quot; &amp;amp; SUMLEV == &amp;quot;100&amp;quot;)
+
+sb_block_popul &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1&amp;quot;), header = FALSE) %&amp;gt;%
+    transmute(
+        LOGRECNO = V5,
+        total_popul = V6,
+        black_popul = V8
+    ) %&amp;gt;%
+    right_join(sb_block, by = &amp;quot;LOGRECNO&amp;quot;) %&amp;gt;%
+    filter(total_popul &amp;gt; 0)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -28,8 +313,84 @@ The biggest benefit is that you will have full access to all the census 2010 dat
       <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/07/25/improve-data-table-readability-with-pipes/</guid>
-      <description>There are two ways to chain data.table operation, using data.table pipes or using magrittr pipes. For a data.table dt, the data.table pipes take the form of dt[][][]... and magrittr pipes dt %&amp;gt;% .[] %&amp;gt;% .[] %&amp;gt;% ....
-Below is an example that compares their readability. The readability of data.table pipes has been criticized in this stackoverflow post. It seems, however, not that hard to follow for those who have basic knowledge of data.</description>
+      <description>&lt;p&gt;There are two ways to chain &lt;code&gt;data.table&lt;/code&gt; operation, using &lt;code&gt;data.table&lt;/code&gt; pipes or using &lt;code&gt;magrittr&lt;/code&gt; pipes. For a data.table &lt;code&gt;dt&lt;/code&gt;, the &lt;code&gt;data.table&lt;/code&gt; pipes take the form of &lt;code&gt;dt[][][]...&lt;/code&gt; and &lt;code&gt;magrittr&lt;/code&gt; pipes &lt;code&gt;dt %&amp;gt;% .[] %&amp;gt;% .[] %&amp;gt;% ...&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Below is an example that compares their readability. The readability of &lt;code&gt;data.table&lt;/code&gt; pipes has been criticized in this &lt;a href=&#34;https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly&#34;&gt;stackoverflow post&lt;/a&gt;. It seems, however, not that hard to follow for those who have basic knowledge of &lt;code&gt;data.table&lt;/code&gt;. To my eyes, the &lt;code&gt;magrittr&lt;/code&gt; pipes improves the readability but not enough to replace the &lt;code&gt;data.table&lt;/code&gt; pipes. It is more of a personal choice.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
+library(magrittr)
+
+# the data.table pipes
+data.table(iris)[
+    # add a new column &amp;quot;is_setosa&amp;quot;, 1 if yes and 0 if no, use two lines of codes 
+    # to clearly show the values
+    Species == &amp;quot;setosa&amp;quot;, is_setosa := 1
+][
+    Species != &amp;quot;setosa&amp;quot;, is_setosa := 0
+][
+    # changes the Petal.Length of Species &amp;quot;versicolor&amp;quot;, other species not affected
+    Species == &amp;quot;versicolor&amp;quot;, Petal.Length := 999
+][
+    # calculate sepal area when length &amp;gt; 5. Area is NA if length &amp;lt;= 5
+    Sepal.Length &amp;gt; 5, Sepal.Area := Sepal.Length * Sepal.Width
+][
+    # select columns
+    , .(Species, is_setosa, Petal.Length, Sepal.Area)
+][
+    # average of each column grouped by species
+    , lapply(.SD, mean, na.rm = TRUE), by = Species
+]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       Species is_setosa Petal.Length Sepal.Area
+## 1:     setosa         1        1.462   19.76364
+## 2: versicolor         0      999.000   16.87340
+## 3:  virginica         0        5.552   19.83633&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# the magrittr pipes
+data.table(iris) %&amp;gt;%
+    # add a new column &amp;quot;is_setosa&amp;quot;, 1 if yes and 0 if no, use two lines of codes 
+    # to clearly show the values
+    .[Species == &amp;quot;setosa&amp;quot;, is_setosa := 1] %&amp;gt;%                         
+    .[Species != &amp;quot;setosa&amp;quot;, is_setosa := 0] %&amp;gt;%
+    
+    # changes the Petal.Length of Species &amp;quot;versicolor&amp;quot;, other species not affected
+    .[Species == &amp;quot;versicolor&amp;quot;, Petal.Length := 999] %&amp;gt;%   
+    
+    # calculate sepal area when length &amp;gt; 5. Area is NA if length &amp;lt;= 5
+    .[Sepal.Length &amp;gt; 5, Sepal.Area := Sepal.Length * Sepal.Width] %&amp;gt;%  
+    
+    # select columns
+    .[, .(Species, is_setosa, Petal.Length, Sepal.Area)] %&amp;gt;%    
+    
+    # average of each column grouped by species
+    .[, lapply(.SD, mean, na.rm = TRUE), by = Species]                  &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       Species is_setosa Petal.Length Sepal.Area
+## 1:     setosa         1        1.462   19.76364
+## 2: versicolor         0      999.000   16.87340
+## 3:  virginica         0        5.552   19.83633&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Will the use of pipes &lt;code&gt;%&amp;gt;%&lt;/code&gt; slow down the computing? In the following code, we add three new columns to a made-up data table with &lt;code&gt;data.table&lt;/code&gt; pipes and &lt;code&gt;magrittr&lt;/code&gt; pipes. They almost have the same speed.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+dt &amp;lt;- data.table(a = sample(letters, 1e5, replace = TRUE),
+                 b = abs(rnorm(1e5)))
+
+datatable_pipe &amp;lt;- function(){
+    dt[, x := sqrt(b)][
+        , y := b^2
+    ][
+        , z := paste0(a , b)
+    ]
+}
+
+magrittr_pipe &amp;lt;- function(){
+    dt[, x := sqrt(b)] %&amp;gt;%
+        .[, y := b^2] %&amp;gt;%
+        .[, z := paste0(a , b)]
+}
+
+rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               test replications elapsed relative user.self sys.self
+## 1 datatable_pipe()           20   3.629    1.095      3.62    0.008
+## 2  magrittr_pipe()           20   3.313    1.000      3.30    0.008
+##   user.child sys.child
+## 1          0         0
+## 2          0         0&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
   </channel>

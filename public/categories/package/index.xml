@@ -8,7 +8,7 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 28 Dec 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/package/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/categories/package/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,8 +17,86 @@
       <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
-      <description>This is an application example of totalcensus package.
-The geographic hierarchy primer in Census 2010 summary file 1 technical documentation displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other.</description>
+      <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus&lt;/a&gt; package.&lt;/p&gt;
+&lt;p&gt;The geographic hierarchy primer in &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;Census 2010 summary file 1 technical documentation&lt;/a&gt; displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt; &lt;img src=&#34;https://s3.amazonaws.com/gl-shared-pictures/hierarchy_census_geographic_entities.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;It is easy to get the summary statistics of lower geographies within a higher one when they are connected. If we want the race population of all county subdivision in Kent county, RI, we can run&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
+library(data.table)
+library(magrittr)
+sub_kent &amp;lt;- read_acs5year(
+    year = 2016,
+    states = &amp;quot;RI&amp;quot;,
+    areas = &amp;quot;Kent county, RI&amp;quot;,
+    table_contents = c(
+        &amp;quot;white = B02001_002&amp;quot;,
+        &amp;quot;black = B02001_003&amp;quot;,
+        &amp;quot;asian = B02001_005&amp;quot;
+    ),
+    summary_level = &amp;quot;070&amp;quot;  # of county subdivision
+)
+
+print(sub_kent)
+    #               area                  GEOID       lon      lat state population white black asian GEOCOMP SUMLEV                                                                 NAME
+    # 1: Kent County, RI 07000US440031864031240 -71.73078 41.69073    RI        728   724     0     4     all    070                 Greene CDP, Coventry town, Kent County, Rhode Island
+    # 2: Kent County, RI 07000US440031864099999 -71.59396 41.69140    RI      34225 32994   384   187     all    070 Remainder of Coventry town, Coventry town, Kent County, Rhode Island
+    # 3: Kent County, RI 07000US440032224099999 -71.48331 41.64415    RI      13104 12120    77   404     all    070  East Greenwich town, East Greenwich town, Kent County, Rhode Island
+    # 4: Kent County, RI 07000US440037430074300 -71.42452 41.71389    RI      81881 74990  1163  2237     all    070                Warwick city, Warwick city, Kent County, Rhode Island
+    # 5: Kent County, RI 07000US440037772099999 -71.65790 41.62810    RI       6112  5611    26   314     all    070  West Greenwich town, West Greenwich town, Kent County, Rhode Island
+    # 6: Kent County, RI 07000US440037844099999 -71.51749 41.70306    RI      28836 26196   704   806     all    070      West Warwick town, West Warwick town, Kent County, Rhode Island&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If two geographic entities are not connected by a line, how do we know, for example, how many ZIP code tabulation areas are in or partially in Boston city?&lt;/p&gt;
+&lt;p&gt;The key to answer this question is that census blocks are connected to and lower than all other geographies. We can connect any two geographic entities through census blocks: if an ZIP code tabulation area and Boston city share a census block, the ZIP code is in or partially in the city. The decennial census 2010 has data down to block level, with which we can find all zip codes in Boston using &lt;code&gt;totalcensus&lt;/code&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;zip_boston &amp;lt;- read_decennial(
+    year = 2010,
+    states = &amp;quot;MA&amp;quot;,
+    geo_headers = c(&amp;quot;ZCTA5&amp;quot;, &amp;quot;PLACE&amp;quot;),
+    summary_level = &amp;quot;block&amp;quot;
+) %&amp;gt;%
+    # use search_fips(&amp;quot;boston&amp;quot;, &amp;quot;MA&amp;quot;) to find its PLACE code is &amp;quot;07000&amp;quot;
+    .[PLACE == &amp;quot;07000&amp;quot;, unique(ZCTA5)] 
+
+zip_boston
+    #  [1] &amp;quot;02134&amp;quot; &amp;quot;02135&amp;quot; &amp;quot;02467&amp;quot; &amp;quot;02215&amp;quot; &amp;quot;02163&amp;quot; &amp;quot;02115&amp;quot; &amp;quot;02116&amp;quot; &amp;quot;02199&amp;quot;
+    #  [9] &amp;quot;02108&amp;quot; &amp;quot;02114&amp;quot; &amp;quot;02113&amp;quot; &amp;quot;02109&amp;quot; &amp;quot;02110&amp;quot; &amp;quot;02203&amp;quot; &amp;quot;02129&amp;quot; &amp;quot;02128&amp;quot;
+    # [17] &amp;quot;02127&amp;quot; &amp;quot;02210&amp;quot; &amp;quot;02118&amp;quot; &amp;quot;02111&amp;quot; &amp;quot;02119&amp;quot; &amp;quot;02120&amp;quot; &amp;quot;02130&amp;quot; &amp;quot;02121&amp;quot;
+    # [25] &amp;quot;02125&amp;quot; &amp;quot;02122&amp;quot; &amp;quot;02124&amp;quot; &amp;quot;02126&amp;quot; &amp;quot;02131&amp;quot; &amp;quot;02132&amp;quot; &amp;quot;02136&amp;quot; &amp;quot;99999&amp;quot;
+    # [33] &amp;quot;02152&amp;quot; &amp;quot;02151&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let’s read race population by zip code in or partially in Boston city from the latest 2016 ACS 5-year survey.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# read data for all zip code
+race_zip_boston &amp;lt;- read_acs5year(
+    year = 2016,
+    states = &amp;quot;US&amp;quot;,   # ZCTA5 only in national files
+    geo_headers = &amp;quot;ZCTA5&amp;quot;,
+    table_contents = c(
+        &amp;quot;white = B02001_002&amp;quot;,
+        &amp;quot;black = B02001_003&amp;quot;,
+        &amp;quot;asian = B02001_005&amp;quot;
+    ),
+    summary_level = &amp;quot;860&amp;quot;  # of ZCTA5
+) %&amp;gt;%
+    # select zip codes in or partially in Boston city
+    .[ZCTA5 %in% zip_boston]
+
+head(race_zip_boston, 3)
+     #           GEOID       lon      lat ZCTA5 state population white black asian GEOCOMP SUMLEV        NAME
+     # 1: 86000US02108 -71.06485 42.35777 02108    NA       4049  3515   209   172     all    860 ZCTA5 02108
+     # 2: 86000US02109 -71.05063 42.36722 02109    NA       4015  3497   135   249     all    860 ZCTA5 02109
+     # 3: 86000US02110 -71.04785 42.36196 02110    NA       2124  1814    83   206     all    860 ZCTA5 02110&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s examine another example: congressional districts (CD for 111th congress) and state legislative districts (SLDU for Upper Chamber year 1 and SLDL for Lower Chamber year 1). Both CD and SLDs descend from states but do not belong to each other. Usually SLDs are smaller than CD. So which SLDs are in or partially in each CD? Again, we can connect CD and SLD with census blocks using decennial census 2010 data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;vote_RI &amp;lt;- read_decennial(
+    year = 2010,
+    states = &amp;quot;RI&amp;quot;,
+    geo_headers = c(&amp;quot;CD&amp;quot;, &amp;quot;SLDU&amp;quot;, &amp;quot;SLDL&amp;quot;),
+    summary_level = &amp;quot;block&amp;quot;
+) %&amp;gt;%
+    .[, .(SLDU = list(unique(SLDU)), SLDL = list(unique(SLDL))), by = CD] 
+
+# each CD contains a vector of SLDUs and a vector of SLDLs
+    #    CD                             SLDU                             SLDL
+    # 1: 01  c(009,011,010,012,013,023, ...)  c(066,067,069,068,072,075, ...)
+    # 2: 02  c(024,033,035,031,029,028, ...)  c(040,026,028,025,029,027, ...)&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
     <item>
@@ -27,9 +105,77 @@ The geographic hierarchy primer in Census 2010 summary file 1 technical document
       <pubDate>Sat, 23 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/12/23/census_data_zip_code/</guid>
-      <description>This is an example of more complicated applications of totalcensus package. To install the package, follow the instructions at https://github.com/GL-Li/totalcensus.
-In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code
-library(totalcensus) library(data.table) library(magrittr) library(ggplot2) library(ggmap) What’s the population in a ZCTA5 There are 32898 ZCTA5s in the United States and a ZCTA5 has an average population of 9656 and a median population of 2780.</description>
+      <description>&lt;p&gt;This is an example of more complicated applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(ggmap)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;whats-the-population-in-a-zcta5&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;What’s the population in a ZCTA5&lt;/h3&gt;
+&lt;p&gt;There are 32898 ZCTA5s in the United States and a ZCTA5 has an average population of 9656 and a median population of 2780. The population distribution is highly skewed towards zero with 320 of them having no people living in and 1583 having population below 100. There are 252 zip code having population over 65000.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# read population in each zip code
+zip_population &amp;lt;- read_acs5year(
+    year = 2016,
+    states = &amp;quot;US&amp;quot;,
+    geo_headers = &amp;quot;ZCTA5&amp;quot;,
+    summary_level = &amp;quot;860&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Reading US 2016 ACS 5-year survey geography file&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(zip_population$population)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0     714    2780    9656   13040  115104&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;median-age-in-a-zcta5&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Median age in a ZCTA5&lt;/h3&gt;
+&lt;p&gt;Just for fun, let’s find out the median age of population living in each ZCTA5. The result is pretty interesting. After removing those ZCTA5s with population below 1000 and those with larger margin of error in median age estimate and population count, the smallest median age of a ZCTA5 is 19 and largest is 75.50. These numbers mean that some zip code tabulation area are dominated by very young people while some are dominated by very old ones.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# read median age 
+median_age &amp;lt;- read_acs5year(
+    year = 2016,
+    states = &amp;quot;US&amp;quot;,
+    table_contents = &amp;quot;median_age = B01002_001&amp;quot;,
+    geo_headers = &amp;quot;ZCTA5&amp;quot;,
+    summary_level = &amp;quot;860&amp;quot;,
+    with_margin = TRUE
+) %&amp;gt;%
+    # only keep good age estimate and population count
+    .[median_age_margin &amp;lt; 0.1 * median_age] %&amp;gt;%
+    .[population_margin &amp;lt; 0.1 * population] %&amp;gt;%
+    # remove ZCTA5 with population below 1000
+    .[population &amp;gt; 1000]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Reading US 2016 ACS 5-year survey geography file&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(median_age$median_age)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   19.00   35.60   39.90   39.89   43.90   75.50&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;How are these extreme median ages possible for a zip code area which has thousands population? The young median age is easier to understand - many colleges are assigned exclusively with a zip code and the residents in this zip are mostly students living in dorms so the median age can be very low. The zip code areas with very old median age, though a supprise, are still understandable: these are the communities full of retired people.&lt;/p&gt;
+&lt;p&gt;It is said that poeple like to go to South for warm weather after retirement. Can we see this from the median age data? Yes, old people went Florida!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# download US map
+us_map &amp;lt;- get_map(&amp;quot;US&amp;quot;, zoom = 4, color = &amp;quot;bw&amp;quot;)
+
+# plot ZCTA5 with 65 or up median age on map
+ggmap(us_map) + 
+    geom_point(data = median_age[median_age &amp;gt; 65], 
+               aes(lon, lat, size = population),
+               color = &amp;quot;red&amp;quot;,
+               alpha = 0.5) +
+    ylim(25, 50) +
+    scale_size_area(max_size = 3) +
+    labs(
+        title = &amp;quot;ZIP code area with median age above 65&amp;quot;,
+        caption = &amp;quot;Source: 2016 ACS 5-year survey&amp;quot;,
+        x = NULL,
+        y = NULL
+    ) +
+    theme(
+        axis.text = element_blank(),
+        axis.ticks = element_blank()
+    )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2017-12-23-use-totalcensus-package-to-extract-block-level-data-of-boston-grouped-by-zip-code_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -38,7 +184,105 @@ library(totalcensus) library(data.table) library(magrittr) library(ggplot2) libr
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/09/14/build-a-r-package-for-yourself/</guid>
-      <description>A R user can benefit a lot from building packages. You don’t have to a be R developer to write packages. Developers write packages for others; you can just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use them across projects or you may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by source(xxx.</description>
+      <description>&lt;p&gt;A R user can benefit a lot from building packages. You don’t have to a be R developer to write packages. Developers write packages for others; you can just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use them across projects or you may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by &lt;code&gt;source(xxx.R)&lt;/code&gt;, and the conventional way to reuse datasets it to load &lt;code&gt;.Rdata&lt;/code&gt; files which store the datasets. You will have to know where the functions and datasets are stored, which is not a easy job if you have a large collection. By building fucntions and datasets into a package, you keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become your great asset.&lt;/p&gt;
+&lt;p&gt;Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for yourself, you can save the hassel of publishing it on github or CRAN.&lt;/p&gt;
+&lt;p&gt;Below are step by step instructions of building a working package in RStudio. There are many great tutorials for building R packages. I try to make this one to be the simplest and most up to date.&lt;/p&gt;
+&lt;div id=&#34;preapare-for-a-new-package-project&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Preapare for a new package project&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Step 1 - install necessary packages&lt;/strong&gt; Update RStudio if yours is very old. Start RStudio and install package &lt;code&gt;roxygen2&lt;/code&gt;. This package simplifies package documentation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(&amp;quot;roxygen2&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Step 2 - create a new package&lt;/strong&gt; From RStudio menu, click file then new project and choose to create project in a new directory. Select creating R package and name you package, for example, as &lt;code&gt;mytoolbox&lt;/code&gt; and place it in the directory of your choice. RStudio automatically creates several subdirectories and files.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 3 - allow roxygen2 to take care of documentation&lt;/strong&gt; From RStudio menu click build then configure build tools, verify package is selected in Project build tools, check the box for Generate documentation with roxygen, in the popup dialogue box check all boxes.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 4 - delete NAMESPACE file&lt;/strong&gt; to clear way for roxygen2 to automatically generate this file. Otherwise you will get a warning when building the package.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;add-a-function-to-the-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Add a function to the package&lt;/h2&gt;
+&lt;p&gt;Create a &lt;code&gt;.R&lt;/code&gt; files for the function and save it in subdirectory &lt;code&gt;/R&lt;/code&gt;. The best practice is to have only one function in a &lt;code&gt;.R&lt;/code&gt; file. You can have as many files as needed for all your functions under subdirectory &lt;code&gt;/R&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;.R&lt;/code&gt; file, let’s call it &lt;code&gt;mess_up_function.R&lt;/code&gt;, has two sections, as shown in the example code below. The first is the Roxygen comment section, of which each line starts with &lt;code&gt;#&#39;&lt;/code&gt;. Roxygen2 generates documentation of the function from these comments. Most tags in the comment section are self-explainatary, for example &lt;code&gt;@para&lt;/code&gt; for parameters and &lt;code&gt;@examples&lt;/code&gt; for examples. Pay attention to these three tags: 1) &lt;code&gt;#&#39; @export&lt;/code&gt; exports the function for package users. 2) &lt;code&gt;#&#39; @import package_name&lt;/code&gt; or &lt;code&gt;#&#39; @importFrom package_name function_1 function_2&lt;/code&gt; are to import whole packages or selected functions, depending on how you use these packages in building your own package. Import the whole package if you use many functions in the package; import only selected functions if you know you only need them.&lt;/p&gt;
+&lt;p&gt;The second section is the R code where you define your function. This section is standard R code with one exception: never use &lt;code&gt;library(pkg_name)&lt;/code&gt; or &lt;code&gt;require(pkg_name)&lt;/code&gt; to load packages, as they may mess up with name space. Instead, use &lt;code&gt;#&#39; @import&lt;/code&gt; or &lt;code&gt;#&#39; @importFrom&lt;/code&gt; as discussed in the Roxygen comment section, or use &lt;code&gt;pkg_name::func()&lt;/code&gt;. The later method takes extra 4 microseconds for each run, which is acceptable for processing small datasets.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#&amp;#39; mess up function (This is the title.)
+#&amp;#39; 
+#&amp;#39; @description This function mess up with two strings by extracting vowels from
+#&amp;#39; the first string and attaching them to the second.
+#&amp;#39;
+#&amp;#39; @param string_1 the first string
+#&amp;#39; @param string_2 the second string
+#&amp;#39; 
+#&amp;#39; @return a string 
+#&amp;#39;
+#&amp;#39; @examples
+#&amp;#39; # example 1
+#&amp;#39; mess_up(&amp;quot;The United States&amp;quot;, &amp;quot;Russia&amp;quot;)
+#&amp;#39; 
+#&amp;#39; # example 2
+#&amp;#39; mess_up(&amp;quot;Barack Obama&amp;quot;, &amp;quot;Donald Trump&amp;quot;)
+
+#&amp;#39; @export
+#&amp;#39; 
+#&amp;#39; @importFrom stringr str_extract_all
+
+
+mess_up &amp;lt;- function(string_1, string_2){
+    ## This function extract vowels from string_1 and place it 
+    ## at the end of string_2
+    vowels &amp;lt;- str_extract_all(string_1, &amp;quot;[AEIOUaeiou]&amp;quot;)[[1]]
+    vowels &amp;lt;- paste0(vowels, collapse = &amp;quot;&amp;quot;)
+    paste0(string_2, vowels, collapse = &amp;quot;&amp;quot;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;add-a-dataset-to-the-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Add a dataset to the package&lt;/h2&gt;
+&lt;div id=&#34;save-dataset-in-subdirectory-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;save dataset in subdirectory &lt;code&gt;/data&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;This dataset can be a vector, a list, a dataframe, or a data table. Let’s call it &lt;code&gt;my_dataset&lt;/code&gt;. To add it to the package, simply save it as a &lt;code&gt;.RData&lt;/code&gt; file to the subdirectory &lt;code&gt;/data&lt;/code&gt; of the package by running&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# one .RData file has ONLY one dataset
+save(my_dataset, file = &amp;quot;path_to_package/data/my_dataset.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;create-a-.r-file-in-subdirectory-r-to-document-the-dataset&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;create a &lt;code&gt;.R&lt;/code&gt; file in subdirectory &lt;code&gt;/R&lt;/code&gt; to document the dataset&lt;/h3&gt;
+&lt;p&gt;This dataset is ready to use, but a good practice is always to have a documentation for it. We can make a &lt;code&gt;doc_my_dataset.R&lt;/code&gt; file for data documentation. The file is almost completely Roxygen comments. The only line of non-comment code is the name of the dataset in quotation &lt;code&gt;&amp;quot;my_dataset&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#&amp;#39; Here is the title of the dataset
+#&amp;#39;
+#&amp;#39; @description More description of the dataset is here
+#&amp;#39;
+#&amp;#39; @docType data
+#&amp;#39;
+#&amp;#39; @usage data(&amp;quot;my_dataset&amp;quot;)
+#&amp;#39;
+#&amp;#39; @format data.frame
+#&amp;#39;
+#&amp;#39; @keywords datasets
+#&amp;#39;
+#&amp;#39; @source This is a link to 
+#&amp;#39; \href{http://www.xxx.xxx.com/xxx.csv}{the origin data}
+#&amp;#39;
+
+&amp;quot;my_dataset&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;set-up-the-description-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Set up the DESCRIPTION file&lt;/h2&gt;
+&lt;p&gt;This file mostly provides general information of your package. Many of them you may not care if you just write the package for yourself. But two items are important: 1) If you want to load your dataset whenever loading the package, keep &lt;code&gt;LazyData: true&lt;/code&gt;. 2) Place all other packages used in your package under &lt;code&gt;Imports&lt;/code&gt;. In case others want to install your package, these packages will be installed automatically.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Package: my_package_name
+Type: Package
+Title: Title of package 
+Version: 0.1.2
+Author: my name
+Maintainer: my name &amp;lt;myemail@xxx.com&amp;gt;
+Description: Give a little bit more detailed description of the package which can 
+    span multiple lines. 
+License: your_choice
+Encoding: UTF-8
+LazyData: true
+Imports:
+    stringr (&amp;gt;= 1.2.0), 
+    ggplot2 (&amp;gt;= 2.0.0)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;build-the-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Build the package&lt;/h2&gt;
+&lt;p&gt;The last step is to build the package, which is very easy in RStudio. From the menu select Build and then Build and Reload. RStudio will take care of all that follow. After you package is successfully built, you can use you package as any other package in your work with &lt;code&gt;library(mytoolbox)&lt;/code&gt; and enjoy the easy access to your functions and datasets.&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
   </channel>
