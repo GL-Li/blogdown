@@ -12,16 +12,16 @@
     
     
     <item>
-      <title>Using totalcensus package to determine relationship between census geographic entities</title>
+      <title>Determine relationship between census geographic entities with totalcensus package</title>
       <link>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
       <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
-      <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus&lt;/a&gt; package.&lt;/p&gt;
+      <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus package&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The geographic hierarchy primer in &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;Census 2010 summary file 1 technical documentation&lt;/a&gt; displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states.&lt;/p&gt;
 &lt;p&gt;&lt;br&gt; &lt;img src=&#34;https://s3.amazonaws.com/gl-shared-pictures/hierarchy_census_geographic_entities.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;p&gt;It is easy to get the summary statistics of lower geographies within a higher one when they are connected. If we want the race population of all county subdivision in Kent county, RI, we can run&lt;/p&gt;
+&lt;p&gt;It is easy to get the summary statistics of lower geographies within a higher one when they are connected. For example, if we want the race population of all county subdivision in Kent county, RI, we can run&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
 library(data.table)
 library(magrittr)
@@ -57,6 +57,7 @@ print(sub_kent)
     .[PLACE == &amp;quot;07000&amp;quot;, unique(ZCTA5)] 
 
 zip_boston
+# all zip code in Boston:
     #  [1] &amp;quot;02134&amp;quot; &amp;quot;02135&amp;quot; &amp;quot;02467&amp;quot; &amp;quot;02215&amp;quot; &amp;quot;02163&amp;quot; &amp;quot;02115&amp;quot; &amp;quot;02116&amp;quot; &amp;quot;02199&amp;quot;
     #  [9] &amp;quot;02108&amp;quot; &amp;quot;02114&amp;quot; &amp;quot;02113&amp;quot; &amp;quot;02109&amp;quot; &amp;quot;02110&amp;quot; &amp;quot;02203&amp;quot; &amp;quot;02129&amp;quot; &amp;quot;02128&amp;quot;
     # [17] &amp;quot;02127&amp;quot; &amp;quot;02210&amp;quot; &amp;quot;02118&amp;quot; &amp;quot;02111&amp;quot; &amp;quot;02119&amp;quot; &amp;quot;02120&amp;quot; &amp;quot;02130&amp;quot; &amp;quot;02121&amp;quot;
@@ -105,7 +106,7 @@ head(race_zip_boston, 3)
       <pubDate>Sat, 23 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/12/23/census_data_zip_code/</guid>
-      <description>&lt;p&gt;This is an example of more complicated applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
+      <description>&lt;p&gt;This is an example of applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
 library(data.table)
@@ -114,7 +115,7 @@ library(ggplot2)
 library(ggmap)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;whats-the-population-in-a-zcta5&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;What’s the population in a ZCTA5&lt;/h3&gt;
-&lt;p&gt;There are 32898 ZCTA5s in the United States and a ZCTA5 has an average population of 9656 and a median population of 2780. The population distribution is highly skewed towards zero with 320 of them having no people living in and 1583 having population below 100. There are 252 zip code having population over 65000.&lt;/p&gt;
+&lt;p&gt;These population data can be easily obtained with the code below. There are 32898 ZCTA5s in the United States and a ZCTA5 has an average population of 9656 and a median population of 2780. The population distribution is highly skewed towards zero with 320 of them having no people living in and 1583 having population below 100. There are 252 zip code having population over 65000.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# read population in each zip code
 zip_population &amp;lt;- read_acs5year(
     year = 2016,
@@ -130,7 +131,7 @@ zip_population &amp;lt;- read_acs5year(
 &lt;/div&gt;
 &lt;div id=&#34;median-age-in-a-zcta5&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Median age in a ZCTA5&lt;/h3&gt;
-&lt;p&gt;Just for fun, let’s find out the median age of population living in each ZCTA5. The result is pretty interesting. After removing those ZCTA5s with population below 1000 and those with larger margin of error in median age estimate and population count, the smallest median age of a ZCTA5 is 19 and largest is 75.50. These numbers mean that some zip code tabulation area are dominated by very young people while some are dominated by very old ones.&lt;/p&gt;
+&lt;p&gt;Just for fun, let’s find out the median age of population living in each ZCTA5. The result is pretty interesting. After removing those ZCTA5s with population below 1000 and those with larger margin of error in median age estimate and population count, the smallest median age of a ZCTA5 is 19 and largest is 75.50. These numbers mean that some zip code tabulation area are dominated by very young people while some are dominated by very old people.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# read median age 
 median_age &amp;lt;- read_acs5year(
     year = 2016,
@@ -150,8 +151,8 @@ median_age &amp;lt;- read_acs5year(
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(median_age$median_age)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   19.00   35.60   39.90   39.89   43.90   75.50&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;How are these extreme median ages possible for a zip code area which has thousands population? The young median age is easier to understand - many colleges are assigned exclusively with a zip code and the residents in this zip are mostly students living in dorms so the median age can be very low. The zip code areas with very old median age, though a supprise, are still understandable: these are the communities full of retired people.&lt;/p&gt;
-&lt;p&gt;It is said that poeple like to go to South for warm weather after retirement. Can we see this from the median age data? Yes, old people went Florida!&lt;/p&gt;
+&lt;p&gt;How are these extreme median ages possible for a zip code area which has thousands population? The young median age is easier to understand - many colleges are assigned exclusively with a zip code and the residents in this zip are mostly students living in dorms so the median age can be very low. The zip code areas with very old median age, though a surprise, are still understandable: these are the communities full of retired people.&lt;/p&gt;
+&lt;p&gt;It is said that people like to go to South for warm weather after retirement. Can we see this from the median age data? Yes, old people went Florida!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# download US map
 us_map &amp;lt;- get_map(&amp;quot;US&amp;quot;, zoom = 4, color = &amp;quot;bw&amp;quot;)
 
@@ -184,22 +185,22 @@ ggmap(us_map) +
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/09/14/build-a-r-package-for-yourself/</guid>
-      <description>&lt;p&gt;A R user can benefit a lot from building packages. You don’t have to a be R developer to write packages. Developers write packages for others; you can just write packages for yourself. As a R user, you must have written functions and collected datasets, and you may use them across projects or you may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by &lt;code&gt;source(xxx.R)&lt;/code&gt;, and the conventional way to reuse datasets it to load &lt;code&gt;.Rdata&lt;/code&gt; files which store the datasets. You will have to know where the functions and datasets are stored, which is not a easy job if you have a large collection. By building fucntions and datasets into a package, you keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become your great asset.&lt;/p&gt;
-&lt;p&gt;Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for yourself, you can save the hassel of publishing it on github or CRAN.&lt;/p&gt;
+      <description>&lt;p&gt;A R user can benefit a lot from building packages. I have read people writing about the benefit in various occasions and cannot agree more after building my first package. We don’t have to a be R developer to write packages. Developers write packages for others; we can just write packages for ourselves. As a R user, we must have written functions and collected datasets, and may have used them across projects or may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by &lt;code&gt;source(xxx.R)&lt;/code&gt;, and the conventional way to reuse datasets it to load &lt;code&gt;.Rdata&lt;/code&gt; files which store the datasets. We will have to know where the functions and datasets are stored, which is not a easy job if we have a large collection. By building functions and datasets into a package, we keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become our great asset.&lt;/p&gt;
+&lt;p&gt;Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for ourselves, we can save the hassle of publishing it on github or CRAN.&lt;/p&gt;
 &lt;p&gt;Below are step by step instructions of building a working package in RStudio. There are many great tutorials for building R packages. I try to make this one to be the simplest and most up to date.&lt;/p&gt;
-&lt;div id=&#34;preapare-for-a-new-package-project&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Preapare for a new package project&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Step 1 - install necessary packages&lt;/strong&gt; Update RStudio if yours is very old. Start RStudio and install package &lt;code&gt;roxygen2&lt;/code&gt;. This package simplifies package documentation.&lt;/p&gt;
+&lt;div id=&#34;prepare-for-a-new-package-project&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Prepare for a new package project&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Step 1 - install necessary packages&lt;/strong&gt; Update RStudio if it is very old. Start RStudio and install package &lt;code&gt;roxygen2&lt;/code&gt;. This package simplifies package documentation.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(&amp;quot;roxygen2&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;Step 2 - create a new package&lt;/strong&gt; From RStudio menu, click file then new project and choose to create project in a new directory. Select creating R package and name you package, for example, as &lt;code&gt;mytoolbox&lt;/code&gt; and place it in the directory of your choice. RStudio automatically creates several subdirectories and files.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 2 - create a new package&lt;/strong&gt; From RStudio menu, click file then new project and choose to create project in a new directory. Select creating R package and name the package, for example, as &lt;code&gt;mytoolbox&lt;/code&gt; and place it in the directory of our choice. RStudio automatically creates several subdirectories and files.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Step 3 - allow roxygen2 to take care of documentation&lt;/strong&gt; From RStudio menu click build then configure build tools, verify package is selected in Project build tools, check the box for Generate documentation with roxygen, in the popup dialogue box check all boxes.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Step 4 - delete NAMESPACE file&lt;/strong&gt; to clear way for roxygen2 to automatically generate this file. Otherwise you will get a warning when building the package.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 4 - delete NAMESPACE file&lt;/strong&gt; to clear way for &lt;code&gt;roxygen2&lt;/code&gt; to automatically generate this file. Otherwise we will get a warning when building the package.&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;add-a-function-to-the-package&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Add a function to the package&lt;/h2&gt;
-&lt;p&gt;Create a &lt;code&gt;.R&lt;/code&gt; files for the function and save it in subdirectory &lt;code&gt;/R&lt;/code&gt;. The best practice is to have only one function in a &lt;code&gt;.R&lt;/code&gt; file. You can have as many files as needed for all your functions under subdirectory &lt;code&gt;/R&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;.R&lt;/code&gt; file, let’s call it &lt;code&gt;mess_up_function.R&lt;/code&gt;, has two sections, as shown in the example code below. The first is the Roxygen comment section, of which each line starts with &lt;code&gt;#&#39;&lt;/code&gt;. Roxygen2 generates documentation of the function from these comments. Most tags in the comment section are self-explainatary, for example &lt;code&gt;@para&lt;/code&gt; for parameters and &lt;code&gt;@examples&lt;/code&gt; for examples. Pay attention to these three tags: 1) &lt;code&gt;#&#39; @export&lt;/code&gt; exports the function for package users. 2) &lt;code&gt;#&#39; @import package_name&lt;/code&gt; or &lt;code&gt;#&#39; @importFrom package_name function_1 function_2&lt;/code&gt; are to import whole packages or selected functions, depending on how you use these packages in building your own package. Import the whole package if you use many functions in the package; import only selected functions if you know you only need them.&lt;/p&gt;
-&lt;p&gt;The second section is the R code where you define your function. This section is standard R code with one exception: never use &lt;code&gt;library(pkg_name)&lt;/code&gt; or &lt;code&gt;require(pkg_name)&lt;/code&gt; to load packages, as they may mess up with name space. Instead, use &lt;code&gt;#&#39; @import&lt;/code&gt; or &lt;code&gt;#&#39; @importFrom&lt;/code&gt; as discussed in the Roxygen comment section, or use &lt;code&gt;pkg_name::func()&lt;/code&gt;. The later method takes extra 4 microseconds for each run, which is acceptable for processing small datasets.&lt;/p&gt;
+&lt;div id=&#34;add-functions-to-the-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Add functions to the package&lt;/h2&gt;
+&lt;p&gt;Create a &lt;code&gt;.R&lt;/code&gt; files for a function and save it in subdirectory &lt;code&gt;/R&lt;/code&gt;. A good practice is to have only one function in a &lt;code&gt;.R&lt;/code&gt; file. We can have as many files as needed for all functions under subdirectory &lt;code&gt;/R&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;.R&lt;/code&gt; file, let’s call it &lt;code&gt;mess_up_function.R&lt;/code&gt;, has two sections, as shown in the example code below. The first is the Roxygen comment section, of which each line starts with &lt;code&gt;#&#39;&lt;/code&gt;. Roxygen2 generates documentation of the function from these comments. Most tags in the comment section are self-explanatory, for example &lt;code&gt;@para&lt;/code&gt; for parameters and &lt;code&gt;@examples&lt;/code&gt; for examples. Pay attention to these three tags: 1) &lt;code&gt;#&#39; @export&lt;/code&gt; exports the function for package users. 2) &lt;code&gt;#&#39; @import package_name&lt;/code&gt; or &lt;code&gt;#&#39; @importFrom package_name function_1 function_2&lt;/code&gt; are to import whole packages or selected functions, depending on how we use these packages in building our own package. Import the whole package if we use many functions in the package; import only selected functions if we know we only need them.&lt;/p&gt;
+&lt;p&gt;The second section is the R code where we define our function. This section is standard R code with one exception: never use &lt;code&gt;library(pkg_name)&lt;/code&gt; or &lt;code&gt;require(pkg_name)&lt;/code&gt; to load packages, as they may mess up with name space. Instead, use &lt;code&gt;#&#39; @import&lt;/code&gt; or &lt;code&gt;#&#39; @importFrom&lt;/code&gt; as discussed in the Roxygen comment section, or use &lt;code&gt;pkg_name::func()&lt;/code&gt;. The later method takes extra 4 microseconds for each run, which is acceptable for processing small datasets.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#&amp;#39; mess up function (This is the title.)
 #&amp;#39; 
 #&amp;#39; @description This function mess up with two strings by extracting vowels from
@@ -234,7 +235,7 @@ mess_up &amp;lt;- function(string_1, string_2){
 &lt;h2&gt;Add a dataset to the package&lt;/h2&gt;
 &lt;div id=&#34;save-dataset-in-subdirectory-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;save dataset in subdirectory &lt;code&gt;/data&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;This dataset can be a vector, a list, a dataframe, or a data table. Let’s call it &lt;code&gt;my_dataset&lt;/code&gt;. To add it to the package, simply save it as a &lt;code&gt;.RData&lt;/code&gt; file to the subdirectory &lt;code&gt;/data&lt;/code&gt; of the package by running&lt;/p&gt;
+&lt;p&gt;This dataset can be a vector, a list, a data frame, or a data.table. Let’s call it &lt;code&gt;my_dataset&lt;/code&gt;. To add it to the package, simply save it as a &lt;code&gt;.RData&lt;/code&gt; file to the subdirectory &lt;code&gt;/data&lt;/code&gt; of the package by running&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# one .RData file has ONLY one dataset
 save(my_dataset, file = &amp;quot;path_to_package/data/my_dataset.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -262,7 +263,7 @@ save(my_dataset, file = &amp;quot;path_to_package/data/my_dataset.RData&amp;quot
 &lt;/div&gt;
 &lt;div id=&#34;set-up-the-description-file&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Set up the DESCRIPTION file&lt;/h2&gt;
-&lt;p&gt;This file mostly provides general information of your package. Many of them you may not care if you just write the package for yourself. But two items are important: 1) If you want to load your dataset whenever loading the package, keep &lt;code&gt;LazyData: true&lt;/code&gt;. 2) Place all other packages used in your package under &lt;code&gt;Imports&lt;/code&gt;. In case others want to install your package, these packages will be installed automatically.&lt;/p&gt;
+&lt;p&gt;This file mostly provides general information of the package. Many of them we may not care if we just write the package for ourselves. But two items are important: 1) If we want to load our dataset whenever loading the package, keep &lt;code&gt;LazyData: true&lt;/code&gt;. 2) Place all other packages used in the package under &lt;code&gt;Imports&lt;/code&gt;. In case others want to install this package, these packages will be installed automatically.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Package: my_package_name
 Type: Package
 Title: Title of package 
@@ -280,7 +281,7 @@ Imports:
 &lt;/div&gt;
 &lt;div id=&#34;build-the-package&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Build the package&lt;/h2&gt;
-&lt;p&gt;The last step is to build the package, which is very easy in RStudio. From the menu select Build and then Build and Reload. RStudio will take care of all that follow. After you package is successfully built, you can use you package as any other package in your work with &lt;code&gt;library(mytoolbox)&lt;/code&gt; and enjoy the easy access to your functions and datasets.&lt;/p&gt;
+&lt;p&gt;The last step is to build the package, which is very easy in RStudio. From the menu select Build and then Build and Reload. RStudio will take care of all that follow. After the package is successfully built, we can use this package as any other package in our work with &lt;code&gt;library(mytoolbox)&lt;/code&gt; and enjoy the easy access to our functions and datasets.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -293,15 +294,15 @@ Imports:
       <guid>/2017/08/29/process-2010-census-data-with-data-table/</guid>
       <description>&lt;p&gt;This post explains how to extract information from the original dataset of the US 2010 census summary file 1 with urban/rural update, using data.table or dplyr package in R.&lt;/p&gt;
 &lt;p&gt;Why do we want to work with the original data? You may ask, when there are already R packages, such as UScensus2010, censusapi, and tidycensus, which help user get the data.&lt;/p&gt;
-&lt;p&gt;The biggest benefit is that you will have full access to all the census 2010 data. The total size of the US 2010 national census summary 1 file with urban/rural update is nearly 150Gb, which is too heavy to be included as dataset in a package. The stand-alone UScensus2010 package only delivers selected demographic data. Others provide an access to United States Census Bureau’s APIs, which also offers selected data. By dealing with the original data diretly, you can extract whatever data you want.&lt;/p&gt;
+&lt;p&gt;The biggest benefit is that you will have full access to all the census 2010 data. The total size of the US 2010 national census summary 1 file with urban/rural update is nearly 150Gb, which is too heavy to be included as dataset in a package. The stand-alone UScensus2010 package only delivers selected demographic data. Others provide an access to United States Census Bureau’s APIs, which also offers selected data. By dealing with the original data directly, you can extract whatever data you want.&lt;/p&gt;
 &lt;p&gt;In recent years, fast development of packages data.table and dplyr makes it possible for R to process original 2010 census data in a reasonable time frame. In the following example, I retrieved the latitude, longitude, population of all race and of black people living in each census block in the city of South Bend Indiana. The whole process takes about 4 seconds on a four years old laptop. With these data in hand we can plot nicely where black people live down to census block level on a map downloaded from GoogleMap. In a city most census blocks are equivalent to street blocks.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2017-08-29-process-2010-census-data-with-data-table_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;This post is organized in this order: I will first give a brief introduction to the 2010 census summary file 1 with urban/rural update. Then I will show how to extract data step by step using R and data.table package with the example shown above. The codes are verbose in this section as I want to show the details. To clean it up I will then give a more concise codes that use pipe operator from magrittr package. As many users are more familiar with dplyr package, I will also translate the data.table code to dplyr code. The dplyr approach is sufficiently fast for most applications.&lt;/p&gt;
 &lt;div id=&#34;file-structure-of-the-census-2010-summary-1-file&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;File structure of the census 2010 summary 1 file&lt;/h2&gt;
-&lt;p&gt;The 2010 census data with urban/rural update can be downloaded from &lt;a href=&#34;https://www2.census.gov/census_2010/04-Summary_File_1/Urban_Rural_Update/&#34;&gt;United States Census Bureau official site&lt;/a&gt;. The total size is nearly 150 GB so make sure you have enough hard drive space for it. The data is split into 50 states and DC. Click on a state, for example, Indiana, there is a file named in2010.ur1.zip. Download this file and unzip it to a folder named with the abbriation “IN”. Do this for all other state and DC.&lt;/p&gt;
-&lt;p&gt;Inside the folder “IN/” there are a geographic header record file named &lt;code&gt;ingeo2010.ur1&lt;/code&gt; and 48 data files named as &lt;code&gt;in000012010.ur1&lt;/code&gt;, &lt;code&gt;in000022010.ur1&lt;/code&gt;, …, &lt;code&gt;in000482010.ur1&lt;/code&gt;. The first two characters &lt;code&gt;in&lt;/code&gt; is the abbrivation of Indiana. The file extension &lt;code&gt;ur1&lt;/code&gt; stands for summary file &lt;strong&gt;1&lt;/strong&gt; with &lt;strong&gt;u&lt;/strong&gt;rban &lt;strong&gt;r&lt;/strong&gt;ural update. The last four numbers &lt;code&gt;2010&lt;/code&gt; before file extension indicate the census year 2010. The numbers &lt;code&gt;00001&lt;/code&gt;, &lt;code&gt;00002&lt;/code&gt;, …, and &lt;code&gt;00048&lt;/code&gt; are the sequence of the files. These files are called &lt;code&gt;file 01&lt;/code&gt;, &lt;code&gt;file 02&lt;/code&gt;, …, and &lt;code&gt;file 48&lt;/code&gt; in the &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;techinical documentation of the summary file 1&lt;/a&gt;. The documentation is our dictionary in using these files and we will talk more about it later.&lt;/p&gt;
-&lt;p&gt;The geographic header record file &lt;code&gt;ingeo2010.ur1&lt;/code&gt; contains the geographic information. It has 331556 lines; each line corresponds to a geographic entity in the census data of Indiana. A geographic entity can be a state, a county, a city, a census tract, a census block etc. A line can be up to 500 characters long, including spaces. Unique to each line is the logical record number, which is 7 characters long, located from 19 to 25 characters in a line. Page 2-8 of the techincal documentation lists all geographic field in a line. Each field is assigned with a short reference code. Here are list of frequently use ones:&lt;/p&gt;
+&lt;p&gt;The 2010 census data with urban/rural update can be downloaded from &lt;a href=&#34;https://www2.census.gov/census_2010/04-Summary_File_1/Urban_Rural_Update/&#34;&gt;United States Census Bureau official site&lt;/a&gt;. The total size is nearly 150 GB so make sure you have enough hard drive space for it. The data is split into 50 states and DC. Click on a state, for example, Indiana, there is a file named in2010.ur1.zip. Download this file and unzip it to a folder named with the abbreviation “IN”. Do this for all other state and DC.&lt;/p&gt;
+&lt;p&gt;Inside the folder “IN/” there are a geographic header record file named &lt;code&gt;ingeo2010.ur1&lt;/code&gt; and 48 data files named as &lt;code&gt;in000012010.ur1&lt;/code&gt;, &lt;code&gt;in000022010.ur1&lt;/code&gt;, …, &lt;code&gt;in000482010.ur1&lt;/code&gt;. The first two characters &lt;code&gt;in&lt;/code&gt; is the abbreviation of Indiana. The file extension &lt;code&gt;ur1&lt;/code&gt; stands for summary file &lt;strong&gt;1&lt;/strong&gt; with &lt;strong&gt;u&lt;/strong&gt;rban &lt;strong&gt;r&lt;/strong&gt;ural update. The last four numbers &lt;code&gt;2010&lt;/code&gt; before file extension indicate the census year 2010. The numbers &lt;code&gt;00001&lt;/code&gt;, &lt;code&gt;00002&lt;/code&gt;, …, and &lt;code&gt;00048&lt;/code&gt; are the sequence of the files. These files are called &lt;code&gt;file 01&lt;/code&gt;, &lt;code&gt;file 02&lt;/code&gt;, …, and &lt;code&gt;file 48&lt;/code&gt; in the &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;techinical documentation of the summary file 1&lt;/a&gt;. The documentation is our dictionary in using these files and we will talk more about it later.&lt;/p&gt;
+&lt;p&gt;The geographic header record file &lt;code&gt;ingeo2010.ur1&lt;/code&gt; contains the geographic information. It has 331556 lines; each line corresponds to a geographic entity in the census data of Indiana. A geographic entity can be a state, a county, a city, a census tract, a census block etc. A line can be up to 500 characters long, including spaces. Unique to each line is the logical record number, which is 7 characters long, located from 19 to 25 characters in a line. Page 2-8 of the technical documentation lists all geographic field in a line. Each field is assigned with a short reference code. Here are list of frequently use ones:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr class=&#34;header&#34;&gt;
@@ -362,7 +363,7 @@ Imports:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;The data files contain the recorded census data. They are &lt;code&gt;.csv&lt;/code&gt; files, that is, each data field is seperated by a comma. For example, file 02 contains the population in urban and rural area. Its 5th field is the logical record number that matches the geographic header record file. The 6th field is total population, 7th field urban population, 8th field populaition in urbanized area, … The properties of each field is listed in the technical documentation. If you want to know the details of, for example file 17, just search in the pdf file of the technical documentation for “file 17” and read through the description.&lt;/p&gt;
+&lt;p&gt;The data files contain the recorded census data. They are &lt;code&gt;.csv&lt;/code&gt; files, that is, each data field is separated by a comma. For example, file 02 contains the population in urban and rural area. Its 5th field is the logical record number that matches the geographic header record file. The 6th field is total population, 7th field urban population, 8th field population in urbanized area, … The properties of each field is listed in the technical documentation. If you want to know the details of, for example file 17, just search in the pdf file of the technical documentation for “file 17” and read through the description.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;extract-the-2010-census-data-step-by-step&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Extract the 2010 census data step by step&lt;/h2&gt;
@@ -418,7 +419,7 @@ sb_geo&lt;/code&gt;&lt;/pre&gt;
 ## 5463:   324774    624 71000 41.66799 -86.23096
 ## 5464:   324810    624 71000 41.66797 -86.27524
 ## 5465:   324851    624 71000 41.70286 -86.27826&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This geographic data includes all summary levels. As we only want the census block level data, we further filt with &lt;code&gt;SUMLEV == &amp;quot;100&amp;quot;&lt;/code&gt;. At this stage we get the geographic data we want.&lt;/p&gt;
+&lt;p&gt;This geographic data includes all summary levels. As we only want the census block level data, we further filter with &lt;code&gt;SUMLEV == &amp;quot;100&amp;quot;&lt;/code&gt;. At this stage we get the geographic data we want.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sb_block &amp;lt;- sb_geo[SUMLEV == &amp;quot;100&amp;quot;]
 sb_block&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##       LOGRECNO SUMLEV PLACE INTPTLAT  INTPTLON
@@ -433,7 +434,7 @@ sb_block&lt;/code&gt;&lt;/pre&gt;
 ## 5004:   253091    100 71000 41.73058 -86.35508
 ## 5005:   253092    100 71000 41.73035 -86.35565
 ## 5006:   253093    100 71000 41.72831 -86.35573&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Are we sure we get the correct geographic data? We can plot the latitude and longitude directly on a map. From the map below you will also get a sense of what a census block is; it is basicly a street block in urban area. We need internet connection to download map data from Google Map.&lt;/p&gt;
+&lt;p&gt;Are we sure we get the correct geographic data? We can plot the latitude and longitude directly on a map. From the map below you will also get a sense of what a census block is; it is basically a street block in urban area. We need internet connection to download map data from Google Map.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggmap)
 map &amp;lt;- get_map(&amp;quot;south bend, indiana&amp;quot;, zoom = 13)
 ggmap(map) +
@@ -445,12 +446,12 @@ ggmap(map) +
 &lt;p&gt;From the technical documentation we know that population and race information is in file 03. So let’s read this file.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f03 &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1&amp;quot;), header = FALSE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
-Read 90.5% of 331556 rows
+Read 84.5% of 331556 rows
 Read 331556 rows and 199 (of 199) columns from 0.134 GB file in 00:00:03&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# number of rows and columns
 dim(f03)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] 331556    199&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;It has 199 coloumns; which ones are what we want? We still go back to the techincal documentation, page 6-22, and read the description for file 03. The 5th field is logical record number, 6th the total population data and 8th the black population data. Each population data field also has a reference but is hard to follow. For clarity we name these coloumn in plain English. So all the data we need in Indiana is&lt;/p&gt;
+&lt;p&gt;It has 199 columns; which ones are what we want? We still go back to the technical documentation, page 6-22, and read the description for file 03. The 5th field is logical record number, 6th the total population data and 8th the black population data. Each population data field also has a reference but is hard to follow. For clarity we name these column in plain English. So all the data we need in Indiana is&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;population &amp;lt;- f03[, .(LOGRECNO = V5,
                       total_popul = V6,
                       black_popul = V8)]
@@ -521,7 +522,7 @@ sb_block_popul&lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;More concise code&lt;/h2&gt;
 &lt;div id=&#34;the-data.table-way&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;the data.table way&lt;/h3&gt;
-&lt;p&gt;The above codes that select South Bend data can be squeezed with pipe operator &lt;code&gt;%&amp;gt;%&lt;/code&gt; to get rid of intermeidate variables.&lt;/p&gt;
+&lt;p&gt;The above codes that select South Bend data can be squeezed with pipe operator &lt;code&gt;%&amp;gt;%&lt;/code&gt; to get rid of intermediate variables.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
 library(magrittr)
 
@@ -587,8 +588,8 @@ sb_block_popul &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1
       <pubDate>Fri, 18 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/08/18/place-text-at-right-location/</guid>
-      <description>&lt;p&gt;A common tast in plotting is adding texts as labels or annotations to specific locations. &lt;code&gt;ggplot()&lt;/code&gt; has functions &lt;code&gt;geom_text()&lt;/code&gt;, &lt;code&gt;geom_label()&lt;/code&gt; and &lt;code&gt;annotate()&lt;/code&gt; for this purpose. In this post we discuss how &lt;code&gt;ggplot2&lt;/code&gt; controls positioning of text.&lt;/p&gt;
-&lt;p&gt;First we need to specify &lt;code&gt;(x, y)&lt;/code&gt; coordinate in the plot to where the text is placed. As shown in the following example, the actual positioning of the text is sometimes not what you want. The problem is that &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; are usually vectors or columns of a data frame, which are not easily to be modified.&lt;/p&gt;
+      <description>&lt;p&gt;A common task in plotting is adding texts as labels or annotations to specific locations. &lt;code&gt;ggplot()&lt;/code&gt; has functions &lt;code&gt;geom_text()&lt;/code&gt;, &lt;code&gt;geom_label()&lt;/code&gt; and &lt;code&gt;annotate()&lt;/code&gt; for this purpose. In this post we discuss how &lt;code&gt;ggplot2&lt;/code&gt; controls positioning of text.&lt;/p&gt;
+&lt;p&gt;First we need to specify &lt;code&gt;(x, y)&lt;/code&gt; coordinate in the plot where the text is placed. By default, the center of the text is at &lt;code&gt;(x, y)&lt;/code&gt;, which is sometimes not what we want, as shown in the example below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
 df &amp;lt;- data.frame(x = 1:3, 
                  y = 1:3, 
@@ -598,7 +599,7 @@ g &amp;lt;- ggplot(df, aes(x = x, y = y)) +
     geom_point(color = &amp;quot;red&amp;quot;) +
     coord_cartesian(xlim = c(0.3, 3.5), ylim = c(0.5, 3.5))
 g + geom_text(aes(label = z)) +
-    labs(subtitle = &amp;quot;(x, y) set the position of text but usually is not as desired&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+    labs(subtitle = &amp;quot;(x, y) set the position of text but often is not we want&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;As the text has its own shape and size, we need to determine which part of the text to be superimposed at &lt;code&gt;(x, y)&lt;/code&gt;. This positioning is controlled by parameters &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt;. Imaging the text is surrounded by a rectangle and a local coordinate originates at the bottom left corner of the rectangle, &lt;code&gt;(hjust, vjust)&lt;/code&gt; then is a local position in the local coordinate. By default, &lt;code&gt;hjust = 0.5&lt;/code&gt; and &lt;code&gt;vjust = 0.5&lt;/code&gt;, that is, the center of the rectangle is at &lt;code&gt;(x, y)&lt;/code&gt;. We can change them to match to &lt;code&gt;(x, y)&lt;/code&gt; by borders or corners, as shown in the examples below. The positioning of text is still not ideal as it is too close to &lt;code&gt;(x, y)&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(grid)
@@ -623,7 +624,7 @@ g3 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1,
 
 grid.arrange(g1, g2, g3, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;For multiline text, we also want to adjust the line space. The linespace is set by parameter &lt;code&gt;lineheight&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For multi-line text, we also want to adjust the line space. The line space is set by parameter &lt;code&gt;lineheight&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;g1 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, lineheight = 0) +
     labs(subtitle = &amp;quot;lineheight = 0&amp;quot;)
 g2 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, lineheight = 0.9) +
@@ -633,7 +634,7 @@ g3 &amp;lt;- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1,
 
 grid.arrange(g1, g2, g3, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2017-08-18-place-object-at-right-location_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;As a final note, some people use &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt; to shift text from &lt;code&gt;(x, y)&lt;/code&gt;. This works well to move up and down a single line text but not good to move left and right or multi-line text, as &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt; are relative to dimension of the text. Some bad examples are shown below. So it is better to use &lt;code&gt;nudge_x&lt;/code&gt; and &lt;code&gt;nudge_y&lt;/code&gt; to shift whole text.&lt;/p&gt;
+&lt;p&gt;As a final note, some people use &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt; that are &lt;code&gt;&amp;lt; 0&lt;/code&gt; or &lt;code&gt;&amp;gt; 1&lt;/code&gt; to shift text from &lt;code&gt;(x, y)&lt;/code&gt;. This works well to move up and down a single line text but not good to move left and right or multi-line text, as &lt;code&gt;hjust&lt;/code&gt; and &lt;code&gt;vjust&lt;/code&gt; are relative to dimension of the rectangle around the text. Some bad examples are shown below. So it is better to use &lt;code&gt;nudge_x&lt;/code&gt; and &lt;code&gt;nudge_y&lt;/code&gt; to shift whole text.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;g1 &amp;lt;- g + geom_text(aes(label = z), vjust = 1.3) +
     labs(subtitle = &amp;quot;vjust = 1.3, more line more space&amp;quot;)
 g2 &amp;lt;- g + geom_text(aes(label = z), hjust = -0.2) +
@@ -652,13 +653,13 @@ grid.arrange(g1, g2, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
       <guid>/2017/08/13/ggplot2-group-overrides-default-grouping/</guid>
       <description>&lt;div id=&#34;default-grouping-in-ggplot2&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Default grouping in &lt;code&gt;ggplot2&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;ggplot2&lt;/code&gt; can subset all data into groups and give each group its own appearance or transformation. In many cases new users are not aware that default groups have been created, and are surprised to see the unwanted plot.&lt;/p&gt;
-&lt;p&gt;There are two ways in which groups are created implicitly:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ggplot2&lt;/code&gt; can subset all data into groups and give each group its own appearance and transformation. In many cases new users are not aware that default groups have been created, and are surprised when seeing unexpected plots.&lt;/p&gt;
+&lt;p&gt;There are two ways in which &lt;code&gt;ggplot2&lt;/code&gt; creates groups implicitly:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;If &lt;code&gt;x&lt;/code&gt; or &lt;code&gt;y&lt;/code&gt; are categorical variables, the rows of date with the same level form a group. Users often overlook this type of default grouping.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;x&lt;/code&gt; or &lt;code&gt;y&lt;/code&gt; are categorical variables, the rows with the same level form a group. Users often overlook this type of default grouping.&lt;/li&gt;
 &lt;li&gt;If aesthetic mapping, such as &lt;code&gt;color&lt;/code&gt;, &lt;code&gt;shape&lt;/code&gt;, and &lt;code&gt;fill&lt;/code&gt;, map to categorical variables, they subset the data into groups. All users know these mappings create groups as data are displayed in different colors or shapes as the names suggest. Many, however, do not know that the default grouping also apply to statistic transformation such as boxplot and smooth.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Let’s use boxplot to explain the default dgrouping. Boxplot displays summary statistics of a group of data. In the left figure, the &lt;code&gt;x&lt;/code&gt; axis is the categorical &lt;code&gt;drv&lt;/code&gt;, which split all data into three groups: &lt;code&gt;4&lt;/code&gt;, &lt;code&gt;f&lt;/code&gt;, and &lt;code&gt;r&lt;/code&gt;. Each group has its own boxplot. In the right figure, aesthetic mapping is included in &lt;code&gt;ggplot(..., aes(..., color = factor(year))&lt;/code&gt;. It displays data points of different years with different colors as expected. It also further split each &lt;code&gt;drv&lt;/code&gt; group into &lt;code&gt;factor(year)&lt;/code&gt; subgroups. The boxplot now applies to all the subgroups, which may or may not be what you want.&lt;/p&gt;
+&lt;p&gt;Let’s use boxplot to explain the default grouping. Boxplot displays summary statistics of a group of data. In the left figure, the &lt;code&gt;x&lt;/code&gt; axis is the categorical &lt;code&gt;drv&lt;/code&gt;, which split all data into three groups: &lt;code&gt;4&lt;/code&gt;, &lt;code&gt;f&lt;/code&gt;, and &lt;code&gt;r&lt;/code&gt;. Each group has its own boxplot. In the right figure, aesthetic mapping is included in &lt;code&gt;ggplot(..., aes(..., color = factor(year))&lt;/code&gt;. It displays data points of different years with different colors as expected. It also further split each &lt;code&gt;drv&lt;/code&gt; group into &lt;code&gt;factor(year)&lt;/code&gt; subgroups. The boxplot now applies to all the subgroups, which may or may not be what you want.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
 library(grid)
 library(gridExtra)
@@ -701,7 +702,7 @@ df&lt;/code&gt;&lt;/pre&gt;
     geom_path() +
     labs(subtitle = &amp;quot;x set the default groups as it is categorical&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;A constant &lt;code&gt;group&lt;/code&gt; removes the default grouping. In the following code, the number &lt;code&gt;123&lt;/code&gt; be any constant such as &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, and &lt;code&gt;group = 123&lt;/code&gt; can be placed outside &lt;code&gt;aes()&lt;/code&gt; as it is a constant. After removing the default grouping, &lt;code&gt;geom_path()&lt;/code&gt; treat all rows as one groups so that there is only one path.&lt;/p&gt;
+&lt;p&gt;A constant &lt;code&gt;group&lt;/code&gt; removes the default grouping. In the following code, the number &lt;code&gt;123&lt;/code&gt; can be any constant such as &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, and &lt;code&gt;group = 123&lt;/code&gt; can be placed outside &lt;code&gt;aes()&lt;/code&gt; as it is a constant. After removing the default grouping, &lt;code&gt;geom_path()&lt;/code&gt; treat all rows as one groups so that there is only one path.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y)) +
     geom_point() +
     geom_path(aes(group = 123)) +   # constant group can stay outside of aes()
@@ -710,7 +711,7 @@ df&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;group-is-for-collective-geoms&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Group is for collective geoms&lt;/h1&gt;
-&lt;p&gt;To better understand the role of &lt;code&gt;group&lt;/code&gt;, we need to know &lt;a href=&#34;https://rpubs.com/hadley/ggplot2-toolbox&#34;&gt;individual geoms and collective geoms&lt;/a&gt;. Geom stands for geometric object. Point plotted with &lt;code&gt;geom_point()&lt;/code&gt; uses one row of data and is an individual geom. Bar plotted with &lt;code&gt;geom_col()&lt;/code&gt; is also an individual geom. A polygon consists of multiple rows of data so it is a collcetive geom. A boxplot is also a collective geom as it is based on the statistic transformation of many rows of data. Individual geoms only depend on one row and do not need &lt;code&gt;group&lt;/code&gt;. Collective geoms need to know groups before making plots.&lt;/p&gt;
+&lt;p&gt;To better understand the role of &lt;code&gt;group&lt;/code&gt;, we need to know &lt;a href=&#34;https://rpubs.com/hadley/ggplot2-toolbox&#34;&gt;individual geoms and collective geoms&lt;/a&gt;. Geom stands for geometric object. Point plotted with &lt;code&gt;geom_point()&lt;/code&gt; uses one row of data and is an individual geom. Bar plotted with &lt;code&gt;geom_col()&lt;/code&gt; is also an individual geom. A polygon consists of multiple rows of data so it is a collective geom. A boxplot is also a collective geom as it is based on the statistic transformation of many rows of data. Individual geoms only depend on one row and do not need &lt;code&gt;group&lt;/code&gt;. Collective geoms need to know groups before making plots.&lt;/p&gt;
 &lt;p&gt;Line and path plot use multiple rows, which qualify them as collective geoms. They, however, retain features of individual geom: each segments can have different style. This is different from polygon, of which all segments must of the same type.&lt;/p&gt;
 &lt;p&gt;Now let’s see how &lt;code&gt;group&lt;/code&gt; acts on individual geoms and collective geoms.&lt;/p&gt;
 &lt;p&gt;We want to connect the path within &lt;code&gt;z&lt;/code&gt; and label them in different colors, what should we do? The first thing jumps out may be &lt;code&gt;aes(color = z)&lt;/code&gt;, but it further breaks the data into four groups, which is not unexpected as we already know how grouping works.&lt;/p&gt;
@@ -719,7 +720,7 @@ df&lt;/code&gt;&lt;/pre&gt;
     geom_path() +
     labs(subtitle = &amp;quot;x and color = z split data into 4 groups&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The correct way is to explicitly set the group with &lt;code&gt;aes(group = z)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The correct way is to explicitly set the group with &lt;code&gt;aes(group = z)&lt;/code&gt;, which overrides the default grouping.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
     geom_point() +
     geom_path(aes(group = z)) +
@@ -729,7 +730,7 @@ df&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
     geom_point() +
     geom_path(aes(group = 123)) +
-    labs(subtitle = &amp;quot;group = 123 removes all default grouping but segments of path retain color&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+    labs(subtitle = &amp;quot;group = 123 removes all default grouping\nbut segments of path retain color&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2017-08-13-ggplot2-group-overrides-default-group_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;This will not happen to polygon, a pure collective geom. To draw polygons into groups based on &lt;code&gt;z&lt;/code&gt;, we need to specify &lt;code&gt;group = z&lt;/code&gt; for &lt;code&gt;geom_polygon()&lt;/code&gt;. It overrides all default grouping and we get two distinct polygons.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df, aes(x, y, color = z)) +
@@ -748,21 +749,21 @@ df&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>A uniform way to use ggplot2</title>
+      <title>My uniform way to use ggplot2</title>
       <link>/2017/08/03/a-uniform-way-to-use-ggplot2/</link>
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/08/03/a-uniform-way-to-use-ggplot2/</guid>
-      <description>&lt;p&gt;Just finished reading Hadley Wickman’s &lt;code&gt;ggplot2&lt;/code&gt; book, (&lt;a href=&#34;http://www.springer.com/us/book/9783319242750&#34;&gt;second eition&lt;/a&gt;). Before that I have been using &lt;code&gt;ggplot2&lt;/code&gt; for a couple of years, mainly learned by reading documentation and searching for help online. This package is a powerful and comprehensive tool for generating static plots.&lt;/p&gt;
-&lt;p&gt;But I also feel that &lt;code&gt;ggplot2&lt;/code&gt; is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. This is not a good feature for a lazy user like me. I just do not want to memorize all these different methods. What I want is an appoach that get the job done, that is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use &lt;code&gt;ggplot2&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Here I discuss how I like to organize &lt;code&gt;ggplot2&lt;/code&gt; plottings. It is my personal preference. Every one can find their best way. I will give the reason why I am doing this way.&lt;/p&gt;
+      <description>&lt;p&gt;Just finished reading Hadley Wickham’s &lt;code&gt;ggplot2&lt;/code&gt; book, (&lt;a href=&#34;http://www.springer.com/us/book/9783319242750&#34;&gt;second eition&lt;/a&gt;). Before that I have been using &lt;code&gt;ggplot2&lt;/code&gt; for a couple of years, mainly learned by reading documentation and searching for help online.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;ggplot2&lt;/code&gt; package is a powerful and comprehensive tool for generating static plots, but I also feel it is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. Being flexible is not a good feature for a lazy user like me. I just can not memorize all these different methods. What I want is an appoach that gets the job done, is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use &lt;code&gt;ggplot2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here I discuss how I like to make &lt;code&gt;ggplot2&lt;/code&gt; plots. It is my personal preference. Every one can find their best way. I will give the reason why I am doing so.&lt;/p&gt;
 &lt;div id=&#34;what-to-be-included-in-ggplot&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;What to be included in &lt;code&gt;ggplot()&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;Every &lt;code&gt;ggplot2&lt;/code&gt; plotting starts with the function &lt;code&gt;ggplot()&lt;/code&gt;. Typically &lt;code&gt;data&lt;/code&gt; and &lt;code&gt;aes()&lt;/code&gt; are included as arguments. The &lt;code&gt;aes()&lt;/code&gt; can include &lt;code&gt;x&lt;/code&gt;, &lt;code&gt;y&lt;/code&gt; and more aesthetic mapping such as &lt;code&gt;color&lt;/code&gt;, &lt;code&gt;shape&lt;/code&gt;, &lt;code&gt;fill&lt;/code&gt;, …, as in the code below,&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = mpg, aes(x = displ, y = cty, color = drv, shape = year, fill = cyl))
 # or to simplify
 ggplot((mpg, aes(displ, cty, color = drv, shape = year, fill = cyl)))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in these layers, then that is good; you save a few keystroke. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has &lt;code&gt;color&lt;/code&gt; in aesthetic mapping, the fit is applied to each color. You’d better move the &lt;code&gt;color&lt;/code&gt; out of &lt;code&gt;ggplot()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in all layers, then that is good; you save a few keystrokes. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has &lt;code&gt;color&lt;/code&gt; in aesthetic mapping, the fit is applied to each color. You’d better move the &lt;code&gt;color&lt;/code&gt; out of &lt;code&gt;ggplot()&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
 ggplot(mpg, aes(cty, hwy, color = drv)) +
     geom_point() +
@@ -772,7 +773,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
 &lt;div id=&#34;which-to-choose-geom_xxx-or-stat_xxx&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Which to choose, &lt;code&gt;geom_xxx()&lt;/code&gt; or &lt;code&gt;stat_xxx()&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;These two functions caused a lot of headache to me. Both &lt;code&gt;geom_xxx()&lt;/code&gt; and &lt;code&gt;stat_xxx()&lt;/code&gt; plot layers. Many &lt;code&gt;geom&lt;/code&gt;s have equivalent &lt;code&gt;stats&lt;/code&gt;, such as &lt;code&gt;geom_smooth()&lt;/code&gt; and &lt;code&gt;stat_smooth()&lt;/code&gt;, &lt;code&gt;geom_bar()&lt;/code&gt; and &lt;code&gt;stat_count&lt;/code&gt;, and &lt;code&gt;geom_boxplot()&lt;/code&gt; and &lt;code&gt;stat_boxplot()&lt;/code&gt;. Even &lt;code&gt;geom_point()&lt;/code&gt; has an equivalent &lt;code&gt;stat_identity()&lt;/code&gt;. So which one to use?&lt;/p&gt;
-&lt;p&gt;I like to use &lt;code&gt;geom_xxx()&lt;/code&gt; for layers that directly plot the original data and &lt;code&gt;stat_xxx()&lt;/code&gt; for layers that plot statistical transformation of the original data. The former includes &lt;code&gt;geom_point()&lt;/code&gt;, &lt;code&gt;geom_line()&lt;/code&gt;, and &lt;code&gt;geom_col()&lt;/code&gt; etc. The latter includes &lt;code&gt;stat_smooth()&lt;/code&gt;, &lt;code&gt;stat_count&lt;/code&gt;, and &lt;code&gt;stat_boxplot()&lt;/code&gt; etc. This a naturla choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with &lt;code&gt;stat&lt;/code&gt;. Using &lt;code&gt;stat_xxx()&lt;/code&gt; has additional benefit: we can choose the right &lt;code&gt;geom&lt;/code&gt; as desired without losing sense of what data are being displayed. In the following code, the counts of &lt;code&gt;drv&lt;/code&gt; are displayed as bar, point and line. No matter what &lt;code&gt;geom&lt;/code&gt; you choose, the &lt;code&gt;stat_count&lt;/code&gt; always explicitly tells you that you are plotting the count.&lt;/p&gt;
+&lt;p&gt;I like to use &lt;code&gt;geom_xxx()&lt;/code&gt; for layers that directly plot the original data and &lt;code&gt;stat_xxx()&lt;/code&gt; for layers that plot statistical transformation of the original data. The former includes &lt;code&gt;geom_point()&lt;/code&gt;, &lt;code&gt;geom_line()&lt;/code&gt;, and &lt;code&gt;geom_col()&lt;/code&gt; etc. The latter includes &lt;code&gt;stat_smooth()&lt;/code&gt;, &lt;code&gt;stat_count&lt;/code&gt;, and &lt;code&gt;stat_boxplot()&lt;/code&gt; etc. This a natural choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with &lt;code&gt;stat&lt;/code&gt;. Using &lt;code&gt;stat_xxx()&lt;/code&gt; has additional benefit: we can choose the right &lt;code&gt;geom&lt;/code&gt; as desired without losing sense of what data are being displayed. In the following code, the counts of &lt;code&gt;drv&lt;/code&gt; are displayed as bar, point and line. No matter what &lt;code&gt;geom&lt;/code&gt; you choose, the &lt;code&gt;stat_count&lt;/code&gt; always explicitly tells you that you are plotting the count.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mpg, aes(drv)) +
     stat_count(geom = &amp;quot;bar&amp;quot;, fill = &amp;quot;grey70&amp;quot;) +
     stat_count(geom = &amp;quot;point&amp;quot;, size = 6, color = &amp;quot;blue&amp;quot;) +
@@ -782,7 +783,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
 &lt;/div&gt;
 &lt;div id=&#34;how-to-organize-axis-and-legend&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;How to organize axis and legend&lt;/h2&gt;
-&lt;p&gt;Almost all components regarding axis and legend can be specified in &lt;code&gt;scale_xxx_xxx()&lt;/code&gt; funtions. You will get the job done by only using them. The code may be too busy though. Several help functions do part of &lt;code&gt;scale_xxx_xxx()&lt;/code&gt;’s job and make the code succint, such as &lt;code&gt;xlab()&lt;/code&gt; and &lt;code&gt;ylim()&lt;/code&gt;. But these help functions also make code less structured.&lt;/p&gt;
+&lt;p&gt;Almost all components regarding axis and legend can be specified in &lt;code&gt;scale_xxx_xxx()&lt;/code&gt; funtions. You can get the job done by only using them. The code may be too busy though. Several help functions do part of &lt;code&gt;scale_xxx_xxx()&lt;/code&gt;’s job and make the code succint, such as &lt;code&gt;xlab()&lt;/code&gt; and &lt;code&gt;ylim()&lt;/code&gt;. But too many help functions also make code less structured.&lt;/p&gt;
 &lt;p&gt;I like two help functions: &lt;code&gt;labs()&lt;/code&gt; sets titles of all axis and lengends and &lt;code&gt;guides()&lt;/code&gt; arranges multiple legends. Together with &lt;code&gt;scale_xxx_xxx()&lt;/code&gt;, the three take care axis and legend in a logical way:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;scale_xxx_xxx()&lt;/code&gt; determines what to show. They are used to set limits, breaks and labels of each aesthetics, which are the real data to show.&lt;/li&gt;
@@ -796,7 +797,6 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
                        breaks = c(0, 20, 40),
                        labels = c(&amp;quot;zero&amp;quot;, &amp;quot;twenty&amp;quot;, &amp;quot;fourty&amp;quot;), 
                        minor_breaks = c(5, 10, 15)) +
-    scale_y_continuous(labels = NULL) +   # remove labels with NULL
     scale_color_discrete(breaks = c(4, 5, 6, 8), 
                          labels = c(&amp;quot;four&amp;quot;, &amp;quot;five&amp;quot;, &amp;quot;six&amp;quot;, &amp;quot;eight&amp;quot;)) + # asign colors by default
                                     
@@ -814,8 +814,8 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
                              reverse = TRUE)  # reverse order of legend keys
     ) +
     # what&amp;#39;s your name
-    labs(title = &amp;quot;Use labs(), scale_xxx(), guides() for legend and axis&amp;quot;,
-         subtitle = &amp;quot;scale_xxx for what to display, guides for how to display, labs for titles&amp;quot;,
+    labs(title = &amp;quot;Use scale_xxx(), guides(), and labs() for legend and axis&amp;quot;,
+         subtitle = &amp;quot;scale_xxx for what to display, guides for how to display, labs for how to name&amp;quot;,
          x = &amp;quot;highway mileage&amp;quot;,
          y = &amp;quot;city mileage&amp;quot;, 
          color = &amp;quot;cylinder&amp;quot;, 
@@ -825,10 +825,10 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
 &lt;/div&gt;
 &lt;div id=&#34;lets-do-a-quick-annotation-with-annotate&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Let’s do a quick annotation with &lt;code&gt;annotate()&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Annotation with &lt;code&gt;annotate()&lt;/code&gt; is handy when you simply want to draw something using vectors. It can draw &lt;code&gt;text&lt;/code&gt;, &lt;code&gt;segment&lt;/code&gt;, &lt;code&gt;rect&lt;/code&gt;, and pretty much everything &lt;code&gt;geom_xxx()&lt;/code&gt; offers. Do not get confused with &lt;code&gt;geom_text()&lt;/code&gt; and &lt;code&gt;geom_segment()&lt;/code&gt;, and &lt;code&gt;geom_rect&lt;/code&gt;, …, which use dataframes. Reserve &lt;code&gt;annotate()&lt;/code&gt; for drawing simple things manually and it belongs to its own group.&lt;/p&gt;
+&lt;p&gt;Annotation with &lt;code&gt;annotate()&lt;/code&gt; is handy when you simply want to draw something using vectors. It can draw &lt;code&gt;text&lt;/code&gt;, &lt;code&gt;segment&lt;/code&gt;, &lt;code&gt;rect&lt;/code&gt;, and pretty much everything &lt;code&gt;geom_xxx()&lt;/code&gt; offers. Do not get confused with &lt;code&gt;geom_text()&lt;/code&gt; and &lt;code&gt;geom_segment()&lt;/code&gt;, and &lt;code&gt;geom_rect&lt;/code&gt;, …, which use dataframes. Reserve &lt;code&gt;annotate()&lt;/code&gt; for drawing simple things manually.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mpg, aes(displ, hwy, color = drv)) +
     geom_point() +
-    annotate(&amp;quot;text&amp;quot;, x = 6, y = 35, label = &amp;quot;These big guys\nare gas efficient&amp;quot;) +
+    annotate(&amp;quot;text&amp;quot;, x = 6, y = 35, label = &amp;quot;These big guys\nare gas efficient.&amp;quot;) +
     annotate(&amp;quot;segment&amp;quot;, x = c(5.8, 6, 6.2), y = 32.5, 
              xend = c(5.7, 6.15, 6.9), yend = c(27, 27, 25.1),
              arrow = arrow(angle = 20, length = unit(2, &amp;quot;mm&amp;quot;), type = &amp;quot;closed&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
@@ -911,12 +911,12 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
     
     <item>
       <title>Compare data.table pipes and magrittr pipes</title>
-      <link>/2017/07/25/improve-data-table-readability-with-pipes/</link>
+      <link>/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/</link>
       <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/07/25/improve-data-table-readability-with-pipes/</guid>
-      <description>&lt;p&gt;There are two ways to chain &lt;code&gt;data.table&lt;/code&gt; operation, using &lt;code&gt;data.table&lt;/code&gt; pipes or using &lt;code&gt;magrittr&lt;/code&gt; pipes. For a data.table &lt;code&gt;dt&lt;/code&gt;, the &lt;code&gt;data.table&lt;/code&gt; pipes take the form of &lt;code&gt;dt[][][]...&lt;/code&gt; and &lt;code&gt;magrittr&lt;/code&gt; pipes &lt;code&gt;dt %&amp;gt;% .[] %&amp;gt;% .[] %&amp;gt;% ...&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Below is an example that compares their readability. The readability of &lt;code&gt;data.table&lt;/code&gt; pipes has been criticized in this &lt;a href=&#34;https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly&#34;&gt;stackoverflow post&lt;/a&gt;. It seems, however, not that hard to follow for those who have basic knowledge of &lt;code&gt;data.table&lt;/code&gt;. To my eyes, the &lt;code&gt;magrittr&lt;/code&gt; pipes improves the readability but not enough to replace the &lt;code&gt;data.table&lt;/code&gt; pipes. It is more of a personal choice.&lt;/p&gt;
+      <guid>/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/</guid>
+      <description>&lt;p&gt;We have two ways to chain &lt;code&gt;data.table&lt;/code&gt; operations, using &lt;code&gt;data.table&lt;/code&gt; pipes or using &lt;code&gt;magrittr&lt;/code&gt; pipes. For a data.table &lt;code&gt;dt&lt;/code&gt;, the &lt;code&gt;data.table&lt;/code&gt; pipes take the form of &lt;code&gt;dt[][][]...&lt;/code&gt; and &lt;code&gt;magrittr&lt;/code&gt; pipes &lt;code&gt;dt %&amp;gt;% .[] %&amp;gt;% .[] %&amp;gt;% ...&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of &lt;code&gt;data.table&lt;/code&gt; pipes in this &lt;a href=&#34;https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly&#34;&gt;stackoverflow post&lt;/a&gt;. The &lt;code&gt;data.table&lt;/code&gt; pipes, however, are not that hard to follow for those who are familiar with &lt;code&gt;data.table&lt;/code&gt;. To my eyes, the &lt;code&gt;magrittr&lt;/code&gt; pipes improve the readability but the &lt;code&gt;data.table&lt;/code&gt; pipes are still acceptable. It is more of a personal choice.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
 library(magrittr)
 
@@ -987,8 +987,8 @@ magrittr_pipe &amp;lt;- function(){
 
 rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           20   3.649    1.054     3.644    0.004
-## 2  magrittr_pipe()           20   3.461    1.000     3.460    0.000
+## 1 datatable_pipe()           20   3.746    1.101      3.74    0.004
+## 2  magrittr_pipe()           20   3.403    1.000      3.40    0.000
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0&lt;/code&gt;&lt;/pre&gt;

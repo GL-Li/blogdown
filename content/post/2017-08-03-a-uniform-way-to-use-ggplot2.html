@@ -1,5 +1,5 @@
 ---
-title: A uniform way to use ggplot2
+title: My uniform way to use ggplot2
 author: GL Li
 date: '2017-08-03'
 slug: a-uniform-way-to-use-ggplot2
@@ -11,16 +11,16 @@ tags:
 
 
 
-<p>Just finished reading Hadley Wickman’s <code>ggplot2</code> book, (<a href="http://www.springer.com/us/book/9783319242750">second eition</a>). Before that I have been using <code>ggplot2</code> for a couple of years, mainly learned by reading documentation and searching for help online. This package is a powerful and comprehensive tool for generating static plots.</p>
-<p>But I also feel that <code>ggplot2</code> is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. This is not a good feature for a lazy user like me. I just do not want to memorize all these different methods. What I want is an appoach that get the job done, that is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use <code>ggplot2</code>.</p>
-<p>Here I discuss how I like to organize <code>ggplot2</code> plottings. It is my personal preference. Every one can find their best way. I will give the reason why I am doing this way.</p>
+<p>Just finished reading Hadley Wickham’s <code>ggplot2</code> book, (<a href="http://www.springer.com/us/book/9783319242750">second eition</a>). Before that I have been using <code>ggplot2</code> for a couple of years, mainly learned by reading documentation and searching for help online.</p>
+<p>The <code>ggplot2</code> package is a powerful and comprehensive tool for generating static plots, but I also feel it is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. Being flexible is not a good feature for a lazy user like me. I just can not memorize all these different methods. What I want is an appoach that gets the job done, is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use <code>ggplot2</code>.</p>
+<p>Here I discuss how I like to make <code>ggplot2</code> plots. It is my personal preference. Every one can find their best way. I will give the reason why I am doing so.</p>
 <div id="what-to-be-included-in-ggplot" class="section level2">
 <h2>What to be included in <code>ggplot()</code></h2>
 <p>Every <code>ggplot2</code> plotting starts with the function <code>ggplot()</code>. Typically <code>data</code> and <code>aes()</code> are included as arguments. The <code>aes()</code> can include <code>x</code>, <code>y</code> and more aesthetic mapping such as <code>color</code>, <code>shape</code>, <code>fill</code>, …, as in the code below,</p>
 <pre class="r"><code>ggplot(data = mpg, aes(x = displ, y = cty, color = drv, shape = year, fill = cyl))
 # or to simplify
 ggplot((mpg, aes(displ, cty, color = drv, shape = year, fill = cyl)))</code></pre>
-<p>My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in these layers, then that is good; you save a few keystroke. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has <code>color</code> in aesthetic mapping, the fit is applied to each color. You’d better move the <code>color</code> out of <code>ggplot()</code>.</p>
+<p>My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in all layers, then that is good; you save a few keystrokes. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has <code>color</code> in aesthetic mapping, the fit is applied to each color. You’d better move the <code>color</code> out of <code>ggplot()</code>.</p>
 <pre class="r"><code>library(ggplot2)
 ggplot(mpg, aes(cty, hwy, color = drv)) +
     geom_point() +
@@ -30,7 +30,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
 <div id="which-to-choose-geom_xxx-or-stat_xxx" class="section level2">
 <h2>Which to choose, <code>geom_xxx()</code> or <code>stat_xxx()</code></h2>
 <p>These two functions caused a lot of headache to me. Both <code>geom_xxx()</code> and <code>stat_xxx()</code> plot layers. Many <code>geom</code>s have equivalent <code>stats</code>, such as <code>geom_smooth()</code> and <code>stat_smooth()</code>, <code>geom_bar()</code> and <code>stat_count</code>, and <code>geom_boxplot()</code> and <code>stat_boxplot()</code>. Even <code>geom_point()</code> has an equivalent <code>stat_identity()</code>. So which one to use?</p>
-<p>I like to use <code>geom_xxx()</code> for layers that directly plot the original data and <code>stat_xxx()</code> for layers that plot statistical transformation of the original data. The former includes <code>geom_point()</code>, <code>geom_line()</code>, and <code>geom_col()</code> etc. The latter includes <code>stat_smooth()</code>, <code>stat_count</code>, and <code>stat_boxplot()</code> etc. This a naturla choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with <code>stat</code>. Using <code>stat_xxx()</code> has additional benefit: we can choose the right <code>geom</code> as desired without losing sense of what data are being displayed. In the following code, the counts of <code>drv</code> are displayed as bar, point and line. No matter what <code>geom</code> you choose, the <code>stat_count</code> always explicitly tells you that you are plotting the count.</p>
+<p>I like to use <code>geom_xxx()</code> for layers that directly plot the original data and <code>stat_xxx()</code> for layers that plot statistical transformation of the original data. The former includes <code>geom_point()</code>, <code>geom_line()</code>, and <code>geom_col()</code> etc. The latter includes <code>stat_smooth()</code>, <code>stat_count</code>, and <code>stat_boxplot()</code> etc. This a natural choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with <code>stat</code>. Using <code>stat_xxx()</code> has additional benefit: we can choose the right <code>geom</code> as desired without losing sense of what data are being displayed. In the following code, the counts of <code>drv</code> are displayed as bar, point and line. No matter what <code>geom</code> you choose, the <code>stat_count</code> always explicitly tells you that you are plotting the count.</p>
 <pre class="r"><code>ggplot(mpg, aes(drv)) +
     stat_count(geom = &quot;bar&quot;, fill = &quot;grey70&quot;) +
     stat_count(geom = &quot;point&quot;, size = 6, color = &quot;blue&quot;) +
@@ -40,7 +40,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
 </div>
 <div id="how-to-organize-axis-and-legend" class="section level2">
 <h2>How to organize axis and legend</h2>
-<p>Almost all components regarding axis and legend can be specified in <code>scale_xxx_xxx()</code> funtions. You will get the job done by only using them. The code may be too busy though. Several help functions do part of <code>scale_xxx_xxx()</code>’s job and make the code succint, such as <code>xlab()</code> and <code>ylim()</code>. But these help functions also make code less structured.</p>
+<p>Almost all components regarding axis and legend can be specified in <code>scale_xxx_xxx()</code> funtions. You can get the job done by only using them. The code may be too busy though. Several help functions do part of <code>scale_xxx_xxx()</code>’s job and make the code succint, such as <code>xlab()</code> and <code>ylim()</code>. But too many help functions also make code less structured.</p>
 <p>I like two help functions: <code>labs()</code> sets titles of all axis and lengends and <code>guides()</code> arranges multiple legends. Together with <code>scale_xxx_xxx()</code>, the three take care axis and legend in a logical way:</p>
 <ul>
 <li><code>scale_xxx_xxx()</code> determines what to show. They are used to set limits, breaks and labels of each aesthetics, which are the real data to show.</li>
@@ -54,7 +54,6 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
                        breaks = c(0, 20, 40),
                        labels = c(&quot;zero&quot;, &quot;twenty&quot;, &quot;fourty&quot;), 
                        minor_breaks = c(5, 10, 15)) +
-    scale_y_continuous(labels = NULL) +   # remove labels with NULL
     scale_color_discrete(breaks = c(4, 5, 6, 8), 
                          labels = c(&quot;four&quot;, &quot;five&quot;, &quot;six&quot;, &quot;eight&quot;)) + # asign colors by default
                                     
@@ -72,8 +71,8 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
                              reverse = TRUE)  # reverse order of legend keys
     ) +
     # what&#39;s your name
-    labs(title = &quot;Use labs(), scale_xxx(), guides() for legend and axis&quot;,
-         subtitle = &quot;scale_xxx for what to display, guides for how to display, labs for titles&quot;,
+    labs(title = &quot;Use scale_xxx(), guides(), and labs() for legend and axis&quot;,
+         subtitle = &quot;scale_xxx for what to display, guides for how to display, labs for how to name&quot;,
          x = &quot;highway mileage&quot;,
          y = &quot;city mileage&quot;, 
          color = &quot;cylinder&quot;, 
@@ -83,10 +82,10 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
 </div>
 <div id="lets-do-a-quick-annotation-with-annotate" class="section level2">
 <h2>Let’s do a quick annotation with <code>annotate()</code></h2>
-<p>Annotation with <code>annotate()</code> is handy when you simply want to draw something using vectors. It can draw <code>text</code>, <code>segment</code>, <code>rect</code>, and pretty much everything <code>geom_xxx()</code> offers. Do not get confused with <code>geom_text()</code> and <code>geom_segment()</code>, and <code>geom_rect</code>, …, which use dataframes. Reserve <code>annotate()</code> for drawing simple things manually and it belongs to its own group.</p>
+<p>Annotation with <code>annotate()</code> is handy when you simply want to draw something using vectors. It can draw <code>text</code>, <code>segment</code>, <code>rect</code>, and pretty much everything <code>geom_xxx()</code> offers. Do not get confused with <code>geom_text()</code> and <code>geom_segment()</code>, and <code>geom_rect</code>, …, which use dataframes. Reserve <code>annotate()</code> for drawing simple things manually.</p>
 <pre class="r"><code>ggplot(mpg, aes(displ, hwy, color = drv)) +
     geom_point() +
-    annotate(&quot;text&quot;, x = 6, y = 35, label = &quot;These big guys\nare gas efficient&quot;) +
+    annotate(&quot;text&quot;, x = 6, y = 35, label = &quot;These big guys\nare gas efficient.&quot;) +
     annotate(&quot;segment&quot;, x = c(5.8, 6, 6.2), y = 32.5, 
              xend = c(5.7, 6.15, 6.9), yend = c(27, 27, 25.1),
              arrow = arrow(angle = 20, length = unit(2, &quot;mm&quot;), type = &quot;closed&quot;))</code></pre>

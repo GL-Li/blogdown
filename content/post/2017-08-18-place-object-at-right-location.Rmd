@@ -14,9 +14,9 @@ library(knitr)
 opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
-A common tast in plotting is adding texts as labels or annotations to specific locations. `ggplot()` has functions `geom_text()`, `geom_label()` and `annotate()` for this purpose. In this post we discuss how `ggplot2` controls positioning of text.
+A common task in plotting is adding texts as labels or annotations to specific locations. `ggplot()` has functions `geom_text()`, `geom_label()` and `annotate()` for this purpose. In this post we discuss how `ggplot2` controls positioning of text.
 
-First we need to specify `(x, y)` coordinate in the plot to where the text is placed. As shown in the following example, the actual positioning of the text is sometimes not what you want. The problem is that `x` and `y` are usually vectors or columns of a data frame, which are not easily to be modified.
+First we need to specify `(x, y)` coordinate in the plot where the text is placed. By default, the center of the text is at `(x, y)`, which is sometimes not what we want, as shown in the example below. 
 
 ```{r fig.width=5, fig.height=3}
 library(ggplot2)
@@ -28,7 +28,7 @@ g <- ggplot(df, aes(x = x, y = y)) +
     geom_point(color = "red") +
     coord_cartesian(xlim = c(0.3, 3.5), ylim = c(0.5, 3.5))
 g + geom_text(aes(label = z)) +
-    labs(subtitle = "(x, y) set the position of text but usually is not as desired")
+    labs(subtitle = "(x, y) set the position of text but often is not we want")
 ```
 
 
@@ -61,7 +61,7 @@ g3 <- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, nudge_
 grid.arrange(g1, g2, g3, nrow = 1)
 ```
 
-For multiline text, we also want to adjust the line space. The linespace is set by parameter `lineheight`. 
+For multi-line text, we also want to adjust the line space. The line space is set by parameter `lineheight`. 
 
 ```{r fig.width=10, fig.height=3}
 g1 <- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, lineheight = 0) +
@@ -74,7 +74,7 @@ g3 <- g + geom_text(aes(label = z), hjust = 1, vjust = 0, nudge_x = -0.1, linehe
 grid.arrange(g1, g2, g3, nrow = 1)
 ```
 
-As a final note, some people use `hjust` and `vjust` to shift text from `(x, y)`. This works well to move up and down a single line text but not good to move left and right or multi-line text, as `hjust` and `vjust` are relative to dimension of the text. Some bad examples are shown below. So it is better to use `nudge_x` and `nudge_y` to shift whole text.
+As a final note, some people use `hjust` and `vjust` that are `< 0` or `> 1` to shift text from `(x, y)`. This works well to move up and down a single line text but not good to move left and right or multi-line text, as `hjust` and `vjust` are relative to dimension of the rectangle around the text. Some bad examples are shown below. So it is better to use `nudge_x` and `nudge_y` to shift whole text.
 
 ```{r fig.width=8, fig.height=3}
 g1 <- g + geom_text(aes(label = z), vjust = 1.3) +

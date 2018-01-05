@@ -1,5 +1,5 @@
 ---
-title: Using totalcensus package to determine relationship between census geographic entities
+title: Determine relationship between census geographic entities with totalcensus package
 author: GL Li
 date: '2017-12-28'
 slug: use-totalcensus-package-to-determine-relationship-between-geographic-entities
@@ -9,7 +9,7 @@ tags:
   - census
 ---
 
-This is an application example of [totalcensus](https://github.com/GL-Li/totalcensus) package.
+This is an application example of [totalcensus package](https://github.com/GL-Li/totalcensus).
 
 The geographic hierarchy primer in [Census 2010 summary file 1 technical documentation](https://www.census.gov/prod/cen2010/doc/sf1.pdf) displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states. 
 
@@ -19,7 +19,7 @@ The geographic hierarchy primer in [Census 2010 summary file 1 technical documen
 <br> 
 
 
-It is easy to get the summary statistics of lower geographies within a higher one when they are connected. If we want the race population of all county subdivision in Kent county, RI, we can run
+It is easy to get the summary statistics of lower geographies within a higher one when they are connected. For example, if we want the race population of all county subdivision in Kent county, RI, we can run
 
 ```{r eval=FALSE}
 library(totalcensus)
@@ -63,6 +63,7 @@ zip_boston <- read_decennial(
     .[PLACE == "07000", unique(ZCTA5)] 
 
 zip_boston
+# all zip code in Boston:
     #  [1] "02134" "02135" "02467" "02215" "02163" "02115" "02116" "02199"
     #  [9] "02108" "02114" "02113" "02109" "02110" "02203" "02129" "02128"
     # [17] "02127" "02210" "02118" "02111" "02119" "02120" "02130" "02121"

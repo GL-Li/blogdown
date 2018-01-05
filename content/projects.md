@@ -1,5 +1,5 @@
 # [totalcensus package: extract census data from summary files](https://github.com/GL-Li/totalcensus)
-The totalcensus package extracts any data available in the raw summary files of decennial census and American Community Survey (ACS) and returns a tidy data.table that can be easily processed with data.table or dplyr packages.
+The totalcensus package extracts any data available in the raw summary files of decennial census and American Community Survey (ACS) and returns a tidy `data.table` that can be easily processed with `data.table` or `dplyr` packages.
 
 ***
 # Fatal police shooting in the United States
@@ -10,7 +10,7 @@ In large urban areas, black people are 1.96 time as likely to be fatally shot by
 ***
 # [China census 2010](http://useshiny.com/apps/China_census/)
 
-This application visualizes the China 2010 census. China has conducted a national census of all population every ten years since 1990, collecting data such as age, gender, education and housing. The most recent one was carried out in November 01, 2010. The official summary of the census is published on the webpage of [National Bureau of Statistics of China](http://www.stats.gov.cn/tjsj/pcsj/rkpc/6rp/indexch.htm) as Excel sheets. This app attempts to convey the information essential to understanding China through interactive visualization.
+This `Shiny` application visualizes the China 2010 census. China has conducted a national census of all population every ten years since 1990, collecting data such as age, gender, education and housing. The most recent one was carried out in November 01, 2010. The official summary of the census is published on the webpage of [National Bureau of Statistics of China](http://www.stats.gov.cn/tjsj/pcsj/rkpc/6rp/indexch.htm) as Excel sheets. This app attempts to convey the information essential to understanding China through interactive visualization.
 
 ***
 # [Predict next words](https://gl-li.shinyapps.io/nextWord_ShinyApp/)

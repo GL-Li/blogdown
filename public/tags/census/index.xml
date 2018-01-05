@@ -12,16 +12,16 @@
     
     
     <item>
-      <title>Using totalcensus package to determine relationship between census geographic entities</title>
+      <title>Determine relationship between census geographic entities with totalcensus package</title>
       <link>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
       <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
-      <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus&lt;/a&gt; package.&lt;/p&gt;
+      <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus package&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The geographic hierarchy primer in &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;Census 2010 summary file 1 technical documentation&lt;/a&gt; displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states.&lt;/p&gt;
 &lt;p&gt;&lt;br&gt; &lt;img src=&#34;https://s3.amazonaws.com/gl-shared-pictures/hierarchy_census_geographic_entities.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;p&gt;It is easy to get the summary statistics of lower geographies within a higher one when they are connected. If we want the race population of all county subdivision in Kent county, RI, we can run&lt;/p&gt;
+&lt;p&gt;It is easy to get the summary statistics of lower geographies within a higher one when they are connected. For example, if we want the race population of all county subdivision in Kent county, RI, we can run&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
 library(data.table)
 library(magrittr)
@@ -57,6 +57,7 @@ print(sub_kent)
     .[PLACE == &amp;quot;07000&amp;quot;, unique(ZCTA5)] 
 
 zip_boston
+# all zip code in Boston:
     #  [1] &amp;quot;02134&amp;quot; &amp;quot;02135&amp;quot; &amp;quot;02467&amp;quot; &amp;quot;02215&amp;quot; &amp;quot;02163&amp;quot; &amp;quot;02115&amp;quot; &amp;quot;02116&amp;quot; &amp;quot;02199&amp;quot;
     #  [9] &amp;quot;02108&amp;quot; &amp;quot;02114&amp;quot; &amp;quot;02113&amp;quot; &amp;quot;02109&amp;quot; &amp;quot;02110&amp;quot; &amp;quot;02203&amp;quot; &amp;quot;02129&amp;quot; &amp;quot;02128&amp;quot;
     # [17] &amp;quot;02127&amp;quot; &amp;quot;02210&amp;quot; &amp;quot;02118&amp;quot; &amp;quot;02111&amp;quot; &amp;quot;02119&amp;quot; &amp;quot;02120&amp;quot; &amp;quot;02130&amp;quot; &amp;quot;02121&amp;quot;
@@ -105,7 +106,7 @@ head(race_zip_boston, 3)
       <pubDate>Sat, 23 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/12/23/census_data_zip_code/</guid>
-      <description>&lt;p&gt;This is an example of more complicated applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
+      <description>&lt;p&gt;This is an example of applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
 library(data.table)
@@ -114,7 +115,7 @@ library(ggplot2)
 library(ggmap)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;whats-the-population-in-a-zcta5&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;What’s the population in a ZCTA5&lt;/h3&gt;
-&lt;p&gt;There are 32898 ZCTA5s in the United States and a ZCTA5 has an average population of 9656 and a median population of 2780. The population distribution is highly skewed towards zero with 320 of them having no people living in and 1583 having population below 100. There are 252 zip code having population over 65000.&lt;/p&gt;
+&lt;p&gt;These population data can be easily obtained with the code below. There are 32898 ZCTA5s in the United States and a ZCTA5 has an average population of 9656 and a median population of 2780. The population distribution is highly skewed towards zero with 320 of them having no people living in and 1583 having population below 100. There are 252 zip code having population over 65000.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# read population in each zip code
 zip_population &amp;lt;- read_acs5year(
     year = 2016,
@@ -130,7 +131,7 @@ zip_population &amp;lt;- read_acs5year(
 &lt;/div&gt;
 &lt;div id=&#34;median-age-in-a-zcta5&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Median age in a ZCTA5&lt;/h3&gt;
-&lt;p&gt;Just for fun, let’s find out the median age of population living in each ZCTA5. The result is pretty interesting. After removing those ZCTA5s with population below 1000 and those with larger margin of error in median age estimate and population count, the smallest median age of a ZCTA5 is 19 and largest is 75.50. These numbers mean that some zip code tabulation area are dominated by very young people while some are dominated by very old ones.&lt;/p&gt;
+&lt;p&gt;Just for fun, let’s find out the median age of population living in each ZCTA5. The result is pretty interesting. After removing those ZCTA5s with population below 1000 and those with larger margin of error in median age estimate and population count, the smallest median age of a ZCTA5 is 19 and largest is 75.50. These numbers mean that some zip code tabulation area are dominated by very young people while some are dominated by very old people.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# read median age 
 median_age &amp;lt;- read_acs5year(
     year = 2016,
@@ -150,8 +151,8 @@ median_age &amp;lt;- read_acs5year(
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(median_age$median_age)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   19.00   35.60   39.90   39.89   43.90   75.50&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;How are these extreme median ages possible for a zip code area which has thousands population? The young median age is easier to understand - many colleges are assigned exclusively with a zip code and the residents in this zip are mostly students living in dorms so the median age can be very low. The zip code areas with very old median age, though a supprise, are still understandable: these are the communities full of retired people.&lt;/p&gt;
-&lt;p&gt;It is said that poeple like to go to South for warm weather after retirement. Can we see this from the median age data? Yes, old people went Florida!&lt;/p&gt;
+&lt;p&gt;How are these extreme median ages possible for a zip code area which has thousands population? The young median age is easier to understand - many colleges are assigned exclusively with a zip code and the residents in this zip are mostly students living in dorms so the median age can be very low. The zip code areas with very old median age, though a surprise, are still understandable: these are the communities full of retired people.&lt;/p&gt;
+&lt;p&gt;It is said that people like to go to South for warm weather after retirement. Can we see this from the median age data? Yes, old people went Florida!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# download US map
 us_map &amp;lt;- get_map(&amp;quot;US&amp;quot;, zoom = 4, color = &amp;quot;bw&amp;quot;)
 

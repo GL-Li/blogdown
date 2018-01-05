@@ -1,5 +1,5 @@
 ---
-title: A uniform way to use ggplot2
+title: My uniform way to use ggplot2
 author: GL Li
 date: '2017-08-03'
 slug: a-uniform-way-to-use-ggplot2
@@ -14,11 +14,11 @@ library(knitr)
 opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
-Just finished reading Hadley Wickman's ``ggplot2`` book, ([second eition](http://www.springer.com/us/book/9783319242750)). Before that I have been using ``ggplot2`` for a couple of years, mainly learned by reading documentation and searching for help online. This package is a powerful and comprehensive tool for generating static plots.
+Just finished reading Hadley Wickham's ``ggplot2`` book, ([second eition](http://www.springer.com/us/book/9783319242750)). Before that I have been using ``ggplot2`` for a couple of years, mainly learned by reading documentation and searching for help online. 
 
-But I also feel that ``ggplot2`` is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. This is not a good feature for a lazy user like me. I just do not want to memorize all these different methods. What I want is an appoach that get the job done, that is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use `ggplot2`.
+The `ggplot2` package is a powerful and comprehensive tool for generating static plots, but I also feel it is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. Being flexible is not a good feature for a lazy user like me. I just can not memorize all these different methods. What I want is an appoach that gets the job done, is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use `ggplot2`.
 
-Here I discuss how I like to organize `ggplot2` plottings. It is my personal preference. Every one can find their best way. I will give the reason why I am doing this way. 
+Here I discuss how I like to make `ggplot2` plots. It is my personal preference. Every one can find their best way. I will give the reason why I am doing so. 
 
 ## What to be included in ``ggplot()``
 Every `ggplot2` plotting starts with the function ``ggplot()``. Typically `data` and `aes()` are included as arguments. The `aes()` can include `x`, `y` and more aesthetic mapping such as `color`, `shape`, `fill`, ..., as in the code below,
@@ -29,7 +29,7 @@ ggplot(data = mpg, aes(x = displ, y = cty, color = drv, shape = year, fill = cyl
 ggplot((mpg, aes(displ, cty, color = drv, shape = year, fill = cyl)))
 ```
 
-My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in these layers, then that is good; you save a few keystroke. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has `color` in aesthetic mapping, the fit is applied to each color. You'd better move the `color` out of `ggplot()`. 
+My preference for this part is to include as fewer arguments as possible, even without any argument. All these arguments are inherited by all plotting layers by default. If you want them to be used in all layers, then that is good; you save a few keystrokes. But if it is not what you want, it is where troubles hide. For example, if your want to a linear fit to all data points but has `color` in aesthetic mapping, the fit is applied to each color. You'd better move the `color` out of `ggplot()`. 
 
 ```{r fig.height=3, fig.width=5}
 library(ggplot2)
@@ -42,7 +42,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
 ## Which to choose, `geom_xxx()` or `stat_xxx()`
 These two functions caused a lot of headache to me. Both `geom_xxx()` and `stat_xxx()` plot layers. Many `geom`s have equivalent `stats`, such as `geom_smooth()` and `stat_smooth()`, `geom_bar()` and `stat_count`, and `geom_boxplot()` and `stat_boxplot()`. Even `geom_point()` has an equivalent `stat_identity()`. So which one to use? 
 
-I like to use `geom_xxx()` for layers that directly plot the original data and `stat_xxx()` for layers that plot statistical transformation of the original data. The former includes `geom_point()`, `geom_line()`, and `geom_col()` etc. The latter includes `stat_smooth()`, `stat_count`, and `stat_boxplot()` etc. This a naturla choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with `stat`. Using `stat_xxx()` has additional benefit: we can choose the right `geom` as desired without losing sense of what data are being displayed. In the following code, the counts of `drv` are displayed as bar, point and line. No matter what `geom` you choose, the `stat_count` always explicitly tells you that you are plotting the count. 
+I like to use `geom_xxx()` for layers that directly plot the original data and `stat_xxx()` for layers that plot statistical transformation of the original data. The former includes `geom_point()`, `geom_line()`, and `geom_col()` etc. The latter includes `stat_smooth()`, `stat_count`, and `stat_boxplot()` etc. This a natural choice to me as I pay more attention to data; whenever statistical transformed data are used, I want to use it explicitly with function starting with `stat`. Using `stat_xxx()` has additional benefit: we can choose the right `geom` as desired without losing sense of what data are being displayed. In the following code, the counts of `drv` are displayed as bar, point and line. No matter what `geom` you choose, the `stat_count` always explicitly tells you that you are plotting the count. 
 
 ```{r fig.height=3, fig.width=4}
 ggplot(mpg, aes(drv)) +
@@ -55,7 +55,7 @@ A few words about bar plot. Above count of one categorical variable are often pl
 
 
 ## How to organize axis and legend
-Almost all components regarding axis and legend can be specified in `scale_xxx_xxx()` funtions. You will get the job done by only using them. The code may be too busy though. Several help functions do part of `scale_xxx_xxx()`'s job and make the code succint, such as `xlab()` and `ylim()`. But these help functions also make code less structured.
+Almost all components regarding axis and legend can be specified in `scale_xxx_xxx()` funtions. You can get the job done by only using them. The code may be too busy though. Several help functions do part of `scale_xxx_xxx()`'s job and make the code succint, such as `xlab()` and `ylim()`. But too many help functions also make code less structured.
 
 I like two help functions: `labs()` sets titles of all axis and lengends and `guides()` arranges multiple legends. Together with `scale_xxx_xxx()`, the three take care axis and legend in a logical way:
 
@@ -71,7 +71,6 @@ ggplot(mpg, aes(hwy, cty, color = factor(cyl), shape = drv)) +
                        breaks = c(0, 20, 40),
                        labels = c("zero", "twenty", "fourty"), 
                        minor_breaks = c(5, 10, 15)) +
-    scale_y_continuous(labels = NULL) +   # remove labels with NULL
     scale_color_discrete(breaks = c(4, 5, 6, 8), 
                          labels = c("four", "five", "six", "eight")) + # asign colors by default
                                     
@@ -89,8 +88,8 @@ ggplot(mpg, aes(hwy, cty, color = factor(cyl), shape = drv)) +
                              reverse = TRUE)  # reverse order of legend keys
     ) +
     # what's your name
-    labs(title = "Use labs(), scale_xxx(), guides() for legend and axis",
-         subtitle = "scale_xxx for what to display, guides for how to display, labs for titles",
+    labs(title = "Use scale_xxx(), guides(), and labs() for legend and axis",
+         subtitle = "scale_xxx for what to display, guides for how to display, labs for how to name",
          x = "highway mileage",
          y = "city mileage", 
          color = "cylinder", 
@@ -100,12 +99,12 @@ ggplot(mpg, aes(hwy, cty, color = factor(cyl), shape = drv)) +
 ```
 
 ## Let's do a quick annotation with `annotate()`
-Annotation with ``annotate()`` is handy when you simply want to draw something using vectors. It can draw `text`, `segment`, `rect`, and pretty much everything `geom_xxx()` offers. Do not get confused with `geom_text()` and `geom_segment()`, and `geom_rect`, ..., which use dataframes. Reserve `annotate()` for drawing simple things manually and it belongs to its own group.
+Annotation with ``annotate()`` is handy when you simply want to draw something using vectors. It can draw `text`, `segment`, `rect`, and pretty much everything `geom_xxx()` offers. Do not get confused with `geom_text()` and `geom_segment()`, and `geom_rect`, ..., which use dataframes. Reserve `annotate()` for drawing simple things manually.
 
 ```{r}
 ggplot(mpg, aes(displ, hwy, color = drv)) +
     geom_point() +
-    annotate("text", x = 6, y = 35, label = "These big guys\nare gas efficient") +
+    annotate("text", x = 6, y = 35, label = "These big guys\nare gas efficient.") +
     annotate("segment", x = c(5.8, 6, 6.2), y = 32.5, 
              xend = c(5.7, 6.15, 6.9), yend = c(27, 27, 25.1),
              arrow = arrow(angle = 20, length = unit(2, "mm"), type = "closed"))

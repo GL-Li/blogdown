@@ -1,5 +1,5 @@
 ---
-title: Using totalcensus package to determine relationship between census geographic entities
+title: Determine relationship between census geographic entities with totalcensus package
 author: GL Li
 date: '2017-12-28'
 slug: use-totalcensus-package-to-determine-relationship-between-geographic-entities
@@ -11,11 +11,11 @@ tags:
 
 
 
-<p>This is an application example of <a href="https://github.com/GL-Li/totalcensus">totalcensus</a> package.</p>
+<p>This is an application example of <a href="https://github.com/GL-Li/totalcensus">totalcensus package</a>.</p>
 <p>The geographic hierarchy primer in <a href="https://www.census.gov/prod/cen2010/doc/sf1.pdf">Census 2010 summary file 1 technical documentation</a> displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states.</p>
 <p><br> <img src="https://s3.amazonaws.com/gl-shared-pictures/hierarchy_census_geographic_entities.png" /></p>
 <p><br></p>
-<p>It is easy to get the summary statistics of lower geographies within a higher one when they are connected. If we want the race population of all county subdivision in Kent county, RI, we can run</p>
+<p>It is easy to get the summary statistics of lower geographies within a higher one when they are connected. For example, if we want the race population of all county subdivision in Kent county, RI, we can run</p>
 <pre class="r"><code>library(totalcensus)
 library(data.table)
 library(magrittr)
@@ -51,6 +51,7 @@ print(sub_kent)
     .[PLACE == &quot;07000&quot;, unique(ZCTA5)] 
 
 zip_boston
+# all zip code in Boston:
     #  [1] &quot;02134&quot; &quot;02135&quot; &quot;02467&quot; &quot;02215&quot; &quot;02163&quot; &quot;02115&quot; &quot;02116&quot; &quot;02199&quot;
     #  [9] &quot;02108&quot; &quot;02114&quot; &quot;02113&quot; &quot;02109&quot; &quot;02110&quot; &quot;02203&quot; &quot;02129&quot; &quot;02128&quot;
     # [17] &quot;02127&quot; &quot;02210&quot; &quot;02118&quot; &quot;02111&quot; &quot;02119&quot; &quot;02120&quot; &quot;02130&quot; &quot;02121&quot;
