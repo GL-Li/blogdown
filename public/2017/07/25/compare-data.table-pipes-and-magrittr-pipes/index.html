@@ -145,8 +145,8 @@ magrittr_pipe &lt;- function(){
 
 rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)</code></pre>
 <pre><code>##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           20   3.746    1.101      3.74    0.004
-## 2  magrittr_pipe()           20   3.403    1.000      3.40    0.000
+## 1 datatable_pipe()           20   3.599    1.107     3.596    0.004
+## 2  magrittr_pipe()           20   3.252    1.000     3.248    0.004
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0</code></pre>

@@ -749,7 +749,7 @@ df&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>My uniform way to use ggplot2</title>
+      <title>My uniform way of using ggplot2</title>
       <link>/2017/08/03/a-uniform-way-to-use-ggplot2/</link>
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
@@ -987,8 +987,8 @@ magrittr_pipe &amp;lt;- function(){
 
 rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           20   3.746    1.101      3.74    0.004
-## 2  magrittr_pipe()           20   3.403    1.000      3.40    0.000
+## 1 datatable_pipe()           20   3.599    1.107     3.596    0.004
+## 2  magrittr_pipe()           20   3.252    1.000     3.248    0.004
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0&lt;/code&gt;&lt;/pre&gt;
