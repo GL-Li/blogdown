@@ -38,8 +38,8 @@ metro &lt;- read_acs1year(
 largest &lt;- metro %&gt;%
     filter(population &gt; 1e6) %&gt;%
     # Los Angeles metro changed CBSA from 31100 to 31080, hand correct the coordinate
-    mutate(lon = ifelse(GEOID == &quot;31000US31080&quot;, -118.18194, lon),
-           lat = ifelse(GEOID == &quot;31000US31080&quot;, 34.10939, lat)) %&gt;%
+    # mutate(lon = ifelse(GEOID == &quot;31000US31080&quot;, -118.18194, lon),
+    #        lat = ifelse(GEOID == &quot;31000US31080&quot;, 34.10939, lat)) %&gt;%
     select(NAME, lon, lat, total = population, white, black, asian, others) %&gt;%
     arrange(-total)
 

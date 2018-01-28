@@ -6,10 +6,100 @@
     <description>Recent content on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 17 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 27 Jan 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Is your town named after Lincoln or Washington?</title>
+      <link>/2018/01/27/the-most-popular-president-lincoln-or-washington/</link>
+      <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/27/the-most-popular-president-lincoln-or-washington/</guid>
+      <description>&lt;p&gt;Washington and Lincoln are the two greatest presidents in the history of the United States. This post, however, does not discuss how great they are. Instead, I want to show a fun fact related the two presidents: how many cities and towns (and equivalents) are named after them. I am living in Lincoln, Rhode Island, a town so named in honor of President Lincoln.&lt;/p&gt;
+&lt;p&gt;The data are extracted from decennial census 2010, the most detailed census so far. There are 311 cities and towns having “Washington” in their names and 205 having “Lincoln”. We also extract the coordinates and population of these cities and towns and plot them on the US map. There are significantly more places named after “Washington” than “Lincoln” in three states, Indiana , Ohio, and Pennsylvania. They combined have 109 more places with &lt;code&gt;Washington&lt;/code&gt; than with &lt;code&gt;Lincoln&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;816&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Here are the code. We use package &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;&lt;code&gt;totalcensus&lt;/code&gt;&lt;/a&gt; to extract data from decennial census 2010.&lt;/p&gt;
+&lt;p&gt;Let’s first load packages.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
+library(data.table)
+library(magrittr)
+library(ggmap)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Define a function to extract census data of cities and towns including particular words in names.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_area &amp;lt;- function(keywords){
+    # read census data
+    selected &amp;lt;- read_decennial(
+        year = 2010,
+        states = &amp;quot;US&amp;quot;,
+        geo_headers = c(&amp;quot;NAME&amp;quot;),
+        show_progress = FALSE
+    ) %&amp;gt;%
+        # select place and county subdivision that have name in NAME
+        .[SUMLEV %in% c(&amp;quot;060&amp;quot;, &amp;quot;160&amp;quot;)] %&amp;gt;%
+        .[NAME %like% paste0(keywords, collapse = &amp;quot;|&amp;quot;)] %&amp;gt;%
+        # remove duplicates by (lon, lat)
+        unique(by = c(&amp;quot;lon&amp;quot;, &amp;quot;lat&amp;quot;))
+    
+    # add area column to store keywords of area
+    for (nm in keywords){
+        selected[NAME %like% nm, area := nm]
+    }
+    
+    return(selected)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The cities or town having words “Washington” or “Lincoln” in their names.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wl &amp;lt;- get_area(c(&amp;quot;Washington&amp;quot;, &amp;quot;Lincoln&amp;quot;)) %&amp;gt;%
+    .[, area := factor(area, c(&amp;quot;Washington&amp;quot;, &amp;quot;Lincoln&amp;quot;))]
+
+# first five rows
+  #           lon      lat state                NAME population GEOCOMP SUMLEV       area
+  # 1:  -86.10771 33.61350    AL         Lincoln CCD       7771   total    060    Lincoln
+  # 2:  -86.07064 33.62218    AL        Lincoln city       6266   total    160    Lincoln
+  # 3: -111.27100 34.40035    AZ Washington Park CDP         70   total    160 Washington
+  # 4:  -92.13358 33.43522    AR Washington township       1410   total    060 Washington
+  # 5:  -92.70242 35.23478    AR Washington township       1852   total    060 Washington&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Plot the cities and towns on a map.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;us &amp;lt;- map_data(&amp;#39;state&amp;#39;)
+ggplot(us, aes(long, lat)) +
+    geom_map(map=us, aes(map_id=region), fill=&amp;quot;grey97&amp;quot;, color=&amp;quot;grey&amp;quot;) +
+    geom_point(data = wl[order(-population)], aes(lon, lat, size = population, color = area), alpha = 0.6) +
+    scale_size_area(max_size = 10, breaks = c(1000, 10000, 100000, 500000)) +
+    ylim(26, 48.5) +
+    annotate(&amp;quot;text&amp;quot;, x = -125, y = 28.5, label = &amp;quot;Washington : 311&amp;quot;, color = &amp;quot;#F8766D&amp;quot;, hjust = 0, alpha = 0.6, size = 8) +
+    annotate(&amp;quot;text&amp;quot;, x = -125, y = 26, label = &amp;quot;Lincoln : 205&amp;quot;, color = &amp;quot;#00BFC4&amp;quot;, hjust = 0, alpha = 0.6, size = 8) +
+    labs(color = NULL) +
+    guides(color = &amp;quot;none&amp;quot;,
+           size = guide_legend(override.aes = list(alpha = 0.5))) +
+    coord_map() +
+    labs(title = &amp;quot;Cities, towns, and equivalents named after Washington and Lincoln&amp;quot;,
+         subtitle = &amp;quot;State and counties are NOT included&amp;quot;,
+         caption = &amp;quot;Source: decennial census 2010&amp;quot;) +
+    theme_bw() +
+    theme(legend.position = c(0.9, 0.),
+          legend.justification = c(0.5, 0),
+          legend.title = element_text(color = &amp;quot;grey40&amp;quot;),
+          legend.text = element_text(color = &amp;quot;grey40&amp;quot;),
+          panel.grid = element_blank(),
+          panel.border = element_blank(),
+          axis.title = element_blank(),
+          axis.text = element_blank(),
+          axis.ticks = element_blank(),
+          plot.caption = element_text(hjust = 0.95, color = &amp;quot;grey30&amp;quot;),
+          plot.title = element_text(color = &amp;quot;grey30&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Bar plot of states with most cities or towns named after “Washington” or “Lincoln”,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# count
+wl[, .(count = .N), by = .(area, state)] %&amp;gt;%
+    .[state %in% c(&amp;quot;IN&amp;quot;, &amp;quot;OH&amp;quot;, &amp;quot;PA&amp;quot;, &amp;quot;MO&amp;quot;, &amp;quot;IA&amp;quot;, &amp;quot;KS&amp;quot;, &amp;quot;NE&amp;quot;, &amp;quot;WI&amp;quot;, &amp;quot;AR&amp;quot;)] %&amp;gt;%
+    .[, state := factor(state, levels = c(&amp;quot;IA&amp;quot;, &amp;quot;OH&amp;quot;, &amp;quot;IN&amp;quot;, &amp;quot;KS&amp;quot;, &amp;quot;MO&amp;quot;, &amp;quot;PA&amp;quot;, &amp;quot;NE&amp;quot;, &amp;quot;WI&amp;quot;, &amp;quot;AR&amp;quot;))] %&amp;gt;%
+    ggplot(aes(state, count, fill = area)) +
+    geom_col(position = &amp;quot;dodge&amp;quot;, alpha = 0.6) +
+    labs(title = &amp;#39;States with most cities and towns that have &amp;quot;Washington&amp;quot; or &amp;quot;Lincoln&amp;quot; in the name&amp;#39;,
+         fill = NULL) +
+    theme(legend.position = c(0.9, 0.85))&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Plot pie charts of racial composition in largest metro areas on a map in R</title>
@@ -44,8 +134,8 @@ metro &amp;lt;- read_acs1year(
 largest &amp;lt;- metro %&amp;gt;%
     filter(population &amp;gt; 1e6) %&amp;gt;%
     # Los Angeles metro changed CBSA from 31100 to 31080, hand correct the coordinate
-    mutate(lon = ifelse(GEOID == &amp;quot;31000US31080&amp;quot;, -118.18194, lon),
-           lat = ifelse(GEOID == &amp;quot;31000US31080&amp;quot;, 34.10939, lat)) %&amp;gt;%
+    # mutate(lon = ifelse(GEOID == &amp;quot;31000US31080&amp;quot;, -118.18194, lon),
+    #        lat = ifelse(GEOID == &amp;quot;31000US31080&amp;quot;, 34.10939, lat)) %&amp;gt;%
     select(NAME, lon, lat, total = population, white, black, asian, others) %&amp;gt;%
     arrange(-total)
 
@@ -526,7 +616,7 @@ ggmap(map) +
 &lt;p&gt;From the technical documentation we know that population and race information is in file 03. So let’s read this file.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f03 &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1&amp;quot;), header = FALSE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
-Read 84.5% of 331556 rows
+Read 75.4% of 331556 rows
 Read 331556 rows and 199 (of 199) columns from 0.134 GB file in 00:00:03&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# number of rows and columns
 dim(f03)&lt;/code&gt;&lt;/pre&gt;
@@ -1067,8 +1157,8 @@ magrittr_pipe &amp;lt;- function(){
 
 rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           20   3.857    1.102     3.850    0.004
-## 2  magrittr_pipe()           20   3.500    1.000     3.497    0.000
+## 1 datatable_pipe()           20   3.882    1.108     3.863        0
+## 2  magrittr_pipe()           20   3.503    1.000     3.501        0
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0&lt;/code&gt;&lt;/pre&gt;
