@@ -87,7 +87,8 @@ ggplot(us, aes(long, lat)) +
           axis.text = element_blank(),
           axis.ticks = element_blank(),
           plot.caption = element_text(hjust = 0.95, color = &amp;quot;grey30&amp;quot;),
-          plot.title = element_text(color = &amp;quot;grey30&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+          plot.title = element_text(color = &amp;quot;grey30&amp;quot;),
+          plot.subtitle = element_text(color = &amp;quot;grey30&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Bar plot of states with most cities or towns named after “Washington” or “Lincoln”,&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# count
 wl[, .(count = .N), by = .(area, state)] %&amp;gt;%

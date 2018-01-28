@@ -77,7 +77,8 @@ ggplot(us, aes(long, lat)) +
           axis.text = element_blank(),
           axis.ticks = element_blank(),
           plot.caption = element_text(hjust = 0.95, color = "grey30"),
-          plot.title = element_text(color = "grey30"))
+          plot.title = element_text(color = "grey30"),
+          plot.subtitle = element_text(color = "grey30"))
 
 ```
 
@@ -170,7 +171,8 @@ ggplot(us, aes(long, lat)) +
           axis.text = element_blank(),
           axis.ticks = element_blank(),
           plot.caption = element_text(hjust = 0.95, color = "grey30"),
-          plot.title = element_text(color = "grey30"))
+          plot.title = element_text(color = "grey30"),
+          plot.subtitle = element_text(color = "grey30"))
 
 ```
 
