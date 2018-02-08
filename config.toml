@@ -1,49 +1,57 @@
-baseurl = "/"
-relativeurls = true
+baseurl = "https://example.com/"
+title = "Ghostwriter example"
+theme = "ghostwriter"
 languageCode = "en-us"
-title = "R & Census"
-theme = "hugo-lithium-theme"
-googleAnalytics = ""
-disqusShortname = "gl-li-github-io"
-ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
+copyright = "My Name"
+disqusShortname = "XXX"
+googleAnalytics = "XXX"
 
-[permalinks]
-    post = "/:year/:month/:day/:slug/"
-    
+[Author]
+    name = "My Name"
+    profile = "https://google.com/+XXX"
 
-# order menu items with weight
+[Taxonomies]
+    tag = "tags"
+
+[Params]
+    intro = true
+    headline = "Ghostwriter example"
+    description = "Ghostwriter example description"
+    github = "https://github.com/XXX"
+    gitlab = "https://gitlab.com/XXX"
+    linkedin = "https://linkedin.com/in/XXX/"
+    gplus = "https://google.com/+XXX"
+    twitter = "https://twitter.com/XXX"
+    stackoverflow = "https://stackoverflow.com/users/XXX/YYY"
+    email = "XXX@example.com"
+    opengraph = true
+    shareTwitter = true
+    shareFacebook = true
+    shareGooglePlus = true
+    shareLinkedIn = false
+    dateFormat = "Mon, Jan 2, 2006"
+    highlightJsUrl = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/r.min.js"
+    highlightJsLocalUrl = ""
+
+[Permalinks]
+    post = "/:year/:month/:day/:filename/"
+
 [[menu.main]]
-    name = "About"
-    url = "/about/"
+    name = "Blog"
+    url = "/"
     weight = 1
+
 [[menu.main]]
     name = "Projects"
-    url = "/projects/"
+    url = "/project/"
     weight = 2
+
 [[menu.main]]
-    name = "Blogroll"
-    url = "/links/"
+    name = "Contact"
+    url = "/page/contact/"
+    weight = 3
+
+[[menu.main]]
+    name = "About"
+    url = "/page/about/"
     weight = 4
-[[menu.main]]
-    name = "Collections"
-    url = "/collections/"
-    weight = 5
-
-[params]
-    description = "R and Census"
-
-    # options for highlight.js (version, additional languages, and theme)
-    highlightjsVersion = "9.11.0"
-    highlightjsCDN = "//cdn.bootcss.com"
-    highlightjsLang = ["r", "yaml"]
-    highlightjsTheme = "github"
-
-    MathJaxCDN = "//cdn.bootcss.com"
-    MathJaxVersion = "2.7.1"
-
-    [params.logo]
-    url = "logo.png"
-    width = 50
-    height = 50
-    alt = "Logo"
-

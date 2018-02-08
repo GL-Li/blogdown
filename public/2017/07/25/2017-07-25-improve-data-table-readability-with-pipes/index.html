@@ -3,20 +3,23 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Improve data.table readability with pipes &middot; My Name</title>
-        <meta name="description" content="Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.">
+        <title>Compare data.table pipes and magrittr pipes &middot; My Name</title>
+        <meta name="description" content="We have two ways to chain data.table operations, using data.table pipes or using magrittr pipes. For a data.table dt, the data.table pipes take the form of dt[][][]... and magrittr pipes dt %&gt;% .[] %&gt;% .[] %&gt;% ....
+Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of data.table pipes in this stackoverflow post. The data.table pipes, however, are not that hard to follow for those who are familiar with data.">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
-        <meta name="generator" content="Hugo 0.25.1" />
+        <meta name="generator" content="Hugo 0.31.1" />
         <meta name="robots" content="index,follow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="Improve data.table readability with pipes">
-<meta property="og:description" content="Package data.table is sometimes criticized for its lower readability than its competitor dplyr. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with dt[i, j, by]. You can put many codes at the j section. You can even chain [i, j, by] together and make train-like code dt[...][...].... I enjoyed loading a lot of code in one big train dt[.">
+        <meta property="og:title" content="Compare data.table pipes and magrittr pipes">
+<meta property="og:description" content="We have two ways to chain data.table operations, using data.table pipes or using magrittr pipes. For a data.table dt, the data.table pipes take the form of dt[][][]... and magrittr pipes dt %&gt;% .[] %&gt;% .[] %&gt;% ....
+Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of data.table pipes in this stackoverflow post. The data.table pipes, however, are not that hard to follow for those who are familiar with data.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="/2017/07/25/2017-07-25-improve-data-table-readability-with-pipes/">
         <link rel="stylesheet" href="/dist/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
         
     </head>
     <body>
@@ -107,14 +110,14 @@ ga('send', 'pageview');
 <div class="container">
     <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
         <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Improve data.table readability with pipes</h1>
+    <h1 class="post-title" itemprop="name headline">Compare data.table pipes and magrittr pipes</h1>
     
     <p class="post-date">
         <span>Published <time datetime="2017-07-25" itemprop="datePublished">Tue, Jul 25, 2017</time></span>
         <span>by</span>
         <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
             <span itemprop="name">
-                <a href="https://google.com/&#43;XXX" itemprop="url" rel="author">My Name</a>
+                <a href="https://google.com/&#43;XXX" itemprop="url" rel="author">GL</a>
             </span>
         </span>
     </p>
@@ -123,92 +126,83 @@ ga('send', 'pageview');
         <div class="post-content clearfix" itemprop="articleBody">
     
 
-    <p>Package <code>data.table</code> is sometimes criticized for its lower readability than its competitor <code>dplyr</code>. As a data.table user, I had the same feeling at the early days of using it. I love the concise syntax, which takes care a lot of tasks simply with <code>dt[i, j, by]</code>. You can put many codes at the <code>j</code> section. You can even chain <code>[i, j, by]</code> together and make train-like code <code>dt[...][...]...</code>. I enjoyed loading a lot of code in one big train <code>dt[...][...]...</code>, which looks very cool. When I look back at those codes, I realized that this big chunk of <code>dt[...][...]...</code> and the temptation of showing off are the causes of poor code readability.</p>
-<p>I would like use an example from this <a href="http://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">stackoverflow thread</a>, where Hadley Wickman shows the poor readability of <code>data.table</code> through the follow codes. This train only has two cars but is alread hard to read.</p>
-<pre class="r"><code>library(magrittr)
-library(data.table)
-library(ggplot2)
-diamondsDT &lt;- data.table(diamonds)
+    <p>We have two ways to chain <code>data.table</code> operations, using <code>data.table</code> pipes or using <code>magrittr</code> pipes. For a data.table <code>dt</code>, the <code>data.table</code> pipes take the form of <code>dt[][][]...</code> and <code>magrittr</code> pipes <code>dt %&gt;% .[] %&gt;% .[] %&gt;% ...</code>.</p>
+<p>Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of <code>data.table</code> pipes in this <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">stackoverflow post</a>. The <code>data.table</code> pipes, however, are not that hard to follow for those who are familiar with <code>data.table</code>. To my eyes, the <code>magrittr</code> pipes improve the readability but the <code>data.table</code> pipes are still acceptable. It is more of a personal choice.</p>
+<pre class="r"><code>library(data.table)
+library(magrittr)
 
-# this is the train with two cars
-diamondsDT[
-  cut != &quot;Fair&quot;, 
-  .(AvgPrice = mean(price),
-    MedianPrice = as.numeric(median(price)),
-    Count = .N
-  ), 
-  by = cut
-][ 
-  order(-Count) 
-]</code></pre>
-<pre><code>##          cut AvgPrice MedianPrice Count
-## 1:     Ideal 3457.542      1810.0 21551
-## 2:   Premium 4584.258      3185.0 13791
-## 3: Very Good 3981.760      2648.0 12082
-## 4:      Good 3928.864      3050.5  4906</code></pre>
-<p>Pipes <code>%&gt;%</code> in the <code>magrittr</code> package can improve the readability. It explicitly break the train apart. Each new car then starts a new line with a confortable indentation. It helps more when the train has more cars.</p>
-<pre class="r"><code>diamondsDT[cut != &quot;Fair&quot;, 
-           .(AvgPrice = mean(price),
-             MedianPrice = as.numeric(median(price)),
-             Count = .N), 
-           by = cut] %&gt;% 
-    .[order(-Count)]    # this car starts with a conforable indentation</code></pre>
-<pre><code>##          cut AvgPrice MedianPrice Count
-## 1:     Ideal 3457.542      1810.0 21551
-## 2:   Premium 4584.258      3185.0 13791
-## 3: Very Good 3981.760      2648.0 12082
-## 4:      Good 3928.864      3050.5  4906</code></pre>
-<p>The pipe <code>%&gt;%</code> is particularly useful when adding or updating columns. Here is a dummy example. It does not make scientific sense but just to show how readable the code can be. The use of pipe <code>%&gt;%</code> makes the code look like <code>dplyr</code> code but is more powerful. Each car focuses on one job and each job focuses on a columnb with selected rows. The selected rows can be independent from other cars. This is a big advantage over <code>dplyr</code> where <code>filter()</code> affects all codes that follow.</p>
-<pre class="r"><code>avg &lt;- data.table(iris) %&gt;%
-    # add a new column &quot;is_setosa&quot;, 1 if yes and 0 if no, use two lines of code 
+# the data.table pipes
+data.table(iris)[
+    # add a new column &quot;is_setosa&quot;, 1 if yes and 0 if no, use two lines of codes 
     # to clearly show the values
-    .[Species == &quot;setosa&quot;, is_setosa := 1] %&gt;%                         
-    .[Species != &quot;setosa&quot;, is_setosa := 0] %&gt;%
+    Species == &quot;setosa&quot;, is_setosa := 1
+][
+    Species != &quot;setosa&quot;, is_setosa := 0
+][
     # changes the Petal.Length of Species &quot;versicolor&quot;, other species not affected
-    .[Species == &quot;versicolor&quot;, Petal.Length := 999] %&gt;%   
+    Species == &quot;versicolor&quot;, Petal.Length := 999
+][
     # calculate sepal area when length &gt; 5. Area is NA if length &lt;= 5
-    .[Sepal.Length &gt; 5, Sepal.Area := Sepal.Length * Sepal.Width] %&gt;%  
+    Sepal.Length &gt; 5, Sepal.Area := Sepal.Length * Sepal.Width
+][
     # select columns
-    .[, .(Species, is_setosa, Petal.Length, Sepal.Area)] %&gt;%    
-    # average of columns grouped by species
-    .[, lapply(.SD, mean, na.rm = TRUE), by = Species] %&gt;%  
-    # display result
-    print()                                                            </code></pre>
+    , .(Species, is_setosa, Petal.Length, Sepal.Area)
+][
+    # average of each column grouped by species
+    , lapply(.SD, mean, na.rm = TRUE), by = Species
+]</code></pre>
 <pre><code>##       Species is_setosa Petal.Length Sepal.Area
 ## 1:     setosa         1        1.462   19.76364
 ## 2: versicolor         0      999.000   16.87340
 ## 3:  virginica         0        5.552   19.83633</code></pre>
-<p>How about speed? <code>data.table</code> is built for its fast speed. Will the use of pipes <code>%&gt;%</code> slow down the computing? Usually we do not care when data is not that big. But what if we care? In the following example, we add three new columns to a made-up data table with and without using the pipes. The pipes actually makes the computing faster in this example.</p>
-<pre class="r"><code>time &lt;- data.table(pipe = &quot; &quot;, time = rep(0, 2000))
+<pre class="r"><code># the magrittr pipes
+data.table(iris) %&gt;%
+    # add a new column &quot;is_setosa&quot;, 1 if yes and 0 if no, use two lines of codes 
+    # to clearly show the values
+    .[Species == &quot;setosa&quot;, is_setosa := 1] %&gt;%                         
+    .[Species != &quot;setosa&quot;, is_setosa := 0] %&gt;%
+    
+    # changes the Petal.Length of Species &quot;versicolor&quot;, other species not affected
+    .[Species == &quot;versicolor&quot;, Petal.Length := 999] %&gt;%   
+    
+    # calculate sepal area when length &gt; 5. Area is NA if length &lt;= 5
+    .[Sepal.Length &gt; 5, Sepal.Area := Sepal.Length * Sepal.Width] %&gt;%  
+    
+    # select columns
+    .[, .(Species, is_setosa, Petal.Length, Sepal.Area)] %&gt;%    
+    
+    # average of each column grouped by species
+    .[, lapply(.SD, mean, na.rm = TRUE), by = Species]                  </code></pre>
+<pre><code>##       Species is_setosa Petal.Length Sepal.Area
+## 1:     setosa         1        1.462   19.76364
+## 2: versicolor         0      999.000   16.87340
+## 3:  virginica         0        5.552   19.83633</code></pre>
+<p>Will the use of pipes <code>%&gt;%</code> slow down the computing? In the following code, we add three new columns to a made-up data table with <code>data.table</code> pipes and <code>magrittr</code> pipes. They almost have the same speed.</p>
+<pre class="r"><code>set.seed(123)
+dt &lt;- data.table(a = sample(letters, 1e5, replace = TRUE),
+                 b = abs(rnorm(1e5)))
 
-# elapsed time of adding three columns in a data table with one dt[]
-set.seed(123)
-dt &lt;- data.table(a = 1:1e7,
-                 b = rnorm(10))
-for (i in 1:1000) {
-    aaa &lt;- system.time({
-        dt[, &quot;:=&quot; (x = sqrt(a), y = b^2, z = a * b)]
-    })
-    time[i, &quot;:=&quot; (pipe = &quot;no pipe&quot;, time = aaa[3])]
+datatable_pipe &lt;- function(){
+    dt[, x := sqrt(b)][
+        , y := b^2
+    ][
+        , z := paste0(a , b)
+    ]
 }
 
-# elapsed time of adding the same three columns in three cars connected with pipes
-set.seed(123)
-dt &lt;- data.table(a = 1:1e7,
-                 b = rnorm(10))
-for (i in 1001:2000) {
-    aaa &lt;- system.time({
-        dt[, x := sqrt(a)] %&gt;%
-            .[, y := b^2] %&gt;%
-            .[, z := a * b]
-    })
-    time[i, &quot;:=&quot; (pipe = &quot;with pipe&quot;, time = aaa[3])]
+magrittr_pipe &lt;- function(){
+    dt[, x := sqrt(b)] %&gt;%
+        .[, y := b^2] %&gt;%
+        .[, z := paste0(a , b)]
 }
 
-# compare the distribution of time
-ggplot(time, aes(time, fill = pipe, color = pipe)) +
-    geom_freqpoly(binwidth = 0.001) +
-    xlim(c(0.1, 0.25))</code></pre>
+rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)</code></pre>
+<pre><code>##               test replications elapsed relative user.self sys.self
+## 1 datatable_pipe()           20   3.709    1.102     3.705    0.004
+## 2  magrittr_pipe()           20   3.367    1.000     3.367    0.000
+##   user.child sys.child
+## 1          0         0
+## 2          0         0</code></pre>
 
 </div>
 
@@ -225,7 +219,7 @@ ggplot(time, aes(time, fill = pipe, color = pipe)) +
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?text=Improve%20data.table%20readability%20with%20pipes&url=%2f2017%2f07%2f25%2f2017-07-25-improve-data-table-readability-with-pipes%2f"
+            <a class="icon-twitter" href="https://twitter.com/share?text=Compare%20data.table%20pipes%20and%20magrittr%20pipes&url=%2f2017%2f07%2f25%2f2017-07-25-improve-data-table-readability-with-pipes%2f"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -271,8 +265,8 @@ ggplot(time, aes(time, fill = pipe, color = pipe)) +
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
 
     </article>
@@ -293,7 +287,7 @@ ggplot(time, aes(time, fill = pipe, color = pipe)) +
                 </div>
 
                 <p class="footer-copyright">
-                    <span>&copy; 2017 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                    <span>&copy; 2018 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
                 </p>
                 <p class="footer-copyright">
                     <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
@@ -303,8 +297,12 @@ ggplot(time, aes(time, fill = pipe, color = pipe)) +
         </footer>
 
         <script src="/js/jquery-1.11.3.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
         <script src="/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/r.min.js"></script>
+        
+        
         <script src="/js/scripts.js"></script>
     </body>
 </html>

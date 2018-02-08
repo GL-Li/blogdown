@@ -2,7 +2,7 @@
 title: Compare data.table pipes and magrittr pipes
 author: GL
 date: '2017-07-25'
-slug: improve-data-table-readability-with-pipes
+slug: Compare-data.table-pipes-and-magrittr-pipes
 categories:
   - data.table
 tags:
@@ -14,9 +14,9 @@ tags:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-There are two ways to chain `data.table` operation, using `data.table` pipes or using `magrittr` pipes. For a data.table ``dt``, the `data.table` pipes take the form of `dt[][][]...` and `magrittr` pipes `dt %>% .[] %>% .[] %>% ...`. 
+We have two ways to chain `data.table` operations, using `data.table` pipes or using `magrittr` pipes. For a data.table ``dt``, the `data.table` pipes take the form of `dt[][][]...` and `magrittr` pipes `dt %>% .[] %>% .[] %>% ...`. 
 
-Below is an example that compares their readability. The readability of ``data.table`` pipes has been criticized in this [stackoverflow post](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly). It seems, however, not that hard to follow for those who have basic knowledge of `data.table`. To my eyes, the `magrittr` pipes improves the readability but not enough to replace the `data.table` pipes. It is more of a personal choice.
+Let's first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of ``data.table`` pipes in this [stackoverflow post](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly). The `data.table` pipes, however, are not that hard to follow for those who are familiar with `data.table`. To my eyes, the `magrittr` pipes improve the readability but the `data.table` pipes are still acceptable. It is more of a personal choice.
 ```{r}
 library(data.table)
 library(magrittr)
@@ -84,6 +84,6 @@ magrittr_pipe <- function(){
         .[, z := paste0(a , b)]
 }
 
-rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=10)
+rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)
 
 ```

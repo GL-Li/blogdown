@@ -1,26 +1,110 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Census on R &amp; Census</title>
+    <title>Census on Ghostwriter example</title>
     <link>/tags/census/</link>
-    <description>Recent content in Census on R &amp; Census</description>
+    <description>Recent content in Census on Ghostwriter example</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <copyright>My Name</copyright>
+    <lastBuildDate>Mon, 05 Feb 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/tags/census/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Map prisons in the United States</title>
+      <link>/2018/02/05/2018-02-05-map-prisons-in-the-united-states/</link>
+      <pubDate>Mon, 05 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/05/2018-02-05-map-prisons-in-the-united-states/</guid>
+      <description>&lt;p&gt;According to Census 2010, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. Despite 1 in every 110 adults are behind bars, most ordenary people have no idea where are they locked up.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
+library(tidyverse)
+library(ggmap)
+
+# federal and state prison location and population =============================
+# search tables for fedral prison
+search_tablecontents(&amp;quot;decennial&amp;quot;)
+    # PCT0200005 has the total population in federal prison
+    # PCT0200006 has state prison population
+
+# read prison population data
+pris_pop &amp;lt;- read_decennial(
+    year = 2010,
+    states = &amp;quot;US&amp;quot;,
+    table_contents = c(
+        &amp;quot;total = PCT0200003&amp;quot;, 
+        &amp;quot;fed_pris = PCT0200005&amp;quot;, 
+        &amp;quot;state_pris = PCT0200006&amp;quot;,
+        &amp;quot;local_jail = PCT0200007&amp;quot;
+    ),
+    summary_level = &amp;quot;county subdivision&amp;quot;,
+    show_progress = FALSE
+) %&amp;gt;%
+    # remove county subdivisions that has no prison popualation
+    filter(total != 0 | fed_pris != 0 | state_pris != 0 | local_jail != 0) %&amp;gt;%
+    mutate(fed_pris = ifelse(fed_pris == 0, NA, fed_pris)) %&amp;gt;%
+    mutate(state_pris = ifelse(state_pris == 0, NA, state_pris)) %&amp;gt;%
+    mutate(local_jail = ifelse(local_jail == 0, NA, local_jail))
+
+# summarize prison population
+sum_inmates &amp;lt;- pris_pop %&amp;gt;%
+    summarise(total_inmates = sum(total),
+              total_fedpris = sum(fed_pris, na.rm = TRUE),
+              total_statepris = sum(state_pris, na.rm = TRUE),
+              total_localjail = sum(local_jail, na.rm = TRUE))
+
+
+state_map &amp;lt;- map_data(&amp;quot;state&amp;quot;)
+ggplot() +
+    #geom_path(data = map_data(&amp;quot;world&amp;quot;), aes(long, lat, group = group), color = &amp;quot;grey&amp;quot;, size=0.5) +
+    geom_polygon(data = state_map, aes(long, lat, group = group), 
+                 fill = &amp;quot;grey97&amp;quot;, color = &amp;quot;grey&amp;quot;, size=0.3) +
+    geom_point(data = pris_pop,
+               aes(lon, lat, size = state_pris, color = &amp;quot;blue&amp;quot;),
+               alpha = 0.8) +
+    geom_point(data = pris_pop,
+               aes(lon, lat, size = fed_pris, color = &amp;quot;red&amp;quot;),
+               alpha = 0.8) +
+    geom_point(data = pris_pop,
+               aes(lon, lat, size = local_jail, color = &amp;quot;green&amp;quot;),
+               alpha = 0.5) +
+    scale_x_continuous(limits = c(-124.69, -67), expand = c(0, 0)) +
+    scale_y_continuous(limits = c(25.12, 49.39), expand = c(0, 0)) +
+    scale_size_area(max_size = 4, breaks = c(1000, 5000, 10000, 20000)) +
+    scale_color_identity(guide = &amp;quot;legend&amp;quot;,
+                         breaks = c(&amp;quot;red&amp;quot;, &amp;quot;blue&amp;quot;, &amp;quot;green&amp;quot;),
+                         labels = c(&amp;quot;federal&amp;quot;, &amp;quot;state&amp;quot;, &amp;quot;local&amp;quot;)) +
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 4))) +
+    labs(title = &amp;quot;Federal Prisons, State Prisons and Local Jails: Location and Number of Inmates &amp;quot;,
+         subtitle = &amp;quot;Spatial resolution: county subdivision&amp;quot;,
+         caption = &amp;quot;Source: Census 2010&amp;quot;,
+         color = NULL, size = &amp;quot;inmates&amp;quot;) +
+    coord_map() +
+    theme(
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = c(1, 0),
+        legend.justification = c(1, 0)
+    )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-05-map-prisons-in-the-united-states_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Is your town named after Lincoln or Washington?</title>
-      <link>/2018/01/27/the-most-popular-president-lincoln-or-washington/</link>
+      <link>/2018/01/27/2018-01-23-the-most-popular-president-lincoln-or-washington/</link>
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/01/27/the-most-popular-president-lincoln-or-washington/</guid>
+      <guid>/2018/01/27/2018-01-23-the-most-popular-president-lincoln-or-washington/</guid>
       <description>&lt;p&gt;Washington and Lincoln are the two greatest presidents in the history of the United States. This post, however, does not discuss how great they are. Instead, I want to show a fun fact related the two presidents: how many cities and towns (and equivalents) are named after them. I am living in Lincoln, Rhode Island, a town so named in honor of President Lincoln.&lt;/p&gt;
 &lt;p&gt;The data are extracted from decennial census 2010, the most detailed census so far. There are 311 cities and towns having “Washington” in their names and 205 having “Lincoln”. We also extract the coordinates and population of these cities and towns and plot them on the US map. There are significantly more places named after “Washington” than “Lincoln” in three states, Indiana , Ohio, and Pennsylvania. They combined have 109 more places with &lt;code&gt;Washington&lt;/code&gt; than with &lt;code&gt;Lincoln&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;816&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;816&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Here are the code. We use package &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;&lt;code&gt;totalcensus&lt;/code&gt;&lt;/a&gt; to extract data from decennial census 2010.&lt;/p&gt;
 &lt;p&gt;Let’s first load packages.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
@@ -104,10 +188,10 @@ wl[, .(count = .N), by = .(area, state)] %&amp;gt;%
     
     <item>
       <title>Plot pie charts of racial composition in largest metro areas on a map in R</title>
-      <link>/2018/01/17/create-pie-plots-on-a-map-in-r/</link>
+      <link>/2018/01/17/2018-01-16-create-pie-plots-on-a-map-in-r/</link>
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/01/17/create-pie-plots-on-a-map-in-r/</guid>
+      <guid>/2018/01/17/2018-01-16-create-pie-plots-on-a-map-in-r/</guid>
       <description>&lt;p&gt;Pie chart has been criticized for being a poor visualization and is not recommended in R community. The popular &lt;code&gt;ggplot2&lt;/code&gt; package discourages the use of pie charts and there is no dedicated &lt;code&gt;geom_pie&lt;/code&gt; for it.&lt;/p&gt;
 &lt;p&gt;Although the criticism is mostly valid, there is a case that pie chart can be useful: pie charts on maps. Pie charting on map is a compact way to show composition by locations.&lt;/p&gt;
 &lt;p&gt;A recent &lt;code&gt;R&lt;/code&gt; package, &lt;a href=&#34;https://github.com/GuangchuangYu/scatterpie&#34;&gt;&lt;code&gt;scatterpie&lt;/code&gt;&lt;/a&gt; by Guangchuang Yu, specializes in making pie charts at multiple locations. This package is an extension of &lt;code&gt;ggplot2&lt;/code&gt; so it will be easy for &lt;code&gt;ggplot2&lt;/code&gt; users.&lt;/p&gt;
@@ -178,16 +262,16 @@ ggplot(us, aes(long, lat)) +
           axis.title = element_blank(),
           axis.text = element_blank(),
           axis.ticks = element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-16-create-pie-plots-on-a-map-in-r_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-01-16-create-pie-plots-on-a-map-in-r_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Determine relationship between census geographic entities with totalcensus package</title>
-      <link>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
+      <link>/2017/12/28/2017-12-28-use-totalcensus-package-to-determine-relationship-between-geographic-entities-extracted/</link>
       <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
+      <guid>/2017/12/28/2017-12-28-use-totalcensus-package-to-determine-relationship-between-geographic-entities-extracted/</guid>
       <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus package&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The geographic hierarchy primer in &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;Census 2010 summary file 1 technical documentation&lt;/a&gt; displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states.&lt;/p&gt;
 &lt;p&gt;&lt;br&gt; &lt;img src=&#34;https://s3.amazonaws.com/gl-shared-pictures/hierarchy_census_geographic_entities.png&#34; /&gt;&lt;/p&gt;
@@ -273,10 +357,10 @@ head(race_zip_boston, 3)
     
     <item>
       <title>Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package</title>
-      <link>/2017/12/23/census_data_zip_code/</link>
+      <link>/2017/12/23/2017-12-23-use-totalcensus-package-to-extract-block-level-data-of-boston-grouped-by-zip-code/</link>
       <pubDate>Sat, 23 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/12/23/census_data_zip_code/</guid>
+      <guid>/2017/12/23/2017-12-23-use-totalcensus-package-to-extract-block-level-data-of-boston-grouped-by-zip-code/</guid>
       <description>&lt;p&gt;This is an example of applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
@@ -345,7 +429,7 @@ ggmap(us_map) +
         axis.text = element_blank(),
         axis.ticks = element_blank()
     )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2017-12-23-use-totalcensus-package-to-extract-block-level-data-of-boston-grouped-by-zip-code_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-23-use-totalcensus-package-to-extract-block-level-data-of-boston-grouped-by-zip-code_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

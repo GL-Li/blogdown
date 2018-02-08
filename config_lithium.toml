@@ -1,7 +1,7 @@
 baseurl = "/"
 relativeurls = true
 languageCode = "en-us"
-title = "learn R and use R"
+title = "R & Census"
 theme = "hugo-lithium-theme"
 googleAnalytics = ""
 disqusShortname = "gl-li-github-io"
@@ -9,22 +9,28 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
+    
 
+# order menu items with weight
 [[menu.main]]
     name = "About"
     url = "/about/"
+    weight = 1
 [[menu.main]]
     name = "Projects"
-    url = "/projects"
-#[[menu.main]]
-#    name = "GitHub"
-#    url = "https://github.com/GL-Li/police_shooting"
+    url = "/projects/"
+    weight = 2
 [[menu.main]]
-    name = "Twitter"
-    url = "https://twitter.com/difo_li"
+    name = "Blogroll"
+    url = "/links/"
+    weight = 4
+[[menu.main]]
+    name = "Collections"
+    url = "/collections/"
+    weight = 5
 
 [params]
-    description = "learn and use R programming language"
+    description = "R and Census"
 
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"
