@@ -9,7 +9,7 @@
 
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-<link rel="alternate" type="application/rss+xml" title="R &amp; Census Feed" href="../post/index.xml">
+<link rel="alternate" type="application/rss+xml" title="R &amp; Census Feed" href="http://www.gl-li.com/post/index.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <script type="text/javascript" src="../js/scripts.js"></script>
@@ -18,8 +18,8 @@
 
 
 
-<link rel="stylesheet" href="../css/github.css" rel="stylesheet" id="theme-stylesheet">
-<script src="../js/highlight.pack.js"></script>
+<link rel="stylesheet" href="http://www.gl-li.com/css/github.css" rel="stylesheet" id="theme-stylesheet">
+<script src="http://www.gl-li.com/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
 
@@ -42,7 +42,7 @@
 		<li class="menu__item"><a class="menu__link" href="../about/">ABOUT</a></li>
 		<li class="menu__item"><a class="menu__link" href="../projects/">PROJECT</a></li>
 		<li class="menu__item"><a class="menu__link" href="../links/">BLOGROLL</a></li>
-		<li class="menu__item"><a class="menu__link" href="../collections/">COLLECTIONS</a></li>
+		<li class="menu__item"><a class="menu__link" href="../collections/">COLLECTION</a></li>
 	</ul>
 </nav>
 
@@ -53,23 +53,6 @@
 		<header class="page-header">
 			<h1 class="page-header__title">Posts</h1>
 		</header><article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="list__header">
-			<h3 class="list__title post__title ">
-				<a href="../2018/02/05/map-prisons-in-the-united-states/" rel="bookmark">Map prisons in the United States</a>
-			</h3>
-			<div class="list__meta meta">
-				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
-				<time class="list__meta-date" datetime="2018-02-05T00:00:00">2018-02-05</time>
-			</div>
-		</header>
-		<div class="list__excerpt">
-			According to Census 2010, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. Despite 1 in every 110 adults are behind bars, most ordenary people have no idea where are they locked up.
-library(totalcensus) library(tidyverse) library(ggmap) # federal and state prison location and population ============================= # search tables for fedral prison search_tablecontents(&quot;decennial&quot;) # PCT0200005 has the total population in federal prison # PCT0200006 has state prison population # read prison population data pris_pop &lt;- read_decennial( year = 2010, states = &quot;US&quot;, table_contents = c( &quot;total = PCT0200003&quot;, &quot;fed_pris = PCT0200005&quot;, &quot;state_pris = PCT0200006&quot;, &quot;local_jail = PCT0200007&quot; ), summary_level = &quot;county subdivision&quot;, show_progress = FALSE ) %&gt;% # remove county subdivisions that has no prison popualation filter(total !
-		</div>
-	</div>
-</article>
-<article class="list__item post clearfix">
 	<div class="list__content clearfix">
 		<header class="list__header">
 			<h3 class="list__title post__title ">
@@ -225,14 +208,26 @@ The ggplot2 package is a powerful and comprehensive tool for generating static p
 		</div>
 	</div>
 </article>
+<article class="list__item post clearfix">
+	<div class="list__content clearfix">
+		<header class="list__header">
+			<h3 class="list__title post__title ">
+				<a href="../2017/07/25/compare-data.table-pipes-and-magrittr-pipes/" rel="bookmark">Compare data.table pipes and magrittr pipes</a>
+			</h3>
+			<div class="list__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="list__meta-date" datetime="2017-07-25T00:00:00">2017-07-25</time>
+			</div>
+		</header>
+		<div class="list__excerpt">
+			We have two ways to chain data.table operations, using data.table pipes or using magrittr pipes. For a data.table dt, the data.table pipes take the form of dt[][][]... and magrittr pipes dt %&gt;% .[] %&gt;% .[] %&gt;% ....
+Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of data.table pipes in this stackoverflow post. The data.table pipes, however, are not that hard to follow for those who are familiar with data.
+		</div>
+	</div>
+</article>
 
 
 		
-<div class="pagination clearfix">
-	<span class="pagination__item pagination__item--current">1/2</span>
-	<a class="pagination__item pagination__item--next" href="../post/page/2/">»</a>
-</div>
-
 	</main>
 
 <aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
@@ -242,7 +237,6 @@ The ggplot2 package is a powerful and comprehensive tool for generating static p
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="../2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
 			<li class="widget__item"><a class="widget__link" href="../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your town named after Lincoln or Washington?</a></li>
 			<li class="widget__item"><a class="widget__link" href="../2018/01/17/create-pie-plots-on-a-map-in-r/">Plot pie charts of racial composition in largest metro areas on a map in R</a></li>
 			<li class="widget__item"><a class="widget__link" href="../2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/">Determine relationship between census geographic entities with totalcensus package</a></li>

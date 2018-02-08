@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Packages on R &amp; Census</title>
-    <link>/tags/packages/</link>
+    <link>http://www.gl-li.com/tags/packages/</link>
     <description>Recent content in Packages on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 14 Sep 2017 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/tags/packages/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="http://www.gl-li.com/tags/packages/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Build a R package for yourself</title>
-      <link>/2017/09/14/build-a-r-package-for-yourself/</link>
+      <link>http://www.gl-li.com/2017/09/14/build-a-r-package-for-yourself/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/09/14/build-a-r-package-for-yourself/</guid>
+      <guid>http://www.gl-li.com/2017/09/14/build-a-r-package-for-yourself/</guid>
       <description>&lt;p&gt;A R user can benefit a lot from building packages. I have read people writing about the benefit in various occasions and cannot agree more after building my first package. We don’t have to a be R developer to write packages. Developers write packages for others; we can just write packages for ourselves. As a R user, we must have written functions and collected datasets, and may have used them across projects or may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by &lt;code&gt;source(xxx.R)&lt;/code&gt;, and the conventional way to reuse datasets it to load &lt;code&gt;.Rdata&lt;/code&gt; files which store the datasets. We will have to know where the functions and datasets are stored, which is not a easy job if we have a large collection. By building functions and datasets into a package, we keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become our great asset.&lt;/p&gt;
 &lt;p&gt;Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for ourselves, we can save the hassle of publishing it on github or CRAN.&lt;/p&gt;
 &lt;p&gt;Below are step by step instructions of building a working package in RStudio. There are many great tutorials for building R packages. I try to make this one to be the simplest and most up to date.&lt;/p&gt;
