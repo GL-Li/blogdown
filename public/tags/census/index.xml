@@ -6,10 +6,93 @@
     <description>Recent content in Census on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Feb 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/tags/census/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Map prisons in the United States</title>
+      <link>/2018/02/05/map-prisons-in-the-united-states/</link>
+      <pubDate>Mon, 05 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/05/map-prisons-in-the-united-states/</guid>
+      <description>&lt;p&gt;According to Census 2010, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. Despite 1 in every 110 adults are behind bars, most ordenary people have no idea where are they locked up.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
+library(tidyverse)
+library(ggmap)
+
+# federal and state prison location and population =============================
+# search tables for fedral prison
+search_tablecontents(&amp;quot;decennial&amp;quot;)
+    # PCT0200005 has the total population in federal prison
+    # PCT0200006 has state prison population
+
+# read prison population data
+pris_pop &amp;lt;- read_decennial(
+    year = 2010,
+    states = &amp;quot;US&amp;quot;,
+    table_contents = c(
+        &amp;quot;total = PCT0200003&amp;quot;, 
+        &amp;quot;fed_pris = PCT0200005&amp;quot;, 
+        &amp;quot;state_pris = PCT0200006&amp;quot;,
+        &amp;quot;local_jail = PCT0200007&amp;quot;
+    ),
+    summary_level = &amp;quot;county subdivision&amp;quot;,
+    show_progress = FALSE
+) %&amp;gt;%
+    # remove county subdivisions that has no prison popualation
+    filter(total != 0 | fed_pris != 0 | state_pris != 0 | local_jail != 0) %&amp;gt;%
+    mutate(fed_pris = ifelse(fed_pris == 0, NA, fed_pris)) %&amp;gt;%
+    mutate(state_pris = ifelse(state_pris == 0, NA, state_pris)) %&amp;gt;%
+    mutate(local_jail = ifelse(local_jail == 0, NA, local_jail))
+
+# summarize prison population
+sum_inmates &amp;lt;- pris_pop %&amp;gt;%
+    summarise(total_inmates = sum(total),
+              total_fedpris = sum(fed_pris, na.rm = TRUE),
+              total_statepris = sum(state_pris, na.rm = TRUE),
+              total_localjail = sum(local_jail, na.rm = TRUE))
+
+
+state_map &amp;lt;- map_data(&amp;quot;state&amp;quot;)
+ggplot() +
+    #geom_path(data = map_data(&amp;quot;world&amp;quot;), aes(long, lat, group = group), color = &amp;quot;grey&amp;quot;, size=0.5) +
+    geom_polygon(data = state_map, aes(long, lat, group = group), 
+                 fill = &amp;quot;grey97&amp;quot;, color = &amp;quot;grey&amp;quot;, size=0.3) +
+    geom_point(data = pris_pop,
+               aes(lon, lat, size = state_pris, color = &amp;quot;blue&amp;quot;),
+               alpha = 0.8) +
+    geom_point(data = pris_pop,
+               aes(lon, lat, size = fed_pris, color = &amp;quot;red&amp;quot;),
+               alpha = 0.8) +
+    geom_point(data = pris_pop,
+               aes(lon, lat, size = local_jail, color = &amp;quot;green&amp;quot;),
+               alpha = 0.5) +
+    scale_x_continuous(limits = c(-124.69, -67), expand = c(0, 0)) +
+    scale_y_continuous(limits = c(25.12, 49.39), expand = c(0, 0)) +
+    scale_size_area(max_size = 4, breaks = c(1000, 5000, 10000, 20000)) +
+    scale_color_identity(guide = &amp;quot;legend&amp;quot;,
+                         breaks = c(&amp;quot;red&amp;quot;, &amp;quot;blue&amp;quot;, &amp;quot;green&amp;quot;),
+                         labels = c(&amp;quot;federal&amp;quot;, &amp;quot;state&amp;quot;, &amp;quot;local&amp;quot;)) +
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 4))) +
+    labs(title = &amp;quot;Federal Prisons, State Prisons and Local Jails: Location and Number of Inmates &amp;quot;,
+         subtitle = &amp;quot;Spatial resolution: county subdivision&amp;quot;,
+         caption = &amp;quot;Source: Census 2010&amp;quot;,
+         color = NULL, size = &amp;quot;inmates&amp;quot;) +
+    coord_map() +
+    theme(
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = c(1, 0),
+        legend.justification = c(1, 0)
+    )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2018-02-05-map-prisons-in-the-united-states_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Is your town named after Lincoln or Washington?</title>
