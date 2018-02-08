@@ -16,14 +16,19 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     name = "About"
     url = "/about/"
 [[menu.main]]
-    weight = 2
+    weight = 3
+    name = "Blog"
+    url = "http://www.gl-li.com/"
+[[menu.main]]
+    weight = 5
     name = "Project"
     url = "/projects/"
 [[menu.main]]
-    weight = 3
+    weight = 7
     name = "Blogroll"
     url = "/links/"
 [[menu.main]]
+    weight = 9
     name = "collection"
     url = "/collections/"
 
