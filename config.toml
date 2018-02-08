@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "http://www.gl-li.com/"
 relativeurls = true
 languageCode = "en-us"
 title = "R & Census"
@@ -24,7 +24,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     name = "Blogroll"
     url = "/links/"
 [[menu.main]]
-    name = "collection"
+    name = "collections"
     url = "/collections/"
 
 [Params]

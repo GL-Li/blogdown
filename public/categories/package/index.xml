@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Package on R &amp; Census</title>
-    <link>/categories/package/</link>
+    <link>http://www.gl-li.com/categories/package/</link>
     <description>Recent content in Package on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 28 Dec 2017 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/categories/package/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="http://www.gl-li.com/categories/package/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Determine relationship between census geographic entities with totalcensus package</title>
-      <link>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
+      <link>http://www.gl-li.com/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
       <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
+      <guid>http://www.gl-li.com/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
       <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus package&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The geographic hierarchy primer in &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;Census 2010 summary file 1 technical documentation&lt;/a&gt; displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states.&lt;/p&gt;
 &lt;p&gt;&lt;br&gt; &lt;img src=&#34;https://s3.amazonaws.com/gl-shared-pictures/hierarchy_census_geographic_entities.png&#34; /&gt;&lt;/p&gt;
@@ -102,10 +102,10 @@ head(race_zip_boston, 3)
     
     <item>
       <title>Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package</title>
-      <link>/2017/12/23/census_data_zip_code/</link>
+      <link>http://www.gl-li.com/2017/12/23/census_data_zip_code/</link>
       <pubDate>Sat, 23 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/12/23/census_data_zip_code/</guid>
+      <guid>http://www.gl-li.com/2017/12/23/census_data_zip_code/</guid>
       <description>&lt;p&gt;This is an example of applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
@@ -181,10 +181,10 @@ ggmap(us_map) +
     
     <item>
       <title>Build a R package for yourself</title>
-      <link>/2017/09/14/build-a-r-package-for-yourself/</link>
+      <link>http://www.gl-li.com/2017/09/14/build-a-r-package-for-yourself/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/09/14/build-a-r-package-for-yourself/</guid>
+      <guid>http://www.gl-li.com/2017/09/14/build-a-r-package-for-yourself/</guid>
       <description>&lt;p&gt;A R user can benefit a lot from building packages. I have read people writing about the benefit in various occasions and cannot agree more after building my first package. We don’t have to a be R developer to write packages. Developers write packages for others; we can just write packages for ourselves. As a R user, we must have written functions and collected datasets, and may have used them across projects or may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by &lt;code&gt;source(xxx.R)&lt;/code&gt;, and the conventional way to reuse datasets it to load &lt;code&gt;.Rdata&lt;/code&gt; files which store the datasets. We will have to know where the functions and datasets are stored, which is not a easy job if we have a large collection. By building functions and datasets into a package, we keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become our great asset.&lt;/p&gt;
 &lt;p&gt;Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for ourselves, we can save the hassle of publishing it on github or CRAN.&lt;/p&gt;
 &lt;p&gt;Below are step by step instructions of building a working package in RStudio. There are many great tutorials for building R packages. I try to make this one to be the simplest and most up to date.&lt;/p&gt;
