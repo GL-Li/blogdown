@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ggplot on R &amp; Census</title>
-    <link>http://www.gl-li.com/categories/ggplot/</link>
+    <link>/categories/ggplot/</link>
     <description>Recent content in Ggplot on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 17 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="http://www.gl-li.com/categories/ggplot/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/categories/ggplot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Plot pie charts of racial composition in largest metro areas on a map in R</title>
-      <link>http://www.gl-li.com/2018/01/17/create-pie-plots-on-a-map-in-r/</link>
+      <link>/2018/01/17/create-pie-plots-on-a-map-in-r/</link>
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://www.gl-li.com/2018/01/17/create-pie-plots-on-a-map-in-r/</guid>
+      <guid>/2018/01/17/create-pie-plots-on-a-map-in-r/</guid>
       <description>&lt;p&gt;Pie chart has been criticized for being a poor visualization and is not recommended in R community. The popular &lt;code&gt;ggplot2&lt;/code&gt; package discourages the use of pie charts and there is no dedicated &lt;code&gt;geom_pie&lt;/code&gt; for it.&lt;/p&gt;
 &lt;p&gt;Although the criticism is mostly valid, there is a case that pie chart can be useful: pie charts on maps. Pie charting on map is a compact way to show composition by locations.&lt;/p&gt;
 &lt;p&gt;A recent &lt;code&gt;R&lt;/code&gt; package, &lt;a href=&#34;https://github.com/GuangchuangYu/scatterpie&#34;&gt;&lt;code&gt;scatterpie&lt;/code&gt;&lt;/a&gt; by Guangchuang Yu, specializes in making pie charts at multiple locations. This package is an extension of &lt;code&gt;ggplot2&lt;/code&gt; so it will be easy for &lt;code&gt;ggplot2&lt;/code&gt; users.&lt;/p&gt;
@@ -93,10 +93,10 @@ ggplot(us, aes(long, lat)) +
     
     <item>
       <title>ggplot2: place text at right location</title>
-      <link>http://www.gl-li.com/2017/08/18/place-text-at-right-location/</link>
+      <link>/2017/08/18/place-text-at-right-location/</link>
       <pubDate>Fri, 18 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.gl-li.com/2017/08/18/place-text-at-right-location/</guid>
+      <guid>/2017/08/18/place-text-at-right-location/</guid>
       <description>&lt;p&gt;A common task in plotting is adding texts as labels or annotations to specific locations. &lt;code&gt;ggplot()&lt;/code&gt; has functions &lt;code&gt;geom_text()&lt;/code&gt;, &lt;code&gt;geom_label()&lt;/code&gt; and &lt;code&gt;annotate()&lt;/code&gt; for this purpose. In this post we discuss how &lt;code&gt;ggplot2&lt;/code&gt; controls positioning of text.&lt;/p&gt;
 &lt;p&gt;First we need to specify &lt;code&gt;(x, y)&lt;/code&gt; coordinate in the plot where the text is placed. By default, the center of the text is at &lt;code&gt;(x, y)&lt;/code&gt;, which is sometimes not what we want, as shown in the example below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
@@ -156,10 +156,10 @@ grid.arrange(g1, g2, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>ggplot2: aes(group = ...) overrides default grouping</title>
-      <link>http://www.gl-li.com/2017/08/13/ggplot2-group-overrides-default-grouping/</link>
+      <link>/2017/08/13/ggplot2-group-overrides-default-grouping/</link>
       <pubDate>Sun, 13 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.gl-li.com/2017/08/13/ggplot2-group-overrides-default-grouping/</guid>
+      <guid>/2017/08/13/ggplot2-group-overrides-default-grouping/</guid>
       <description>&lt;div id=&#34;default-grouping-in-ggplot2&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Default grouping in &lt;code&gt;ggplot2&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;ggplot2&lt;/code&gt; can subset all data into groups and give each group its own appearance and transformation. In many cases new users are not aware that default groups have been created, and are surprised when seeing unexpected plots.&lt;/p&gt;
@@ -259,10 +259,10 @@ df&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>My uniform way of using ggplot2</title>
-      <link>http://www.gl-li.com/2017/08/03/a-uniform-way-to-use-ggplot2/</link>
+      <link>/2017/08/03/a-uniform-way-to-use-ggplot2/</link>
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.gl-li.com/2017/08/03/a-uniform-way-to-use-ggplot2/</guid>
+      <guid>/2017/08/03/a-uniform-way-to-use-ggplot2/</guid>
       <description>&lt;p&gt;Just finished reading Hadley Wickham’s &lt;code&gt;ggplot2&lt;/code&gt; book, (&lt;a href=&#34;http://www.springer.com/us/book/9783319242750&#34;&gt;second eition&lt;/a&gt;). Before that I have been using &lt;code&gt;ggplot2&lt;/code&gt; for a couple of years, mainly learned by reading documentation and searching for help online.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;ggplot2&lt;/code&gt; package is a powerful and comprehensive tool for generating static plots, but I also feel it is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. Being flexible is not a good feature for a lazy user like me. I just can not memorize all these different methods. What I want is an appoach that gets the job done, is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use &lt;code&gt;ggplot2&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Here I discuss how I like to make &lt;code&gt;ggplot2&lt;/code&gt; plots. It is my personal preference. Every one can find their best way. I will give the reason why I am doing so.&lt;/p&gt;

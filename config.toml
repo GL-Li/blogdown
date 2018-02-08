@@ -24,7 +24,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     name = "Blogroll"
     url = "/links/"
 [[menu.main]]
-    name = "collections"
+    name = "collection"
     url = "/collections/"
 
 [Params]
