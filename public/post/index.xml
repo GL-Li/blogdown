@@ -617,7 +617,7 @@ ggmap(map) +
 &lt;p&gt;From the technical documentation we know that population and race information is in file 03. So let’s read this file.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f03 &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1&amp;quot;), header = FALSE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
-Read 87.5% of 331556 rows
+Read 84.5% of 331556 rows
 Read 331556 rows and 199 (of 199) columns from 0.134 GB file in 00:00:03&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# number of rows and columns
 dim(f03)&lt;/code&gt;&lt;/pre&gt;
@@ -1158,8 +1158,8 @@ magrittr_pipe &amp;lt;- function(){
 
 rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           20   3.694    1.035     3.688    0.004
-## 2  magrittr_pipe()           20   3.568    1.000     3.564    0.004
+## 1 datatable_pipe()           20   3.758    1.056     3.748    0.008
+## 2  magrittr_pipe()           20   3.559    1.000     3.549    0.007
 ##   user.child sys.child
 ## 1          0         0
 ## 2          0         0&lt;/code&gt;&lt;/pre&gt;
