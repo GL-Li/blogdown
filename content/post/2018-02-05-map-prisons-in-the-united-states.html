@@ -1,5 +1,5 @@
 ---
-title: Map prisons in the United States
+title: Mapping prisons in the United States
 author: GL Li
 date: '2018-02-05'
 slug: map-prisons-in-the-united-states
@@ -12,12 +12,16 @@ draft: true
 
 
 
-<p>According to Census 2010, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. Despite 1 in every 110 adults are behind bars, most ordenary people have no idea where are they locked up.</p>
+<p>Despite 1 in every 110 adults are locked behind bars, most ordenary people have no idea where are these prisons. This post helps you find out the location of and number of inmates in federal prisons, state prisons, and local jails.</p>
+<p>The data are extracted from Census 2010. According to the census, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. In addition to the total number, Census 2010 also provides the number of inmates in small areas down to census tract and county subdivision. With the small area data, we can map them on interactive maps.</p>
+<p>We use <a href="https://github.com/GL-Li/totalcensus"><code>totalcensus</code> package</a> to extract prison data at county subdivision level and use <code>leaflet</code> package to make interactive map. Zoom in and click on each data point to find more information about a prison.</p>
+<div id="code" class="section level1">
+<h1>code</h1>
 <pre class="r"><code>library(totalcensus)
 library(tidyverse)
 library(ggmap)
 
-# federal and state prison location and population =============================
+# federal and state prison location and population
 # search tables for fedral prison
 search_tablecontents(&quot;decennial&quot;)
     # PCT0200005 has the total population in federal prison
@@ -86,3 +90,4 @@ ggplot() +
         legend.justification = c(1, 0)
     )</code></pre>
 <p><img src="/post/2018-02-05-map-prisons-in-the-united-states_files/figure-html/unnamed-chunk-2-1.png" width="864" /></p>
+</div>

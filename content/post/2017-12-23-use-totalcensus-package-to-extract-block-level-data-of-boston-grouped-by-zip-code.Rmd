@@ -4,7 +4,7 @@ author: GL Li
 date: '2017-12-23'
 slug: census_data_zip_code
 categories:
-  - package
+  - census
 tags:
   - census
 ---

@@ -4,7 +4,7 @@ author: GL Li
 date: '2017-08-29'
 slug: process-2010-census-data-with-data-table
 categories:
-  - data.table
+  - census
 tags:
   - data wrangling
 ---

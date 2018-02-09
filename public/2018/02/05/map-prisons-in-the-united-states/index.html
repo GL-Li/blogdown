@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Map prisons in the United States</title>
+<title>Mapping prisons in the United States</title>
 
 <meta name="generator" content="Hugo 0.31.1" />
 
@@ -53,7 +53,7 @@
 <main class="main-content content" role="main" itemprop="mainContentOfPage">
 	<article class="post">
 		<header class="post__header clearfix">
-			<h1 class="post__title">Map prisons in the United States</h1>
+			<h1 class="post__title">Mapping prisons in the United States</h1>
 			<p class="post__meta meta">
 				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
 				<time class="post__meta-date" datetime="2018-02-05T00:00:00">2018-02-05</time>
@@ -63,12 +63,16 @@
 			</p>
 		</header>
 		<div class="post__content clearfix">
-			<p>According to Census 2010, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. Despite 1 in every 110 adults are behind bars, most ordenary people have no idea where are they locked up.</p>
+			<p>Despite 1 in every 110 adults are locked behind bars, most ordenary people have no idea where are these prisons. This post helps you find out the location of and number of inmates in federal prisons, state prisons, and local jails.</p>
+<p>The data are extracted from Census 2010. According to the census, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. In addition to the total number, Census 2010 also provides the number of inmates in small areas down to census tract and county subdivision. With the small area data, we can map them on interactive maps.</p>
+<p>We use <a href="https://github.com/GL-Li/totalcensus"><code>totalcensus</code> package</a> to extract prison data at county subdivision level and use <code>leaflet</code> package to make interactive map. Zoom in and click on each data point to find more information about a prison.</p>
+<div id="code" class="section level1">
+<h1>code</h1>
 <pre class="r"><code>library(totalcensus)
 library(tidyverse)
 library(ggmap)
 
-# federal and state prison location and population =============================
+# federal and state prison location and population
 # search tables for fedral prison
 search_tablecontents(&quot;decennial&quot;)
     # PCT0200005 has the total population in federal prison
@@ -137,6 +141,7 @@ ggplot() +
         legend.justification = c(1, 0)
     )</code></pre>
 <p><img src="../../../../post/2018-02-05-map-prisons-in-the-united-states_files/figure-html/unnamed-chunk-2-1.png" width="864" /></p>
+</div>
 
 		</div>
 		
@@ -152,7 +157,7 @@ ggplot() +
 	
 <nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
 	<div class="post-nav__item post-nav__item--prev col-1-2">
-		<a class="post-nav__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">Is your town named after Lincoln or Washington?</p></a>
+		<a class="post-nav__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">Is your hometown named after Lincoln or Washington?</p></a>
 	</div>
 </nav>
 
@@ -189,8 +194,8 @@ ggplot() +
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="../../../../2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
-			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your town named after Lincoln or Washington?</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../../../2018/02/05/map-prisons-in-the-united-states/">Mapping prisons in the United States</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your hometown named after Lincoln or Washington?</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/17/create-pie-plots-on-a-map-in-r/">Plot pie charts of racial composition in largest metro areas on a map in R</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/">Determine relationship between census geographic entities with totalcensus package</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2017/12/23/census_data_zip_code/">Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package</a></li>

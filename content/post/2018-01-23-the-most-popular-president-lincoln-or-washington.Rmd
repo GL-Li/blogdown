@@ -1,5 +1,5 @@
 ---
-title: 'Is your town named after Lincoln or Washington?'
+title: 'Is your hometown named after Lincoln or Washington?'
 author: GL Li
 date: '2018-01-27'
 slug: the-most-popular-president-lincoln-or-washington
