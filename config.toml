@@ -18,7 +18,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 [[menu.main]]
     weight = 3
     name = "Blog"
-    url = "http://www.gl-li.com/"
+    url = "https://www.gl-li.com/"
 [[menu.main]]
     weight = 5
     name = "Project"
@@ -36,7 +36,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     subtitle = "explore census data with R" # Subtitle of your site
     #description = " John Doe's Personal blog about everything" # Description of your site
     #opengraph = true
-    readmore = true # Show "Read more" button in list if true
+    readmore = false # Show "Read more" button in list if true
     leftsidebar = false # Move sidebar to the left side if true
     #authorbox = true
     post_navigation = true

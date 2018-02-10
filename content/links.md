@@ -1,5 +1,8 @@
 # List of R and census blogs
 
+### [R Weekly](https://rweekly.org/)
+Weekly updates from the entire R community
+
 ### [R-Bloggers](https://www.r-bloggers.com/)
 R news and tutorials contributed by (750) R bloggers
 
