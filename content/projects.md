@@ -1,5 +1,5 @@
 # [totalcensus package: extract census data from summary files](https://github.com/GL-Li/totalcensus)
-The totalcensus package extracts any data available in the raw summary files of decennial census and American Community Survey (ACS) and returns a tidy `data.table` that can be easily processed with `data.table` or `dplyr` packages.
+The totalcensus package downloads summary files from Census Bureau and extracts data, in particular high resolution data at block, block group, and tract level, from decennial censuses and American Community Survey 1-year and 5-year estimates..
 
 ***
 # Fatal police shooting in the United States
