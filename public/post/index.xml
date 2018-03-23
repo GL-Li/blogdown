@@ -2,21 +2,63 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on R &amp; Census</title>
-    <link>/post/</link>
+    <link>http://www.gl-li.com/post/</link>
     <description>Recent content in Posts on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Mar 2018 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="http://www.gl-li.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Find Salamander -- Congressional District Gerrymandering</title>
+      <link>http://www.gl-li.com/2018/03/23/find-salamander-congressional-district-gerrymandering/</link>
+      <pubDate>Fri, 23 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.gl-li.com/2018/03/23/find-salamander-congressional-district-gerrymandering/</guid>
+      <description>&lt;p&gt;When Republicans or Demecrats are in charge, they tend to draw election disctrict boundaries to their favor. This can go very ugly, creating crazy boundaries by a practice called &lt;a href=&#34;https://en.wikipedia.org/wiki/Gerrymandering&#34;&gt;Gerrymandering&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The word “Gerrymander” is a combination of two species: the Massachusetts Governer Elbridge Gerry and a mythological salamander, a dragon-like monster. Governer Gerry signed a bill 200 year ago that drew an state senate election district in a shape resembling a salamander.&lt;/p&gt;
+&lt;p&gt;Nobody has seen the mythological salamander, but we are quite familiar with the amphibian salamander, which also has a dragon-like shape.&lt;/p&gt;
+&lt;p&gt;One of my favorate Gerrymanderring example is the 6th congressional district of Pansylvania (115th congress). It has a shape vividly like a salamander.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;img/PA_6th_congress_distric.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;We can visualize the gerrymandering easily with &lt;code&gt;ggtiger&lt;/code&gt; package. The figure below shows a few congressional districts near Philadelpia in Pennsylvania for 115th Congress, including the 6th distric above and the (in)famous 7th congressional district.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# install ggtiger package from https://github.com/GL-Li/ggtiger
+# devtools::install_github(&amp;quot;GL-Li/ggtiger&amp;quot;)
+library(ggtiger)
+library(viridis)
+
+# download map near philly in PA
+philly &amp;lt;- get_map(&amp;quot;pottstown, PA,  usa&amp;quot;, zoom = 9, color = &amp;quot;bw&amp;quot;)
+
+### congressional district boudaries
+ggmap(philly) +
+    geom_boundary(&amp;quot;congressional district&amp;quot;, states = &amp;quot;PA&amp;quot;,
+                  mapping = aes(fill = ..GEOID..),
+                  alpha = 0.7, color = &amp;quot;red&amp;quot;, size = 0.3) +
+    scale_fill_viridis(discrete = TRUE) +
+    labs(title = &amp;quot;Congressional district gerrymandering in PA&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../post/2018-03-23-find-salamander-congressional-district-gerrymandering_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can do this for any locations.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nc &amp;lt;- get_map(&amp;quot;north carolina, usa&amp;quot;, zoom = 7, color = &amp;quot;bw&amp;quot;)
+ggmap(nc) +
+    geom_boundary(&amp;quot;congressional district&amp;quot;, states = &amp;quot;NC&amp;quot;,
+                  mapping = aes(fill = ..GEOID..),
+                  alpha = 0.7, color = &amp;quot;red&amp;quot;, size = 0.3) +
+    scale_fill_viridis(discrete = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../post/2018-03-23-find-salamander-congressional-district-gerrymandering_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Map prisons in the United States</title>
-      <link>/2018/02/05/map-prisons-in-the-united-states/</link>
+      <link>http://www.gl-li.com/2018/02/05/map-prisons-in-the-united-states/</link>
       <pubDate>Mon, 05 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/02/05/map-prisons-in-the-united-states/</guid>
+      <guid>http://www.gl-li.com/2018/02/05/map-prisons-in-the-united-states/</guid>
       <description>&lt;script src=&#34;../rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;../rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
 &lt;link href=&#34;../rmarkdown-libs/leaflet/leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
@@ -98,10 +140,10 @@ leaflet(pris_pop) %&amp;gt;%
     
     <item>
       <title>Is your hometown named after Lincoln or Washington?</title>
-      <link>/2018/01/27/the-most-popular-president-lincoln-or-washington/</link>
+      <link>http://www.gl-li.com/2018/01/27/the-most-popular-president-lincoln-or-washington/</link>
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/01/27/the-most-popular-president-lincoln-or-washington/</guid>
+      <guid>http://www.gl-li.com/2018/01/27/the-most-popular-president-lincoln-or-washington/</guid>
       <description>&lt;p&gt;Washington and Lincoln are the two greatest presidents in the history of the United States. This post, however, does not discuss how great they are. Instead, I want to show a fun fact related the two presidents: how many cities and towns (and equivalents) are named after them. I am living in Lincoln, Rhode Island, a town so named in honor of President Lincoln.&lt;/p&gt;
 &lt;p&gt;The data are extracted from decennial census 2010, the most detailed census so far. There are 311 cities and towns having “Washington” in their names and 205 having “Lincoln”. We also extract the coordinates and population of these cities and towns and plot them on the US map. There are significantly more places named after “Washington” than “Lincoln” in three states, Indiana , Ohio, and Pennsylvania. They combined have 109 more places with &lt;code&gt;Washington&lt;/code&gt; than with &lt;code&gt;Lincoln&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
@@ -189,10 +231,10 @@ wl[, .(count = .N), by = .(area, state)] %&amp;gt;%
     
     <item>
       <title>Plot pie charts of racial composition in largest metro areas on a map in R</title>
-      <link>/2018/01/17/create-pie-plots-on-a-map-in-r/</link>
+      <link>http://www.gl-li.com/2018/01/17/create-pie-plots-on-a-map-in-r/</link>
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/01/17/create-pie-plots-on-a-map-in-r/</guid>
+      <guid>http://www.gl-li.com/2018/01/17/create-pie-plots-on-a-map-in-r/</guid>
       <description>&lt;p&gt;Pie chart has been criticized for being a poor visualization and is not recommended in R community. The popular &lt;code&gt;ggplot2&lt;/code&gt; package discourages the use of pie charts and there is no dedicated &lt;code&gt;geom_pie&lt;/code&gt; for it.&lt;/p&gt;
 &lt;p&gt;Although the criticism is mostly valid, there is a case that pie chart can be useful: pie charts on maps. Pie charting on map is a compact way to show composition by locations.&lt;/p&gt;
 &lt;p&gt;A recent &lt;code&gt;R&lt;/code&gt; package, &lt;a href=&#34;https://github.com/GuangchuangYu/scatterpie&#34;&gt;&lt;code&gt;scatterpie&lt;/code&gt;&lt;/a&gt; by Guangchuang Yu, specializes in making pie charts at multiple locations. This package is an extension of &lt;code&gt;ggplot2&lt;/code&gt; so it will be easy for &lt;code&gt;ggplot2&lt;/code&gt; users.&lt;/p&gt;
@@ -269,10 +311,10 @@ ggplot(us, aes(long, lat)) +
     
     <item>
       <title>Determine relationship between census geographic entities with totalcensus package</title>
-      <link>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
+      <link>http://www.gl-li.com/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</link>
       <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
+      <guid>http://www.gl-li.com/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/</guid>
       <description>&lt;p&gt;This is an application example of &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34;&gt;totalcensus package&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The geographic hierarchy primer in &lt;a href=&#34;https://www.census.gov/prod/cen2010/doc/sf1.pdf&#34;&gt;Census 2010 summary file 1 technical documentation&lt;/a&gt; displays the relationship between geographic entities. The lower one of the two entities connected by a line is entirely within the boundary of the upper one. For example, a county subdivision is always within the boundaries of a county and a school district always within the boundaries of a state. If two entities are not connected, they may not belong to each other. For example, the ZIP code tabulation areas may cross state borders though they are much smaller than states.&lt;/p&gt;
 &lt;p&gt;&lt;br&gt; &lt;img src=&#34;https://s3.amazonaws.com/gl-shared-pictures/hierarchy_census_geographic_entities.png&#34; /&gt;&lt;/p&gt;
@@ -358,10 +400,10 @@ head(race_zip_boston, 3)
     
     <item>
       <title>Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package</title>
-      <link>/2017/12/23/census_data_zip_code/</link>
+      <link>http://www.gl-li.com/2017/12/23/census_data_zip_code/</link>
       <pubDate>Sat, 23 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/12/23/census_data_zip_code/</guid>
+      <guid>http://www.gl-li.com/2017/12/23/census_data_zip_code/</guid>
       <description>&lt;p&gt;This is an example of applications of &lt;code&gt;totalcensus&lt;/code&gt; package. To install the package, follow the instructions at &lt;a href=&#34;https://github.com/GL-Li/totalcensus&#34; class=&#34;uri&#34;&gt;https://github.com/GL-Li/totalcensus&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(totalcensus)
@@ -437,10 +479,10 @@ ggmap(us_map) +
     
     <item>
       <title>Build a R package for yourself</title>
-      <link>/2017/09/14/build-a-r-package-for-yourself/</link>
+      <link>http://www.gl-li.com/2017/09/14/build-a-r-package-for-yourself/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/09/14/build-a-r-package-for-yourself/</guid>
+      <guid>http://www.gl-li.com/2017/09/14/build-a-r-package-for-yourself/</guid>
       <description>&lt;p&gt;A R user can benefit a lot from building packages. I have read people writing about the benefit in various occasions and cannot agree more after building my first package. We don’t have to a be R developer to write packages. Developers write packages for others; we can just write packages for ourselves. As a R user, we must have written functions and collected datasets, and may have used them across projects or may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by &lt;code&gt;source(xxx.R)&lt;/code&gt;, and the conventional way to reuse datasets it to load &lt;code&gt;.Rdata&lt;/code&gt; files which store the datasets. We will have to know where the functions and datasets are stored, which is not a easy job if we have a large collection. By building functions and datasets into a package, we keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become our great asset.&lt;/p&gt;
 &lt;p&gt;Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for ourselves, we can save the hassle of publishing it on github or CRAN.&lt;/p&gt;
 &lt;p&gt;Below are step by step instructions of building a working package in RStudio. There are many great tutorials for building R packages. I try to make this one to be the simplest and most up to date.&lt;/p&gt;
@@ -544,10 +586,10 @@ Imports:
     
     <item>
       <title>Extract US Census 2010 data with data.table and dplyr</title>
-      <link>/2017/08/29/process-2010-census-data-with-data-table/</link>
+      <link>http://www.gl-li.com/2017/08/29/process-2010-census-data-with-data-table/</link>
       <pubDate>Tue, 29 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/08/29/process-2010-census-data-with-data-table/</guid>
+      <guid>http://www.gl-li.com/2017/08/29/process-2010-census-data-with-data-table/</guid>
       <description>&lt;p&gt;This post explains how to extract information from the original dataset of the US 2010 census summary file 1 with urban/rural update, using data.table or dplyr package in R.&lt;/p&gt;
 &lt;p&gt;Why do we want to work with the original data? You may ask, when there are already R packages, such as UScensus2010, censusapi, and tidycensus, which help user get the data.&lt;/p&gt;
 &lt;p&gt;The biggest benefit is that you will have full access to all the census 2010 data. The total size of the US 2010 national census summary 1 file with urban/rural update is nearly 150Gb, which is too heavy to be included as dataset in a package. The stand-alone UScensus2010 package only delivers selected demographic data. Others provide an access to United States Census Bureau’s APIs, which also offers selected data. By dealing with the original data directly, you can extract whatever data you want.&lt;/p&gt;
@@ -841,10 +883,10 @@ sb_block_popul &amp;lt;- fread(paste0(path_to_data, &amp;quot;IN/in000032010.ur1
     
     <item>
       <title>ggplot2: place text at right location</title>
-      <link>/2017/08/18/place-text-at-right-location/</link>
+      <link>http://www.gl-li.com/2017/08/18/place-text-at-right-location/</link>
       <pubDate>Fri, 18 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/08/18/place-text-at-right-location/</guid>
+      <guid>http://www.gl-li.com/2017/08/18/place-text-at-right-location/</guid>
       <description>&lt;p&gt;A common task in plotting is adding texts as labels or annotations to specific locations. &lt;code&gt;ggplot()&lt;/code&gt; has functions &lt;code&gt;geom_text()&lt;/code&gt;, &lt;code&gt;geom_label()&lt;/code&gt; and &lt;code&gt;annotate()&lt;/code&gt; for this purpose. In this post we discuss how &lt;code&gt;ggplot2&lt;/code&gt; controls positioning of text.&lt;/p&gt;
 &lt;p&gt;First we need to specify &lt;code&gt;(x, y)&lt;/code&gt; coordinate in the plot where the text is placed. By default, the center of the text is at &lt;code&gt;(x, y)&lt;/code&gt;, which is sometimes not what we want, as shown in the example below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
@@ -904,10 +946,10 @@ grid.arrange(g1, g2, nrow = 1)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>ggplot2: aes(group = ...) overrides default grouping</title>
-      <link>/2017/08/13/ggplot2-group-overrides-default-grouping/</link>
+      <link>http://www.gl-li.com/2017/08/13/ggplot2-group-overrides-default-grouping/</link>
       <pubDate>Sun, 13 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/08/13/ggplot2-group-overrides-default-grouping/</guid>
+      <guid>http://www.gl-li.com/2017/08/13/ggplot2-group-overrides-default-grouping/</guid>
       <description>&lt;div id=&#34;default-grouping-in-ggplot2&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Default grouping in &lt;code&gt;ggplot2&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;ggplot2&lt;/code&gt; can subset all data into groups and give each group its own appearance and transformation. In many cases new users are not aware that default groups have been created, and are surprised when seeing unexpected plots.&lt;/p&gt;
@@ -1007,10 +1049,10 @@ df&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>My uniform way of using ggplot2</title>
-      <link>/2017/08/03/a-uniform-way-to-use-ggplot2/</link>
+      <link>http://www.gl-li.com/2017/08/03/a-uniform-way-to-use-ggplot2/</link>
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/08/03/a-uniform-way-to-use-ggplot2/</guid>
+      <guid>http://www.gl-li.com/2017/08/03/a-uniform-way-to-use-ggplot2/</guid>
       <description>&lt;p&gt;Just finished reading Hadley Wickham’s &lt;code&gt;ggplot2&lt;/code&gt; book, (&lt;a href=&#34;http://www.springer.com/us/book/9783319242750&#34;&gt;second eition&lt;/a&gt;). Before that I have been using &lt;code&gt;ggplot2&lt;/code&gt; for a couple of years, mainly learned by reading documentation and searching for help online.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;ggplot2&lt;/code&gt; package is a powerful and comprehensive tool for generating static plots, but I also feel it is a little bit too flexible; the same plot can be made with many different ways. This fexibility provides obvious convenience but also introduces a lot of confusion and extra burden of memorization. Being flexible is not a good feature for a lazy user like me. I just can not memorize all these different methods. What I want is an appoach that gets the job done, is easy to apply to many tasks, and does not have much to memorize. I need a uniform way to use &lt;code&gt;ggplot2&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Here I discuss how I like to make &lt;code&gt;ggplot2&lt;/code&gt; plots. It is my personal preference. Every one can find their best way. I will give the reason why I am doing so.&lt;/p&gt;
@@ -1168,10 +1210,10 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
     
     <item>
       <title>Compare data.table pipes and magrittr pipes</title>
-      <link>/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/</link>
+      <link>http://www.gl-li.com/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/</link>
       <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/</guid>
+      <guid>http://www.gl-li.com/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/</guid>
       <description>&lt;p&gt;We have two ways to chain &lt;code&gt;data.table&lt;/code&gt; operations, using &lt;code&gt;data.table&lt;/code&gt; pipes or using &lt;code&gt;magrittr&lt;/code&gt; pipes. For a data.table &lt;code&gt;dt&lt;/code&gt;, the &lt;code&gt;data.table&lt;/code&gt; pipes take the form of &lt;code&gt;dt[][][]...&lt;/code&gt; and &lt;code&gt;magrittr&lt;/code&gt; pipes &lt;code&gt;dt %&amp;gt;% .[] %&amp;gt;% .[] %&amp;gt;% ...&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of &lt;code&gt;data.table&lt;/code&gt; pipes in this &lt;a href=&#34;https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly&#34;&gt;stackoverflow post&lt;/a&gt;. The &lt;code&gt;data.table&lt;/code&gt; pipes, however, are not that hard to follow for those who are familiar with &lt;code&gt;data.table&lt;/code&gt;. To my eyes, the &lt;code&gt;magrittr&lt;/code&gt; pipes improve the readability but the &lt;code&gt;data.table&lt;/code&gt; pipes are still acceptable. It is more of a personal choice.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)

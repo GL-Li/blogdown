@@ -17,3 +17,6 @@ Blog of the author of `tidycensus` and `tigris` packages.
 
 ### [Yihui's blog](https://yihui.name/en/)
 Blog of the author of popular packages such as `knitr` and `blogdown`.
+
+### [r-spatial](http://r-spatial.org/)
+Website and blog for those interested in using R to analyse spatial or spatio-temporal data.

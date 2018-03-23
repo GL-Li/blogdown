@@ -2,57 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on R &amp; Census</title>
-    <link>/tags/</link>
+    <link>http://www.gl-li.com/tags/</link>
     <description>Recent content in Tags on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Mar 2018 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="http://www.gl-li.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Census</title>
-      <link>/tags/census/</link>
-      <pubDate>Mon, 05 Feb 2018 00:00:00 +0000</pubDate>
+      <link>http://www.gl-li.com/tags/census/</link>
+      <pubDate>Fri, 23 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/census/</guid>
+      <guid>http://www.gl-li.com/tags/census/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Census Plot</title>
-      <link>/tags/census-plot/</link>
+      <link>http://www.gl-li.com/tags/census-plot/</link>
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/census-plot/</guid>
+      <guid>http://www.gl-li.com/tags/census-plot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Data Wrangling</title>
-      <link>/tags/data-wrangling/</link>
+      <link>http://www.gl-li.com/tags/data-wrangling/</link>
       <pubDate>Tue, 29 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/data-wrangling/</guid>
+      <guid>http://www.gl-li.com/tags/data-wrangling/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Packages</title>
-      <link>/tags/packages/</link>
+      <link>http://www.gl-li.com/tags/packages/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/packages/</guid>
+      <guid>http://www.gl-li.com/tags/packages/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Plot</title>
-      <link>/tags/plot/</link>
+      <link>http://www.gl-li.com/tags/plot/</link>
       <pubDate>Fri, 18 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/plot/</guid>
+      <guid>http://www.gl-li.com/tags/plot/</guid>
       <description></description>
     </item>
     
