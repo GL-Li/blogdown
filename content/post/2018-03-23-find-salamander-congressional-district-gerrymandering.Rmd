@@ -27,7 +27,7 @@ One of my favorite Gerrymandering example is the 6th congressional district of P
 
 We can visualize the Gerrymandering easily with `ggtiger` package in R. The figure below shows a few congressional districts near Philadelphia in Pennsylvania for 115th Congress, including the 6th district above and the (in)famous 7th congressional district.
 
-```{r eval=TRUE}
+```{r}
 # install ggtiger package from https://github.com/GL-Li/ggtiger
 # devtools::install_github("GL-Li/ggtiger")
 library(ggtiger)
