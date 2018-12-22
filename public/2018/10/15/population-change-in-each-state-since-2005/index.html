@@ -76,18 +76,15 @@
 
 
 <p>With the newly added data, the <code>totalcensus</code> package now is able to extract data from summary files of decennial census 2000 and 2010, ACS (American Community Survey) 1 year estimates from 2005 to 2017, and ACS 5 year estimates with ending year from 2009 to 2017. With this capacity we can easily look into how things change over the years.</p>
-<p>In this post I will show how to extract population of large cities in 2005 and 2017 and compare the changes in population. We will use ACS 1 year estimates, which cover geographic areas with population over 65000.
-First we load the packages used to extract, wrangle, and plot the data.</p>
+<p>In this post I will show how to extract population of all cities in 2012 and 2017 and compare the changes in population. We will use ACS 5 year estimates.</p>
 <pre class="r"><code>library(totalcensus)
 library(data.table)
 library(magrittr)
 library(ggplot2)
-library(ggmap)
 library(leaflet)
-# You need to use your own google clound API
-# register_google(&quot;your_google_api_key&quot;)</code></pre>
-<p>Let’s plot the population and change on map.</p>
-<pre class="r"><code>pop1 &lt;- read_acs5year(year = 2012, 
+
+# read data and keep only population error less than 0.5%
+pop1 &lt;- read_acs5year(year = 2012, 
                      states = c(states_DC, &quot;PR&quot;),
                      summary_level = &quot;place&quot;, 
                      with_margin = TRUE,
@@ -105,7 +102,9 @@ pop2 &lt;- read_acs5year(year = 2017,
     .[error &lt; 0.005] %&gt;%
     .[, .(GEOID, NAME, lon, lat, p2 = population)]
 
-
+# split population change into 5 groups: 
+# A - decrease, B - increase less than 5%, C - less than 10%
+# C - less than 15%, D- more than 15%
 popul_city &lt;- pop1[pop2, on = .(GEOID, NAME, lon, lat)] %&gt;%
     .[lon &gt; -130 &amp; lon &lt; -68] %&gt;%
     .[, change := 100 * (p2 - p1) / p1] %&gt;%
@@ -118,29 +117,8 @@ popul_city &lt;- pop1[pop2, on = .(GEOID, NAME, lon, lat)] %&gt;%
     .[change &gt; 15, group := &quot;E&quot;] %&gt;%
     .[order(-p2)]
 
-us_map &lt;- get_map(&quot;united states&quot;, zoom = 4, color = &quot;bw&quot;)
-
-ggmap(us_map) +
-    geom_point(data = popul_city, 
-               aes(lon, lat, size = p2, color = group), alpha = 0.5) +
-    labs(color = &quot;population\nchange (%)&quot;,
-         size = &quot;2017 population\n(million)&quot;,
-         title = &quot;Largest cities: 2017 population and population change since 2005&quot;,
-         x = NULL,
-         y = NULL) +
-    scale_size_area(max_size = 10,
-                    breaks = c(0.1, 0.5, 1, 5, 8)) +
-    scale_color_manual(values = c(&quot;A&quot; = &quot;blue&quot;,
-                                  &quot;B&quot; = &quot;green&quot;,
-                                  &quot;C&quot; = &quot;cyan&quot;, 
-                                  &quot;D&quot; = &quot;orange&quot;,
-                                  &quot;E&quot; = &quot;magenta&quot;)) +
-    guides(size = guide_legend(override.aes = list(shape = 1))) +
-    coord_map(xlim = c(), ylim = c(25, 50)) +
-    theme(#axis.text = element_blank(),
-        axis.ticks = element_blank())</code></pre>
-<p><img src="../../../../rmarkdown-libs/figure-html4/unnamed-chunk-4-1.png" width="864" /></p>
-<pre class="r"><code>pal &lt;- colorFactor(
+# interactive mapping with leaflet
+pal &lt;- colorFactor(
     palette = c(&quot;blue&quot;, &quot;green&quot;, &quot;cyan&quot;, &quot;orange&quot;, &quot;magenta&quot;),
     domain = popul_city$group
 )
