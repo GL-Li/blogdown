@@ -18,8 +18,8 @@
 
 
 
-<link rel="stylesheet" href="http://www.gl-li.com/css/github.css" rel="stylesheet" id="theme-stylesheet">
-<script src="http://www.gl-li.com/js/highlight.pack.js"></script>
+<link rel="stylesheet" href="../../../../css/github.css" rel="stylesheet" id="theme-stylesheet">
+<script src="../../../../js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
 
@@ -67,7 +67,7 @@
 <p>Why do we want to work with the original data? You may ask, when there are already R packages, such as UScensus2010, censusapi, and tidycensus, which help user get the data.</p>
 <p>The biggest benefit is that you will have full access to all the census 2010 data. The total size of the US 2010 national census summary 1 file with urban/rural update is nearly 150Gb, which is too heavy to be included as dataset in a package. The stand-alone UScensus2010 package only delivers selected demographic data. Others provide an access to United States Census Bureau’s APIs, which also offers selected data. By dealing with the original data directly, you can extract whatever data you want.</p>
 <p>In recent years, fast development of packages data.table and dplyr makes it possible for R to process original 2010 census data in a reasonable time frame. In the following example, I retrieved the latitude, longitude, population of all race and of black people living in each census block in the city of South Bend Indiana. The whole process takes about 4 seconds on a four years old laptop. With these data in hand we can plot nicely where black people live down to census block level on a map downloaded from GoogleMap. In a city most census blocks are equivalent to street blocks.</p>
-<p><img src="../../../../post/2017-08-29-process-2010-census-data-with-data-table_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
+<p><img src="../../../../rmarkdown-libs/figure-html4/unnamed-chunk-2-1.png" width="768" /></p>
 <p>This post is organized in this order: I will first give a brief introduction to the 2010 census summary file 1 with urban/rural update. Then I will show how to extract data step by step using R and data.table package with the example shown above. The codes are verbose in this section as I want to show the details. To clean it up I will then give a more concise codes that use pipe operator from magrittr package. As many users are more familiar with dplyr package, I will also translate the data.table code to dplyr code. The dplyr approach is sufficiently fast for most applications.</p>
 <div id="file-structure-of-the-census-2010-summary-1-file" class="section level2">
 <h2>File structure of the census 2010 summary 1 file</h2>
@@ -206,18 +206,17 @@ sb_block</code></pre>
 ## 5005:   253092    100 71000 41.73035 -86.35565
 ## 5006:   253093    100 71000 41.72831 -86.35573</code></pre>
 <p>Are we sure we get the correct geographic data? We can plot the latitude and longitude directly on a map. From the map below you will also get a sense of what a census block is; it is basically a street block in urban area. We need internet connection to download map data from Google Map.</p>
-<pre class="r"><code>library(ggmap)
-map &lt;- get_map(&quot;south bend, indiana&quot;, zoom = 13)
+<pre class="r"><code>map &lt;- get_map(&quot;south bend, indiana&quot;, zoom = 13)
 ggmap(map) +
     geom_point(data = sb_block, aes(INTPTLON, INTPTLAT), color = &quot;red&quot;, alpha = 0.3)</code></pre>
-<p><img src="../../../../post/2017-08-29-process-2010-census-data-with-data-table_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
+<p><img src="../../../../rmarkdown-libs/figure-html4/unnamed-chunk-7-1.png" width="768" /></p>
 </div>
 <div id="read-and-extract-population-and-race-data" class="section level3">
 <h3>read and extract population and race data</h3>
 <p>From the technical documentation we know that population and race information is in file 03. So let’s read this file.</p>
 <pre class="r"><code>f03 &lt;- fread(paste0(path_to_data, &quot;IN/in000032010.ur1&quot;), header = FALSE)</code></pre>
 <pre><code>## 
-Read 87.5% of 331556 rows
+Read 72.4% of 331556 rows
 Read 331556 rows and 199 (of 199) columns from 0.134 GB file in 00:00:03</code></pre>
 <pre class="r"><code># number of rows and columns
 dim(f03)</code></pre>
@@ -405,6 +404,7 @@ sb_block_popul &lt;- fread(paste0(path_to_data, &quot;IN/in000032010.ur1&quot;),
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="../../../../2018/10/15/population-change-in-each-state-since-2005/">Cities boomed and doomed</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/03/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your hometown named after Lincoln or Washington?</a></li>

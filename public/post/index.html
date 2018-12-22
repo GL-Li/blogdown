@@ -9,7 +9,7 @@
 
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-<link rel="alternate" type="application/rss+xml" title="R &amp; Census Feed" href="http://www.gl-li.com/post/index.xml">
+<link rel="alternate" type="application/rss+xml" title="R &amp; Census Feed" href="../post/index.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
 <script type="text/javascript" src="../js/scripts.js"></script>
@@ -18,8 +18,8 @@
 
 
 
-<link rel="stylesheet" href="http://www.gl-li.com/css/github.css" rel="stylesheet" id="theme-stylesheet">
-<script src="http://www.gl-li.com/js/highlight.pack.js"></script>
+<link rel="stylesheet" href="../css/github.css" rel="stylesheet" id="theme-stylesheet">
+<script src="../js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
 
@@ -54,6 +54,23 @@
 		<header class="page-header">
 			<h1 class="page-header__title">Posts</h1>
 		</header><article class="list__item post clearfix">
+	<div class="list__content clearfix">
+		<header class="list__header">
+			<h3 class="list__title post__title ">
+				<a href="../2018/10/15/population-change-in-each-state-since-2005/" rel="bookmark">Cities boomed and doomed</a>
+			</h3>
+			<div class="list__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="list__meta-date" datetime="2018-10-15T00:00:00">2018-10-15</time>
+			</div>
+		</header>
+		<div class="list__excerpt">
+			With the newly added data, the totalcensus package now is able to extract data from summary files of decennial census 2000 and 2010, ACS (American Community Survey) 1 year estimates from 2005 to 2017, and ACS 5 year estimates with ending year from 2009 to 2017. With this capacity we can easily look into how things change over the years.
+In this post I will show how to extract population of large cities in 2005 and 2017 and compare the changes in population.
+		</div>
+	</div>
+</article>
+<article class="list__item post clearfix">
 	<div class="list__content clearfix">
 		<header class="list__header">
 			<h3 class="list__title post__title ">
@@ -208,24 +225,6 @@ First we need to specify (x, y) coordinate in the plot where the text is placed.
 		</div>
 	</div>
 </article>
-<article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="list__header">
-			<h3 class="list__title post__title ">
-				<a href="../2017/08/13/ggplot2-group-overrides-default-grouping/" rel="bookmark">ggplot2: aes(group = ...) overrides default grouping</a>
-			</h3>
-			<div class="list__meta meta">
-				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
-				<time class="list__meta-date" datetime="2017-08-13T00:00:00">2017-08-13</time>
-			</div>
-		</header>
-		<div class="list__excerpt">
-			Default grouping in ggplot2 ggplot2 can subset all data into groups and give each group its own appearance and transformation. In many cases new users are not aware that default groups have been created, and are surprised when seeing unexpected plots.
-There are two ways in which ggplot2 creates groups implicitly:
- If x or y are categorical variables, the rows with the same level form a group. Users often overlook this type of default grouping.
-		</div>
-	</div>
-</article>
 
 
 		
@@ -243,6 +242,7 @@ There are two ways in which ggplot2 creates groups implicitly:
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="../2018/10/15/population-change-in-each-state-since-2005/">Cities boomed and doomed</a></li>
 			<li class="widget__item"><a class="widget__link" href="../2018/03/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
 			<li class="widget__item"><a class="widget__link" href="../2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
 			<li class="widget__item"><a class="widget__link" href="../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your hometown named after Lincoln or Washington?</a></li>

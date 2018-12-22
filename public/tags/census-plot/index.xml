@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Census Plot on R &amp; Census</title>
-    <link>http://www.gl-li.com/tags/census-plot/</link>
+    <link>/tags/census-plot/</link>
     <description>Recent content in Census Plot on R &amp; Census</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 17 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="http://www.gl-li.com/tags/census-plot/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/census-plot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Plot pie charts of racial composition in largest metro areas on a map in R</title>
-      <link>http://www.gl-li.com/2018/01/17/create-pie-plots-on-a-map-in-r/</link>
+      <link>/2018/01/17/create-pie-plots-on-a-map-in-r/</link>
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://www.gl-li.com/2018/01/17/create-pie-plots-on-a-map-in-r/</guid>
+      <guid>/2018/01/17/create-pie-plots-on-a-map-in-r/</guid>
       <description>&lt;p&gt;Pie chart has been criticized for being a poor visualization and is not recommended in R community. The popular &lt;code&gt;ggplot2&lt;/code&gt; package discourages the use of pie charts and there is no dedicated &lt;code&gt;geom_pie&lt;/code&gt; for it.&lt;/p&gt;
 &lt;p&gt;Although the criticism is mostly valid, there is a case that pie chart can be useful: pie charts on maps. Pie charting on map is a compact way to show composition by locations.&lt;/p&gt;
 &lt;p&gt;A recent &lt;code&gt;R&lt;/code&gt; package, &lt;a href=&#34;https://github.com/GuangchuangYu/scatterpie&#34;&gt;&lt;code&gt;scatterpie&lt;/code&gt;&lt;/a&gt; by Guangchuang Yu, specializes in making pie charts at multiple locations. This package is an extension of &lt;code&gt;ggplot2&lt;/code&gt; so it will be easy for &lt;code&gt;ggplot2&lt;/code&gt; users.&lt;/p&gt;

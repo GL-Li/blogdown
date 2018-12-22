@@ -25,6 +25,8 @@ In recent years, fast development of packages data.table and dplyr makes it poss
 library(data.table)
 library(magrittr)
 library(ggmap)
+google_api_key <- Sys.getenv("GOOGLE_API_KEY")
+register_google(google_api_key)
 
 
 ## An example to retrieve and plot the total and black population at the census
@@ -148,7 +150,6 @@ sb_block
 Are we sure we get the correct geographic data? We can plot the latitude and longitude directly on a map. From the map below you will also get a sense of what a census block is; it is basically a street block in urban area. We need internet connection to download map data from Google Map.
 
 ```{r fig.width=8, fig.height=8}
-library(ggmap)
 map <- get_map("south bend, indiana", zoom = 13)
 ggmap(map) +
     geom_point(data = sb_block, aes(INTPTLON, INTPTLAT), color = "red", alpha = 0.3)
