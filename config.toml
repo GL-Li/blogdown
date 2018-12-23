@@ -13,24 +13,28 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
 [[menu.main]]
     weight = 1
-    name = "About"
-    url = "/about/"
-[[menu.main]]
-    weight = 3
-    name = "Blog"
+    name = "Home"
     url = "https://www.gl-li.com/"
 [[menu.main]]
+    weight = 3
+    name = "Twitter"
+    url = "https://twitter.com/guanglai_li"
+[[menu.main]]
     weight = 5
-    name = "Project"
-    url = "/projects/"
+    name = "GitHub"
+    url = "https://github.com/GL-Li"
 [[menu.main]]
     weight = 7
-    name = "Blogroll"
-    url = "/blogroll/"
+    name = "R-bloggers"
+    url = "https://www.r-bloggers.com/"
 [[menu.main]]
     weight = 9
-    name = "collection"
-    url = "/collections/"
+    name = "R Weekly"
+    url = "https://rweekly.org/"
+[[menu.main]]
+    weight = 11
+    name = "Census Blogs"
+    url = "https://www.census.gov/newsroom/blogs/about.html"
 
 [Params]
     subtitle = "explore census data with R" # Subtitle of your site
