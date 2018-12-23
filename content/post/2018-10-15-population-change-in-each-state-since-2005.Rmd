@@ -16,6 +16,72 @@ library(knitr)
 opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
+## Interactive mapping of population change of US cities
+Zoom and click to find out the population data of cities in 2017 and changes in 5 years. Next section we show how to make this map.
+
+
+```{r echo=FALSE, results="hide"}
+library(totalcensus)
+library(data.table)
+library(magrittr)
+library(leaflet)
+
+# read population data of 2007-2012 and 2013-2017 ACS 5-year 
+p2012 <- read_acs5year(year = 2012, 
+                     states = states_DC,
+                     summary_level = "place", 
+                     show_progress = FALSE) %>%
+    .[, .(GEOID, p1 = population)]
+
+p2017 <- read_acs5year(year = 2017, 
+                     states = states_DC,
+                     summary_level = "place", 
+                     show_progress = FALSE) %>%
+    .[, .(GEOID, NAME, lon, lat, p2 = population)]
+
+# joint data, calculate change of pupulation for cities with population over 5000
+popul <- p2012[p2017, on = .(GEOID)]  %>%
+    # keep only those population greater than 1000, too many microcities
+    .[p1 > 5000 | p2 > 5000] %>%
+    # keep 48 states for better plotting
+    .[lon > -130 & lon < -68] %>%
+    # keep places that have "city" in their names
+    .[NAME %like% "city"] %>%
+    # calculate percentage change 
+    .[, change := round(100 * (p2 - p1) / p1, 2)] %>%
+    .[order(change)]
+
+popul <- popul[!is.na(change), group := "< -2%"] %>%
+    .[change > -2, group := "-2% - 2%"] %>%
+    .[change > 2, group := "2% - 6%"] %>%
+    .[change > 6, group := "6% - 10%"] %>%
+    .[change > 10, group := "> 10%"] %>%
+    .[, group := factor(group, levels = c(
+        "< -2%", "-2% - 2%", "2% - 6%", "6% - 10%", "> 10%"
+    ))] %>%
+    .[order(-p2)]
+```
+
+```{r echo=FALSE}
+pal <- colorFactor(
+    palette = c("blue", "green", "cyan", "orange", "magenta"),
+    domain = popul$group
+)
+leaflet(popul) %>% addTiles() %>%
+    addCircles(lng = ~lon, lat = ~lat, weight = 1,
+               radius = ~p2^0.5 * 30, 
+               popup = paste0(popul$NAME, "<br>", 
+                              "2017 population: ", popul$p2, "<br>",
+                              "5-year population change: ", 
+                              popul$change, "%"), 
+               color = ~pal(group), fillOpacity = 0.5) %>%
+    addLegend("bottomleft", pal = pal, values = ~group,
+              title = "population change",
+              opacity = 1)
+```
+
+
+## How to make the map
 Population in the United States grew by 3.76% from 313.91 million in 2012 to 325.72 million in 2017. The growth, however, is not uniform geographically. One of the geographical areas of particular interest is the city. Some cities are shrinking in population while some others exploding. The purpose of this post is to find cities that decrease and increase most in population. In addition, we will show the population and its change of all cities in an interactive map.
 
 We will use population data of cities published in the American Community Survey 5-year estimates. The numbers are 5-year rolling average, for example, the data published in 2017 are averaged over the 5 year period of 2013 - 2017. ACS 1-year estimates provide data of one particular year but unfortunately they only cover cities with population greater than 65000. 
@@ -73,7 +139,7 @@ popul[(.N-9):.N, .(NAME, p2012 = p1,  p2017 = p2, "change(%)" = change)]
 
 ### Interactive mapping
 We divide the population change into 5 groups: obvious decline (< -2%), marginally change (-2% - 2%), average gain (2% - 6%), significant increase (6% - 10%), and extraordinary gain (> 10%). 
-```{r results='hide'}
+```{r}
 popul <- popul[!is.na(change), group := "< -2%"] %>%
     .[change > -2, group := "-2% - 2%"] %>%
     .[change > 2, group := "2% - 6%"] %>%
@@ -87,7 +153,7 @@ popul <- popul[!is.na(change), group := "< -2%"] %>%
 
 
 And here is the interactive mapping using `leaflet`. Zoom in and click to get more details.
-```{r}
+```{r eval=FALSE}
 pal <- colorFactor(
     palette = c("blue", "green", "cyan", "orange", "magenta"),
     domain = popul$group
