@@ -25,7 +25,7 @@ ggplot((mpg, aes(displ, cty, color = drv, shape = year, fill = cyl)))</code></pr
 ggplot(mpg, aes(cty, hwy, color = drv)) +
     geom_point() +
     stat_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="480" /></p>
+<p><img src="/rmarkdown-libs/figure-html4/unnamed-chunk-3-1.png" width="480" /></p>
 </div>
 <div id="which-to-choose-geom_xxx-or-stat_xxx" class="section level2">
 <h2>Which to choose, <code>geom_xxx()</code> or <code>stat_xxx()</code></h2>
@@ -35,7 +35,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
     stat_count(geom = &quot;bar&quot;, fill = &quot;grey70&quot;) +
     stat_count(geom = &quot;point&quot;, size = 6, color = &quot;blue&quot;) +
     stat_count(geom = &quot;line&quot;, aes(group = 1), color = &quot;red&quot;)</code></pre>
-<p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="384" /></p>
+<p><img src="/rmarkdown-libs/figure-html4/unnamed-chunk-4-1.png" width="384" /></p>
 <p>A few words about bar plot. Above count of one categorical variable are often plotted with <code>geom_bar()</code>. The awkward thing is that <code>geom_bar(stat = &quot;identity&quot;)</code> also make bar plot when two variables <code>aes(x, y)</code> are provided. To solve this issue, <code>ggplot2</code> version 2.2.0 introduced <code>geom_col(aes(x, y))</code> to take care bar plot from two variables. With <code>stat_count()</code> and <code>geom_col()</code>, <code>geom_bar()</code> are ready to retire.</p>
 </div>
 <div id="how-to-organize-axis-and-legend" class="section level2">
@@ -78,7 +78,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
          color = &quot;cylinder&quot;, 
          shape = &quot;drive train&quot;, 
          size = &quot;haha you cannot see me&quot;) </code></pre>
-<p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/rmarkdown-libs/figure-html4/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="lets-do-a-quick-annotation-with-annotate" class="section level2">
 <h2>Let’s do a quick annotation with <code>annotate()</code></h2>
@@ -89,7 +89,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
     annotate(&quot;segment&quot;, x = c(5.8, 6, 6.2), y = 32.5, 
              xend = c(5.7, 6.15, 6.9), yend = c(27, 27, 25.1),
              arrow = arrow(angle = 20, length = unit(2, &quot;mm&quot;), type = &quot;closed&quot;))</code></pre>
-<p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/rmarkdown-libs/figure-html4/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="finally-a-comprehensive-example" class="section level2">
 <h2>Finally a comprehensive example</h2>
@@ -161,5 +161,5 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
           legend.background = element_blank(),
           strip.background = element_blank(),
           strip.text = element_text(size = 12))</code></pre>
-<p><img src="/post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/rmarkdown-libs/figure-html4/unnamed-chunk-7-1.png" width="672" /></p>
 </div>

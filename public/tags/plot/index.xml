@@ -197,7 +197,7 @@ ggplot((mpg, aes(displ, cty, color = drv, shape = year, fill = cyl)))&lt;/code&g
 ggplot(mpg, aes(cty, hwy, color = drv)) +
     geom_point() +
     stat_smooth(method = &amp;quot;lm&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../rmarkdown-libs/figure-html4/unnamed-chunk-3-1.png&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;which-to-choose-geom_xxx-or-stat_xxx&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Which to choose, &lt;code&gt;geom_xxx()&lt;/code&gt; or &lt;code&gt;stat_xxx()&lt;/code&gt;&lt;/h2&gt;
@@ -207,7 +207,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
     stat_count(geom = &amp;quot;bar&amp;quot;, fill = &amp;quot;grey70&amp;quot;) +
     stat_count(geom = &amp;quot;point&amp;quot;, size = 6, color = &amp;quot;blue&amp;quot;) +
     stat_count(geom = &amp;quot;line&amp;quot;, aes(group = 1), color = &amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../rmarkdown-libs/figure-html4/unnamed-chunk-4-1.png&#34; width=&#34;384&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;A few words about bar plot. Above count of one categorical variable are often plotted with &lt;code&gt;geom_bar()&lt;/code&gt;. The awkward thing is that &lt;code&gt;geom_bar(stat = &amp;quot;identity&amp;quot;)&lt;/code&gt; also make bar plot when two variables &lt;code&gt;aes(x, y)&lt;/code&gt; are provided. To solve this issue, &lt;code&gt;ggplot2&lt;/code&gt; version 2.2.0 introduced &lt;code&gt;geom_col(aes(x, y))&lt;/code&gt; to take care bar plot from two variables. With &lt;code&gt;stat_count()&lt;/code&gt; and &lt;code&gt;geom_col()&lt;/code&gt;, &lt;code&gt;geom_bar()&lt;/code&gt; are ready to retire.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;how-to-organize-axis-and-legend&#34; class=&#34;section level2&#34;&gt;
@@ -250,7 +250,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
          color = &amp;quot;cylinder&amp;quot;, 
          shape = &amp;quot;drive train&amp;quot;, 
          size = &amp;quot;haha you cannot see me&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../rmarkdown-libs/figure-html4/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;lets-do-a-quick-annotation-with-annotate&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Let’s do a quick annotation with &lt;code&gt;annotate()&lt;/code&gt;&lt;/h2&gt;
@@ -261,7 +261,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
     annotate(&amp;quot;segment&amp;quot;, x = c(5.8, 6, 6.2), y = 32.5, 
              xend = c(5.7, 6.15, 6.9), yend = c(27, 27, 25.1),
              arrow = arrow(angle = 20, length = unit(2, &amp;quot;mm&amp;quot;), type = &amp;quot;closed&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../rmarkdown-libs/figure-html4/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;finally-a-comprehensive-example&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Finally a comprehensive example&lt;/h2&gt;
@@ -333,7 +333,7 @@ ggplot(mpg, aes(cty, hwy, color = drv)) +
           legend.background = element_blank(),
           strip.background = element_blank(),
           strip.text = element_text(size = 12))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2017-08-03-a-uniform-way-to-use-ggplot2_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../rmarkdown-libs/figure-html4/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
