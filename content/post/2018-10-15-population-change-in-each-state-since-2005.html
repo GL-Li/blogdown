@@ -61,36 +61,158 @@ popul &lt;- p2012[p2017, on = .(GEOID)]  %&gt;%
 </div>
 <div id="top-10-doomed-and-boomed-cities" class="section level3">
 <h3>Top 10 doomed and boomed cities</h3>
-<p>Surprisingly, Texas has most cities in both top 10 lists, 3 in top 10 doomed cities and 4 in top 10 boomed cities. The tables below give city names, population in 2012 and 2017, and the population change (%)</p>
+<p>Illinois has 3 cities in the top 10 list of doomed cities and Texas has 4 in the top 10 list of boomed cities. Surprisingly, Texas also has 2 cities in the list of top 10 doomed cities. The tables below give city names, population in 2012 and 2017, and the population change.</p>
 <div id="the-doomed-top-10-cities-with-the-most-population-loss" class="section level4">
 <h4>The doomed: top 10 cities with the most population loss</h4>
-<pre class="r"><code>popul[1:10, .(NAME, p2012 = p1,  p2017 = p2, &quot;change(%)&quot; = change)]</code></pre>
-<pre><code>##                                 NAME p2012 p2017 change(%)
-##  1:            Sumner city, Illinois  5073  3285    -35.25
-##  2:         San Elizario city, Texas 14207  9213    -35.15
-##  3:           Gatesville city, Texas 15779 12426    -21.25
-##  4: Rio Communities city, New Mexico  5625  4593    -18.35
-##  5:          Sullivan city, Missouri  7830  6587    -15.87
-##  6:             Genoa city, Illinois  5693  4808    -15.55
-##  7:          Avenal city, California 15341 13119    -14.48
-##  8:      Susanville city, California 17384 15286    -12.07
-##  9:       Shelbyville city, Illinois  5267  4650    -11.71
-## 10:          Trinidad city, Colorado  9032  8054    -10.83</code></pre>
+<pre class="r"><code>kable(popul[1:10, .(NAME, p2012 = p1,  p2017 = p2, &quot;change(%)&quot; = change)])</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">NAME</th>
+<th align="right">p2012</th>
+<th align="right">p2017</th>
+<th align="right">change(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Sumner city, Illinois</td>
+<td align="right">5073</td>
+<td align="right">3285</td>
+<td align="right">-35.25</td>
+</tr>
+<tr class="even">
+<td align="left">San Elizario city, Texas</td>
+<td align="right">14207</td>
+<td align="right">9213</td>
+<td align="right">-35.15</td>
+</tr>
+<tr class="odd">
+<td align="left">Gatesville city, Texas</td>
+<td align="right">15779</td>
+<td align="right">12426</td>
+<td align="right">-21.25</td>
+</tr>
+<tr class="even">
+<td align="left">Rio Communities city, New Mexico</td>
+<td align="right">5625</td>
+<td align="right">4593</td>
+<td align="right">-18.35</td>
+</tr>
+<tr class="odd">
+<td align="left">Sullivan city, Missouri</td>
+<td align="right">7830</td>
+<td align="right">6587</td>
+<td align="right">-15.87</td>
+</tr>
+<tr class="even">
+<td align="left">Genoa city, Illinois</td>
+<td align="right">5693</td>
+<td align="right">4808</td>
+<td align="right">-15.55</td>
+</tr>
+<tr class="odd">
+<td align="left">Avenal city, California</td>
+<td align="right">15341</td>
+<td align="right">13119</td>
+<td align="right">-14.48</td>
+</tr>
+<tr class="even">
+<td align="left">Susanville city, California</td>
+<td align="right">17384</td>
+<td align="right">15286</td>
+<td align="right">-12.07</td>
+</tr>
+<tr class="odd">
+<td align="left">Shelbyville city, Illinois</td>
+<td align="right">5267</td>
+<td align="right">4650</td>
+<td align="right">-11.71</td>
+</tr>
+<tr class="even">
+<td align="left">Trinidad city, Colorado</td>
+<td align="right">9032</td>
+<td align="right">8054</td>
+<td align="right">-10.83</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="the-boomed-top-10-cities-with-the-most-population-gain" class="section level4">
 <h4>The boomed: top 10 cities with the most population gain</h4>
-<pre class="r"><code>popul[(.N-9):.N, .(NAME, p2012 = p1,  p2017 = p2, &quot;change(%)&quot; = change)]</code></pre>
-<pre><code>##                                NAME p2012 p2017 change(%)
-##  1:               Selma city, Texas  5637  9217     63.51
-##  2:          Wilmore city, Kentucky  3736  6226     66.65
-##  3:         Clarkston city, Georgia  7612 12702     66.87
-##  4:                Buda city, Texas  7835 13253     69.15
-##  5:              Cibolo city, Texas 15541 26602     71.17
-##  6:       Kirkland city, Washington 49090 86772     76.76
-##  7:             Sanford city, Maine 10084 20920    107.46
-##  8:          Chamblee city, Georgia 13297 28433    113.83
-##  9: Watford City city, North Dakota  2088  5441    160.58
-## 10:            Fulshear city, Texas  1365  6203    354.43</code></pre>
+<pre class="r"><code>kable(popul[(.N-9):.N, .(NAME, p2012 = p1,  p2017 = p2, &quot;change(%)&quot; = change)])</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">NAME</th>
+<th align="right">p2012</th>
+<th align="right">p2017</th>
+<th align="right">change(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Selma city, Texas</td>
+<td align="right">5637</td>
+<td align="right">9217</td>
+<td align="right">63.51</td>
+</tr>
+<tr class="even">
+<td align="left">Wilmore city, Kentucky</td>
+<td align="right">3736</td>
+<td align="right">6226</td>
+<td align="right">66.65</td>
+</tr>
+<tr class="odd">
+<td align="left">Clarkston city, Georgia</td>
+<td align="right">7612</td>
+<td align="right">12702</td>
+<td align="right">66.87</td>
+</tr>
+<tr class="even">
+<td align="left">Buda city, Texas</td>
+<td align="right">7835</td>
+<td align="right">13253</td>
+<td align="right">69.15</td>
+</tr>
+<tr class="odd">
+<td align="left">Cibolo city, Texas</td>
+<td align="right">15541</td>
+<td align="right">26602</td>
+<td align="right">71.17</td>
+</tr>
+<tr class="even">
+<td align="left">Kirkland city, Washington</td>
+<td align="right">49090</td>
+<td align="right">86772</td>
+<td align="right">76.76</td>
+</tr>
+<tr class="odd">
+<td align="left">Sanford city, Maine</td>
+<td align="right">10084</td>
+<td align="right">20920</td>
+<td align="right">107.46</td>
+</tr>
+<tr class="even">
+<td align="left">Chamblee city, Georgia</td>
+<td align="right">13297</td>
+<td align="right">28433</td>
+<td align="right">113.83</td>
+</tr>
+<tr class="odd">
+<td align="left">Watford City city, North Dakota</td>
+<td align="right">2088</td>
+<td align="right">5441</td>
+<td align="right">160.58</td>
+</tr>
+<tr class="even">
+<td align="left">Fulshear city, Texas</td>
+<td align="right">1365</td>
+<td align="right">6203</td>
+<td align="right">354.43</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="interactive-mapping" class="section level3">

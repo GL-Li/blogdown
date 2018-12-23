@@ -67,36 +67,158 @@ popul &amp;lt;- p2012[p2017, on = .(GEOID)]  %&amp;gt;%
 &lt;/div&gt;
 &lt;div id=&#34;top-10-doomed-and-boomed-cities&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Top 10 doomed and boomed cities&lt;/h3&gt;
-&lt;p&gt;Surprisingly, Texas has most cities in both top 10 lists, 3 in top 10 doomed cities and 4 in top 10 boomed cities. The tables below give city names, population in 2012 and 2017, and the population change (%)&lt;/p&gt;
+&lt;p&gt;Illinois has 3 cities in the top 10 list of doomed cities and Texas has 4 in the top 10 list of boomed cities. Surprisingly, Texas also has 2 cities in the list of top 10 doomed cities. The tables below give city names, population in 2012 and 2017, and the population change.&lt;/p&gt;
 &lt;div id=&#34;the-doomed-top-10-cities-with-the-most-population-loss&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;The doomed: top 10 cities with the most population loss&lt;/h4&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;popul[1:10, .(NAME, p2012 = p1,  p2017 = p2, &amp;quot;change(%)&amp;quot; = change)]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                                 NAME p2012 p2017 change(%)
-##  1:            Sumner city, Illinois  5073  3285    -35.25
-##  2:         San Elizario city, Texas 14207  9213    -35.15
-##  3:           Gatesville city, Texas 15779 12426    -21.25
-##  4: Rio Communities city, New Mexico  5625  4593    -18.35
-##  5:          Sullivan city, Missouri  7830  6587    -15.87
-##  6:             Genoa city, Illinois  5693  4808    -15.55
-##  7:          Avenal city, California 15341 13119    -14.48
-##  8:      Susanville city, California 17384 15286    -12.07
-##  9:       Shelbyville city, Illinois  5267  4650    -11.71
-## 10:          Trinidad city, Colorado  9032  8054    -10.83&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(popul[1:10, .(NAME, p2012 = p1,  p2017 = p2, &amp;quot;change(%)&amp;quot; = change)])&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;NAME&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;p2012&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;p2017&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;change(%)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Sumner city, Illinois&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5073&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3285&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-35.25&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;San Elizario city, Texas&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14207&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9213&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-35.15&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Gatesville city, Texas&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15779&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12426&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-21.25&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Rio Communities city, New Mexico&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5625&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4593&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-18.35&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Sullivan city, Missouri&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7830&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6587&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-15.87&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Genoa city, Illinois&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5693&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4808&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-15.55&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Avenal city, California&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15341&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13119&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-14.48&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Susanville city, California&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;17384&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15286&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-12.07&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Shelbyville city, Illinois&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5267&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4650&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-11.71&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Trinidad city, Colorado&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9032&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8054&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-10.83&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-boomed-top-10-cities-with-the-most-population-gain&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;The boomed: top 10 cities with the most population gain&lt;/h4&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;popul[(.N-9):.N, .(NAME, p2012 = p1,  p2017 = p2, &amp;quot;change(%)&amp;quot; = change)]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                                NAME p2012 p2017 change(%)
-##  1:               Selma city, Texas  5637  9217     63.51
-##  2:          Wilmore city, Kentucky  3736  6226     66.65
-##  3:         Clarkston city, Georgia  7612 12702     66.87
-##  4:                Buda city, Texas  7835 13253     69.15
-##  5:              Cibolo city, Texas 15541 26602     71.17
-##  6:       Kirkland city, Washington 49090 86772     76.76
-##  7:             Sanford city, Maine 10084 20920    107.46
-##  8:          Chamblee city, Georgia 13297 28433    113.83
-##  9: Watford City city, North Dakota  2088  5441    160.58
-## 10:            Fulshear city, Texas  1365  6203    354.43&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(popul[(.N-9):.N, .(NAME, p2012 = p1,  p2017 = p2, &amp;quot;change(%)&amp;quot; = change)])&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;NAME&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;p2012&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;p2017&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;change(%)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Selma city, Texas&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5637&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9217&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;63.51&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Wilmore city, Kentucky&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3736&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6226&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;66.65&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Clarkston city, Georgia&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7612&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12702&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;66.87&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Buda city, Texas&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7835&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13253&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;69.15&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Cibolo city, Texas&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15541&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;26602&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;71.17&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Kirkland city, Washington&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;49090&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86772&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;76.76&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Sanford city, Maine&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10084&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20920&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;107.46&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Chamblee city, Georgia&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13297&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;28433&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;113.83&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Watford City city, North Dakota&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2088&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5441&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;160.58&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Fulshear city, Texas&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1365&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6203&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;354.43&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;interactive-mapping&#34; class=&#34;section level3&#34;&gt;

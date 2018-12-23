@@ -58,17 +58,17 @@ popul <- p2012[p2017, on = .(GEOID)]  %>%
 ```
 
 ### Top 10 doomed and boomed cities
-Surprisingly, Texas has most cities in both top 10 lists, 3 in top 10 doomed cities and 4 in top 10 boomed cities. The tables below give city names, population in 2012 and 2017, and the population change (%) 
+Illinois has 3 cities in the top 10 list of doomed cities and Texas has 4 in the top 10 list of boomed cities. Surprisingly, Texas also has 2 cities in the list of top 10 doomed cities. The tables below give city names, population in 2012 and 2017, and the population change.
 
 #### The doomed: top 10 cities with the most population loss
 
-```{r}
-popul[1:10, .(NAME, p2012 = p1,  p2017 = p2, "change(%)" = change)]
+```{r results="asis"}
+kable(popul[1:10, .(NAME, p2012 = p1,  p2017 = p2, "change(%)" = change)])
 ```
 
 #### The boomed: top 10 cities with the most population gain
 ```{r}
-popul[(.N-9):.N, .(NAME, p2012 = p1,  p2017 = p2, "change(%)" = change)]
+kable(popul[(.N-9):.N, .(NAME, p2012 = p1,  p2017 = p2, "change(%)" = change)])
 ```
 
 ### Interactive mapping
