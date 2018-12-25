@@ -1,8 +1,9 @@
 ---
 title: Find Salamander -- Congressional District Gerrymandering
 author: GL Li
-date: '2018-03-23'
+date: '2018-10-23'
 slug: find-salamander-congressional-district-gerrymandering
+draft: true
 categories:
   - census
 tags:
@@ -23,6 +24,8 @@ tags:
 <pre class="r"><code># install ggtiger package from https://github.com/GL-Li/ggtiger
 # devtools::install_github(&quot;GL-Li/ggtiger&quot;)
 library(ggtiger)
+# use your own Google cloud API to replace Sys.genenv(&quot;GOOGLE_API&quot;) below
+register_google(Sys.getenv(&quot;GOOGLE_API&quot;))
 library(viridis)
 
 # download map near philly in PA

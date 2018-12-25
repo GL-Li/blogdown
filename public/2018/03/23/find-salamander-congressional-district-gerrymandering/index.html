@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Salamander -- Congressional District Gerrymandering</title>
 
-<meta name="generator" content="Hugo 0.31.1" />
+<meta name="generator" content="Hugo 0.53" />
 
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -64,7 +64,10 @@
 			</p>
 		</header>
 		<div class="post__content clearfix">
-			<p>When Republicans or Democrats are in charge, they tend to draw election district boundaries to their favor. This can go very ugly, creating wacky boundaries by a practice called <a href="https://en.wikipedia.org/wiki/Gerrymandering">Gerrymandering</a>.</p>
+			
+
+
+<p>When Republicans or Democrats are in charge, they tend to draw election district boundaries to their favor. This can go very ugly, creating wacky boundaries by a practice called <a href="https://en.wikipedia.org/wiki/Gerrymandering">Gerrymandering</a>.</p>
 <p>The word “Gerrymander” is a blend of two species: the Massachusetts Governor Elbridge Gerry and a mythological salamander, a dragon-like monster. Governor Gerry signed a bill 200 year ago that drew an state senate election district in a shape resembling a salamander.</p>
 <p>Nobody has seen the mythological salamander, but we are quite familiar with the amphibian salamander, which also has a dragon-like shape.</p>
 <p>One of my favorite Gerrymandering example is the 6th congressional district of Pennsylvania (115th congress). Check the picture below; you will find two salamanders.</p>
@@ -76,6 +79,8 @@
 <pre class="r"><code># install ggtiger package from https://github.com/GL-Li/ggtiger
 # devtools::install_github(&quot;GL-Li/ggtiger&quot;)
 library(ggtiger)
+# use your own Google cloud API below
+register_google(Sys.getenv(&quot;GOOGLE_API&quot;))
 library(viridis)
 
 # download map near philly in PA
@@ -121,7 +126,7 @@ ggmap(tx) +
 	
 <div class="comments">
 	<div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     

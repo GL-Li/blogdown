@@ -8,7 +8,7 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 25 Jul 2017 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/categories/data.table/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/data.table/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,84 +17,8 @@
       <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/</guid>
-      <description>&lt;p&gt;We have two ways to chain &lt;code&gt;data.table&lt;/code&gt; operations, using &lt;code&gt;data.table&lt;/code&gt; pipes or using &lt;code&gt;magrittr&lt;/code&gt; pipes. For a data.table &lt;code&gt;dt&lt;/code&gt;, the &lt;code&gt;data.table&lt;/code&gt; pipes take the form of &lt;code&gt;dt[][][]...&lt;/code&gt; and &lt;code&gt;magrittr&lt;/code&gt; pipes &lt;code&gt;dt %&amp;gt;% .[] %&amp;gt;% .[] %&amp;gt;% ...&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of &lt;code&gt;data.table&lt;/code&gt; pipes in this &lt;a href=&#34;https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly&#34;&gt;stackoverflow post&lt;/a&gt;. The &lt;code&gt;data.table&lt;/code&gt; pipes, however, are not that hard to follow for those who are familiar with &lt;code&gt;data.table&lt;/code&gt;. To my eyes, the &lt;code&gt;magrittr&lt;/code&gt; pipes improve the readability but the &lt;code&gt;data.table&lt;/code&gt; pipes are still acceptable. It is more of a personal choice.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
-library(magrittr)
-
-# the data.table pipes
-data.table(iris)[
-    # add a new column &amp;quot;is_setosa&amp;quot;, 1 if yes and 0 if no, use two lines of codes 
-    # to clearly show the values
-    Species == &amp;quot;setosa&amp;quot;, is_setosa := 1
-][
-    Species != &amp;quot;setosa&amp;quot;, is_setosa := 0
-][
-    # changes the Petal.Length of Species &amp;quot;versicolor&amp;quot;, other species not affected
-    Species == &amp;quot;versicolor&amp;quot;, Petal.Length := 999
-][
-    # calculate sepal area when length &amp;gt; 5. Area is NA if length &amp;lt;= 5
-    Sepal.Length &amp;gt; 5, Sepal.Area := Sepal.Length * Sepal.Width
-][
-    # select columns
-    , .(Species, is_setosa, Petal.Length, Sepal.Area)
-][
-    # average of each column grouped by species
-    , lapply(.SD, mean, na.rm = TRUE), by = Species
-]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##       Species is_setosa Petal.Length Sepal.Area
-## 1:     setosa         1        1.462   19.76364
-## 2: versicolor         0      999.000   16.87340
-## 3:  virginica         0        5.552   19.83633&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# the magrittr pipes
-data.table(iris) %&amp;gt;%
-    # add a new column &amp;quot;is_setosa&amp;quot;, 1 if yes and 0 if no, use two lines of codes 
-    # to clearly show the values
-    .[Species == &amp;quot;setosa&amp;quot;, is_setosa := 1] %&amp;gt;%                         
-    .[Species != &amp;quot;setosa&amp;quot;, is_setosa := 0] %&amp;gt;%
-    
-    # changes the Petal.Length of Species &amp;quot;versicolor&amp;quot;, other species not affected
-    .[Species == &amp;quot;versicolor&amp;quot;, Petal.Length := 999] %&amp;gt;%   
-    
-    # calculate sepal area when length &amp;gt; 5. Area is NA if length &amp;lt;= 5
-    .[Sepal.Length &amp;gt; 5, Sepal.Area := Sepal.Length * Sepal.Width] %&amp;gt;%  
-    
-    # select columns
-    .[, .(Species, is_setosa, Petal.Length, Sepal.Area)] %&amp;gt;%    
-    
-    # average of each column grouped by species
-    .[, lapply(.SD, mean, na.rm = TRUE), by = Species]                  &lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##       Species is_setosa Petal.Length Sepal.Area
-## 1:     setosa         1        1.462   19.76364
-## 2: versicolor         0      999.000   16.87340
-## 3:  virginica         0        5.552   19.83633&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Will the use of pipes &lt;code&gt;%&amp;gt;%&lt;/code&gt; slow down the computing? In the following code, we add three new columns to a made-up data table with &lt;code&gt;data.table&lt;/code&gt; pipes and &lt;code&gt;magrittr&lt;/code&gt; pipes. They almost have the same speed.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
-dt &amp;lt;- data.table(a = sample(letters, 1e5, replace = TRUE),
-                 b = abs(rnorm(1e5)))
-
-datatable_pipe &amp;lt;- function(){
-    dt[, x := sqrt(b)][
-        , y := b^2
-    ][
-        , z := paste0(a , b)
-    ]
-}
-
-magrittr_pipe &amp;lt;- function(){
-    dt[, x := sqrt(b)] %&amp;gt;%
-        .[, y := b^2] %&amp;gt;%
-        .[, z := paste0(a , b)]
-}
-
-rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##               test replications elapsed relative user.self sys.self
-## 1 datatable_pipe()           20   3.883    1.059     3.869    0.012
-## 2  magrittr_pipe()           20   3.667    1.000     3.657    0.008
-##   user.child sys.child
-## 1          0         0
-## 2          0         0&lt;/code&gt;&lt;/pre&gt;
-</description>
+      <description>We have two ways to chain data.table operations, using data.table pipes or using magrittr pipes. For a data.table dt, the data.table pipes take the form of dt[][][]... and magrittr pipes dt %&amp;gt;% .[] %&amp;gt;% .[] %&amp;gt;% ....
+Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of data.table pipes in this stackoverflow post. The data.table pipes, however, are not that hard to follow for those who are familiar with data.</description>
     </item>
     
   </channel>

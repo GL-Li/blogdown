@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Build a R package for yourself</title>
 
-<meta name="generator" content="Hugo 0.31.1" />
+<meta name="generator" content="Hugo 0.53" />
 
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -64,7 +64,10 @@
 			</p>
 		</header>
 		<div class="post__content clearfix">
-			<p>A R user can benefit a lot from building packages. I have read people writing about the benefit in various occasions and cannot agree more after building my first package. We don’t have to a be R developer to write packages. Developers write packages for others; we can just write packages for ourselves. As a R user, we must have written functions and collected datasets, and may have used them across projects or may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by <code>source(xxx.R)</code>, and the conventional way to reuse datasets it to load <code>.Rdata</code> files which store the datasets. We will have to know where the functions and datasets are stored, which is not a easy job if we have a large collection. By building functions and datasets into a package, we keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become our great asset.</p>
+			
+
+
+<p>A R user can benefit a lot from building packages. I have read people writing about the benefit in various occasions and cannot agree more after building my first package. We don’t have to a be R developer to write packages. Developers write packages for others; we can just write packages for ourselves. As a R user, we must have written functions and collected datasets, and may have used them across projects or may want to use them later on. The conventional way to reuse functions is to copy and paste them to the new project or to load them by <code>source(xxx.R)</code>, and the conventional way to reuse datasets it to load <code>.Rdata</code> files which store the datasets. We will have to know where the functions and datasets are stored, which is not a easy job if we have a large collection. By building functions and datasets into a package, we keep them in one place and use them the same way as using any other packages. With the help of package documentation, these functions and datasets become our great asset.</p>
 <p>Building a R packages is actually far more easier than a R user could have expected. In RStudio, it is nothing but writing normal R code with formatted comments. If this package is just for ourselves, we can save the hassle of publishing it on github or CRAN.</p>
 <p>Below are step by step instructions of building a working package in RStudio. There are many great tutorials for building R packages. I try to make this one to be the simplest and most up to date.</p>
 <div id="prepare-for-a-new-package-project" class="section level2">
@@ -187,7 +190,7 @@ Imports:
 	
 <div class="comments">
 	<div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     
@@ -218,7 +221,7 @@ Imports:
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/12/15/population-change/">Cities boomed and doomed</a></li>
-			<li class="widget__item"><a class="widget__link" href="../../../../2018/03/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../../../2018/10/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your hometown named after Lincoln or Washington?</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/17/create-pie-plots-on-a-map-in-r/">Plot pie charts of racial composition in largest metro areas on a map in R</a></li>

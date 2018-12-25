@@ -1,8 +1,9 @@
 ---
 title: Find Salamander -- Congressional District Gerrymandering
 author: GL Li
-date: '2018-03-23'
+date: '2018-10-23'
 slug: find-salamander-congressional-district-gerrymandering
+draft: true
 categories:
   - census
 tags:
@@ -31,6 +32,8 @@ We can visualize the Gerrymandering easily with `ggtiger` package in R. The figu
 # install ggtiger package from https://github.com/GL-Li/ggtiger
 # devtools::install_github("GL-Li/ggtiger")
 library(ggtiger)
+# use your own Google cloud API to replace Sys.genenv("GOOGLE_API") below
+register_google(Sys.getenv("GOOGLE_API"))
 library(viridis)
 
 # download map near philly in PA

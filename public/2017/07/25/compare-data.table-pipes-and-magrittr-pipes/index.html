@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compare data.table pipes and magrittr pipes</title>
 
-<meta name="generator" content="Hugo 0.31.1" />
+<meta name="generator" content="Hugo 0.53" />
 
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -64,7 +64,10 @@
 			</p>
 		</header>
 		<div class="post__content clearfix">
-			<p>We have two ways to chain <code>data.table</code> operations, using <code>data.table</code> pipes or using <code>magrittr</code> pipes. For a data.table <code>dt</code>, the <code>data.table</code> pipes take the form of <code>dt[][][]...</code> and <code>magrittr</code> pipes <code>dt %&gt;% .[] %&gt;% .[] %&gt;% ...</code>.</p>
+			
+
+
+<p>We have two ways to chain <code>data.table</code> operations, using <code>data.table</code> pipes or using <code>magrittr</code> pipes. For a data.table <code>dt</code>, the <code>data.table</code> pipes take the form of <code>dt[][][]...</code> and <code>magrittr</code> pipes <code>dt %&gt;% .[] %&gt;% .[] %&gt;% ...</code>.</p>
 <p>Let’s first compare the readability of the two pipes in the following examples. Hadley Wickham criticized the readability of <code>data.table</code> pipes in this <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">stackoverflow post</a>. The <code>data.table</code> pipes, however, are not that hard to follow for those who are familiar with <code>data.table</code>. To my eyes, the <code>magrittr</code> pipes improve the readability but the <code>data.table</code> pipes are still acceptable. It is more of a personal choice.</p>
 <pre class="r"><code>library(data.table)
 library(magrittr)
@@ -163,7 +166,7 @@ rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)</code>
 	
 <div class="comments">
 	<div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     
@@ -194,7 +197,7 @@ rbenchmark::benchmark(datatable_pipe(), magrittr_pipe(), replications=20)</code>
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/12/15/population-change/">Cities boomed and doomed</a></li>
-			<li class="widget__item"><a class="widget__link" href="../../../../2018/03/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../../../2018/10/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your hometown named after Lincoln or Washington?</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/17/create-pie-plots-on-a-map-in-r/">Plot pie charts of racial composition in largest metro areas on a map in R</a></li>

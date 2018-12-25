@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Is your hometown named after Lincoln or Washington?</title>
 
-<meta name="generator" content="Hugo 0.31.1" />
+<meta name="generator" content="Hugo 0.53" />
 
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -64,7 +64,10 @@
 			</p>
 		</header>
 		<div class="post__content clearfix">
-			<p>Washington and Lincoln are the two greatest presidents in the history of the United States. This post, however, does not discuss how great they are. Instead, I want to show a fun fact related the two presidents: how many cities and towns (and equivalents) are named after them. I am living in Lincoln, Rhode Island, a town so named in honor of President Lincoln.</p>
+			
+
+
+<p>Washington and Lincoln are the two greatest presidents in the history of the United States. This post, however, does not discuss how great they are. Instead, I want to show a fun fact related the two presidents: how many cities and towns (and equivalents) are named after them. I am living in Lincoln, Rhode Island, a town so named in honor of President Lincoln.</p>
 <p>The data are extracted from decennial census 2010, the most detailed census so far. There are 311 cities and towns having “Washington” in their names and 205 having “Lincoln”. We also extract the coordinates and population of these cities and towns and plot them on the US map. There are significantly more places named after “Washington” than “Lincoln” in three states, Indiana , Ohio, and Pennsylvania. They combined have 109 more places with <code>Washington</code> than with <code>Lincoln</code>.</p>
 <p><img src="../../../../post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-2-1.png" width="864" /></p>
 <p><img src="../../../../post/2018-01-23-the-most-popular-president-lincoln-or-washington_files/figure-html/unnamed-chunk-3-1.png" width="816" /></p>
@@ -171,7 +174,7 @@ wl[, .(count = .N), by = .(area, state)] %&gt;%
 	
 <div class="comments">
 	<div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     
@@ -202,7 +205,7 @@ wl[, .(count = .N), by = .(area, state)] %&gt;%
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/12/15/population-change/">Cities boomed and doomed</a></li>
-			<li class="widget__item"><a class="widget__link" href="../../../../2018/03/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
+			<li class="widget__item"><a class="widget__link" href="../../../../2018/10/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your hometown named after Lincoln or Washington?</a></li>
 			<li class="widget__item"><a class="widget__link" href="../../../../2018/01/17/create-pie-plots-on-a-map-in-r/">Plot pie charts of racial composition in largest metro areas on a map in R</a></li>
