@@ -25,6 +25,9 @@ library(totalcensus)
 library(data.table)
 library(magrittr)
 library(ggmap)
+# use your own Google cloud API to replace Sys.genenv("GOOGLE_API") below
+register_google(Sys.getenv("GOOGLE_API"))
+
 get_area <- function(keywords){
     selected <- read_decennial(
         year = 2010,
