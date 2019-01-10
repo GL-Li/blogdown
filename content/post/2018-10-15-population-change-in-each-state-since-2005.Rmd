@@ -87,7 +87,7 @@ popul <- popul[!is.na(change), group := "< -2%"] %>%
 
 
 And here is the code to make interactive mapping using `leaflet`. Zoom in and click to view the details of each city.
-```{r}
+```{r out.width = '100%'}
 pal <- colorFactor(
     palette = c("blue", "green", "cyan", "orange", "magenta"),
     domain = popul$group

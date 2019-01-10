@@ -1,63 +1,72 @@
 baseurl = "http://www.gl-li.com/"
-relativeurls = true
 languageCode = "en-us"
 title = "R & Census"
-theme = "Mainroad"
-paginate = "15" # Number of posts per page
-googleAnalytics = ""
-disqusShortname = "gl-li-github-io"
-ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
+theme = "blackburn"
+author = "GL Li"
+copyright = "&copy; 2017 - 2019. All rights reserved."
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+paginate = 20
 
 [permalinks]
-    post = "/:year/:month/:day/:slug/"
+  post = "/:year/:month/:day/:slug/"
 
-[[menu.main]]
-    weight = 1
+[indexes]
+  tag = "tags"
+  topic = "topics"
+
+[params]
+  # Shown in the home page
+  subtitle = "explore census data with R"
+  #brand = "![Simply Statistics Logo](/img/sslogo.png)"
+  googleAnalytics = "UA-132163439-1"
+  disqus = "gl-li-github-io"
+  # CSS name for highlight.js
+  highlightjs = "github"
+  dateFormat = "2006/01/02"
+
+[menu]
+  # Shown in the side menu.
+  [[menu.main]]
     name = "Home"
-    url = "https://www.gl-li.com/"
-[[menu.main]]
+    pre = "<i class='fa fa-home fa-fw'></i>"
+    weight = 1
+    identifier = "home"
+    url = "/"
+  #[[menu.main]]
+  #  name = "About"
+  #  pre = "<i class='fa fa-user fa-fw'></i>"
+  #  weight = 2
+  #  identifier = "about"
+  #  url = "/about/"
+  [[menu.main]]
+    name = "Archive"
+    pre = "<i class='fa fa-list fa-fw'></i>"
     weight = 3
-    name = "Twitter"
-    url = "https://twitter.com/guanglai_li"
-[[menu.main]]
-    weight = 5
-    name = "GitHub"
-    url = "https://github.com/GL-Li"
-[[menu.main]]
-    weight = 7
+    identifier = "post"
+    url = "/post/"
+  [[menu.main]]
     name = "R-bloggers"
+    pre = "<i class='fa fa-comments fa-fw'></i>"
+    weight = 4
     url = "https://www.r-bloggers.com/"
-[[menu.main]]
-    weight = 9
+  [[menu.main]]
     name = "R Weekly"
+    pre = "<i class='fa fa-book fa-fw'></i>"
+    weight = 5
     url = "https://rweekly.org/"
-[[menu.main]]
-    weight = 11
+  [[menu.main]]
     name = "Census Blogs"
+    pre = "<i class='fa fa-microphone fa-fw'></i>"
+    weight = 6
     url = "https://www.census.gov/newsroom/blogs/about.html"
 
-[Params]
-    subtitle = "explore census data with R" # Subtitle of your site
-    #description = " John Doe's Personal blog about everything" # Description of your site
-    #opengraph = true
-    readmore = false # Show "Read more" button in list if true
-    leftsidebar = false # Move sidebar to the left side if true
-    #authorbox = true
-    post_navigation = true
-    postSections = ["post"] # the section pages to show on home page and the "Recent articles" widget
-    #postSections = ["blog", "news"] # alternative that shows more than one section's pages
-    dateformat = "2006-01-02" # change the format of dates
 
-[Params.widgets]
-    #search = true # Enable "Search" widget
-    recent_articles = true # Enable "Recent articles" widget
-    recent_articles_num = 30 # Set the number of articles in the "Recent articles" widget
-    categories = true # Enable "Categories" widget
-    #tags = true # Enable "Tags" widget
-    #tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
-    social = true # Enable "Social" widget
-    #social_facebook = "username"
-    #social_linkedin = "username"
-    social_github = "GL-Li"
-    social_twitter = "guanglai_li"
-    #social_email = "example@example.com"
+[social]
+  # Link your social networking accouns to the side menu
+  # by entering your username or ID.
+  twitter = "guanglai_li"
+  facebook = ""
+  instagram = ""
+  github = "GL-Li"
+  stackoverflow = ""
+  linkedin = ""
