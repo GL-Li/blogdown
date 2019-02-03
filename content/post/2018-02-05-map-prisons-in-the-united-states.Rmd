@@ -19,7 +19,7 @@ Despite 1 in every 110 adults are locked behind bars, most ordenary people have 
 The data are extracted from Census 2010. According to the census, a total number of 2,263,602 persons were incarcerated in the United States. Among them, 172,020 were in federal prisons, 1,248,167 in state prisons, and 682,043 in local jails. In addition to the total number, Census 2010 also provides the number of inmates in small areas down to census tract and county subdivision. With the small area data, we can map them on interactive maps.
 
 
-We use [`totalcensus` package](https://github.com/GL-Li/totalcensus) to extract prison data with spatial resolution at county subdivision level and use `leaflet` package to make interactive map. Drag, zoom in and click on each data point to find more information about a prison. 
+We use [`totalcensus` package](https://github.com/GL-Li/totalcensus) to extract prison data with spatial resolution at county subdivision level and use `leaflet` package to make interactive map. Drag, zoom in and click on each data point to find more information about a prison.  
 
 ```{r echo=FALSE, fig.width=9}
 # load packages

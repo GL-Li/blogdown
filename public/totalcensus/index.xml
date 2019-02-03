@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Totalcensus on R &amp; Census</title>
+    <link>/totalcensus/</link>
+    <description>Recent content in Totalcensus on R &amp; Census</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2017 - 2019. All rights reserved.</copyright>
+    <lastBuildDate>Sun, 20 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/totalcensus/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Where are the ghost towns?</title>
+      <link>/totalcensus/where-are-the-ghost-towns/</link>
+      <pubDate>Sun, 20 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/totalcensus/where-are-the-ghost-towns/</guid>
+      <description> library(totalcensus) library(magrittr) library(data.table) ghost_town_2010 &amp;lt;- read_decennial(2010, &amp;quot;US&amp;quot;) %&amp;gt;% .[SUMLEV %in% c(&amp;quot;060&amp;quot;, &amp;quot;160&amp;quot;)] %&amp;gt;% .[NAME %like% &amp;quot;town|city&amp;quot;] %&amp;gt;% .[!NAME %like% &amp;quot;CCD|CDP&amp;quot;] %&amp;gt;% unique(by = c(&amp;quot;NAME&amp;quot;, &amp;quot;state&amp;quot;, &amp;quot;population&amp;quot;)) %&amp;gt;% .[population &amp;lt; 100] ghost_town_2000 &amp;lt;- read_decennial(2000, &amp;quot;US&amp;quot;) %&amp;gt;% .[SUMLEV %in% c(&amp;quot;060&amp;quot;, &amp;quot;160&amp;quot;)] %&amp;gt;% .[NAME %like% &amp;quot;town|city&amp;quot;] %&amp;gt;% .[!NAME %like% &amp;quot;CCD|CDP&amp;quot;] %&amp;gt;% unique(by = c(&amp;quot;NAME&amp;quot;, &amp;quot;state&amp;quot;, &amp;quot;population&amp;quot;)) %&amp;gt;% .[, .(NAME, state, population_2000 = population)] ghost_town &amp;lt;- ghost_town_2000[ghost_town_2010, on = .(NAME, state)] </description>
+    </item>
+    
+  </channel>
+</rss>

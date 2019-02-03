@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.53" />
 
-  <title>Posts &middot; R &amp; Census</title>
+  <title>Where are the ghost towns? &middot; R &amp; Census</title>
 
   
   
@@ -39,8 +39,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
  
-  
-  <link rel="alternate" type="application/rss+xml" title="R &amp; Census" href="/post/index.xml" />
   
 
   
@@ -109,10 +107,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="/post/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -216,67 +210,33 @@
 
 
 <div class="header">
-  <h1>Posts</h1>
+  <h1>Where are the ghost towns?</h1>
+  <h2></h2>
 </div>
 <div class="content">
   
-  <h2>2019</h2>
-  <ul>
-  
-    <li><time>2019/02/03</time> - <a href="/2019/02/03/navigate-through-decennial-census-and-american-community-survey/">Navigate through Decennial Census and American Community Survey</a></li>
 
-  
-  </ul>
-  
-  <h2>2018</h2>
-  <ul>
-  
-    <li><time>2018/12/15</time> - <a href="/2018/12/15/population-change/">Cities boomed and doomed</a></li>
 
-  
-    <li><time>2018/10/23</time> - <a href="/2018/10/23/find-salamander-congressional-district-gerrymandering/">Find Salamander -- Congressional District Gerrymandering</a></li>
+<pre class="r"><code>library(totalcensus)
+library(magrittr)
+library(data.table)
 
-  
-    <li><time>2018/02/05</time> - <a href="/2018/02/05/map-prisons-in-the-united-states/">Map prisons in the United States</a></li>
+ghost_town_2010 &lt;- read_decennial(2010, &quot;US&quot;) %&gt;%
+    .[SUMLEV %in% c(&quot;060&quot;, &quot;160&quot;)] %&gt;%
+    .[NAME %like% &quot;town|city&quot;] %&gt;%
+    .[!NAME %like% &quot;CCD|CDP&quot;] %&gt;%
+    unique(by = c(&quot;NAME&quot;, &quot;state&quot;, &quot;population&quot;)) %&gt;%
+    .[population &lt; 100]
 
-  
-    <li><time>2018/01/27</time> - <a href="/2018/01/27/the-most-popular-president-lincoln-or-washington/">Is your hometown named after Lincoln or Washington?</a></li>
+ghost_town_2000 &lt;- read_decennial(2000, &quot;US&quot;) %&gt;%
+    .[SUMLEV %in% c(&quot;060&quot;, &quot;160&quot;)] %&gt;%
+    .[NAME %like% &quot;town|city&quot;] %&gt;%
+    .[!NAME %like% &quot;CCD|CDP&quot;] %&gt;%
+    unique(by = c(&quot;NAME&quot;, &quot;state&quot;, &quot;population&quot;)) %&gt;%
+    .[, .(NAME, state, population_2000 = population)]
 
-  
-    <li><time>2018/01/17</time> - <a href="/2018/01/17/create-pie-plots-on-a-map-in-r/">Plot pie charts of racial composition in largest metro areas on a map in R</a></li>
+ghost_town &lt;- ghost_town_2000[ghost_town_2010, on = .(NAME, state)]</code></pre>
 
-  
-  </ul>
-  
-  <h2>2017</h2>
-  <ul>
-  
-    <li><time>2017/12/28</time> - <a href="/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/">Determine relationship between census geographic entities with totalcensus package</a></li>
-
-  
-    <li><time>2017/12/23</time> - <a href="/2017/12/23/census_data_zip_code/">Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package</a></li>
-
-  
-    <li><time>2017/09/14</time> - <a href="/2017/09/14/build-a-r-package-for-yourself/">Build a R package for yourself</a></li>
-
-  
-    <li><time>2017/08/29</time> - <a href="/2017/08/29/process-2010-census-data-with-data-table/">Extract US Census 2010 data with data.table and dplyr</a></li>
-
-  
-    <li><time>2017/08/18</time> - <a href="/2017/08/18/place-text-at-right-location/">ggplot2: place text at right location</a></li>
-
-  
-    <li><time>2017/08/13</time> - <a href="/2017/08/13/ggplot2-group-overrides-default-grouping/">ggplot2: aes(group = ...) overrides default grouping</a></li>
-
-  
-    <li><time>2017/08/03</time> - <a href="/2017/08/03/a-uniform-way-to-use-ggplot2/">My uniform way of using ggplot2</a></li>
-
-  
-    <li><time>2017/07/25</time> - <a href="/2017/07/25/compare-data.table-pipes-and-magrittr-pipes/">Compare data.table pipes and magrittr pipes</a></li>
-
-  
-  </ul>
-  
 </div>
 
 </div>

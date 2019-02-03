@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/02/03/navigate-through-decennial-census-and-american-community-survey/</loc>
+    <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/12/15/population-change/</loc>
     <lastmod>2018-12-15T00:00:00+00:00</lastmod>
   </url>
@@ -115,13 +120,13 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-12-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -133,6 +138,12 @@
   
   <url>
     <loc>/topics/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/totalcensus/</loc>
+    <lastmod>2019-02-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
