@@ -26,13 +26,12 @@ library(data.table)
 library(magrittr)
 library(ggmap)
 # use your own Google cloud API to replace Sys.genenv("GOOGLE_API") below
-register_google(Sys.getenv("GOOGLE_API"))
+register_google(Sys.getenv("GGMAP_GOOGLE_API_KEY"))
 
 get_area <- function(keywords){
     selected <- read_decennial(
         year = 2010,
         states = "US",
-        geo_headers = c("NAME"),
         show_progress = FALSE
     ) %>%
         # select place and county subdivision that have name in NAME

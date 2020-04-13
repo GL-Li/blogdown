@@ -1,0 +1,100 @@
+---
+title: Build a static website with R Shiny
+author: GL Li
+date: '2020-04-11'
+slug: build-static-website-with-r-shiny
+categories:
+  - shiny
+tags:
+  - shiny
+description: ''
+topics: []
+---
+
+Sounds stupid? Yes, it's kind of throwing away 99% of Shiny's power; and you can always build a static website with R markdown, blogdown, or bookdown.
+
+Anyway, please keep reading as it will save you time if you are an R users who 
+
+- want to make a portfolio website to showcase your work,
+- but know little about web development,
+- and yet prefer designing your own interface rather than using a popular theme.
+
+The idea is to take advantage of Shiny's user interface design tools without relying on a Shiny server. Here is [my portfolio website](https://gl-li.github.io/). It is nowhere near fancy, but is eactly what I want.
+
+Without further ado, let's get started. We will host the website on Github pages. Follow [this instructions](https://pages.github.com/) to create a repository called `johndoe.github.io` (replace johndoe with your username) and clone the repository to your computer. 
+
+Now let's create a new Shiny project in the cloned directory. The file structure for this project is:
+
+![](/post/2020-04-11-build-static-website-with-r-shiny_files/create_static_website_with_shiny_file_structure.png)
+
+We use a simple `ui.R` as an example, which contains a picture (`birds.png`), some text (`birds.Rmd`) an internal link to a section in the same page, an external link to [Wikipedia](https://www.wikipedia.org/) and a link to `sample.html` in subdirectory `/samples`. For the link to `sample.html`, we will use the true url at your website: `href = "https://johndoe.github.io/samples/sample.html"`. 
+
+```{r eval=FALSE}
+library(shiny)
+ui <- fluidPage(
+    sidebarLayout(
+        sidebarPanel(
+            width = 3,
+            h2("My Static website"),
+            h3("Internal link example"),
+            a(h4("Birds"),
+              href = "#birds"),
+            hr(),
+            h3("External link example"),
+            a(h4("Wikipedia"),
+              href = "https://en.wikipedia.org/wiki/Main_Page",
+              target = "blank")
+        ),
+        
+        mainPanel(
+            width = 9,
+            h2("Link to a saved sample.html"),
+            p("The url is https://johndoe.github.io/samples/sample.html"),
+            a(h3("Lovely Birds"),
+              href = "https://johndoe.github.io/samples/sample.html",
+              target = "blank"),
+            hr(),
+            h2("Text and image example", id = "birds"),
+            fluidRow(
+                column(
+                    7,
+                    includeMarkdown("markdown/birds.Rmd")
+                ),
+                column(
+                    5,
+                    img(src = "birds.png", width = "100%")
+                )
+            ),
+        )
+    )
+)
+```
+
+The `serve.R` file contains an empty function as we do not have any interactive features in `ui.R`.
+
+```{r eval=FALSE}
+library(shiny)
+server <- function(input, output) {
+    # empty
+}
+```
+
+With all the files in place, follow these steps to create the static website on github page.
+
+**Step 1**: Run the Shiny app in RStudio and then open it in browser. The webpage is at localhost `127.0.0.1:6230` (may differ from yours) and looks like:
+
+![](/post/2020-04-11-build-static-website-with-r-shiny_files/website_screen_shot.png)
+
+**Step 2**: Save this webpage as `index.html` under directory `johndoe.github.io` as complete html. An subdirectory `index_files` contains associated files is created automatically.
+
+**Step 3**: Open `index.html` in a text editor.
+
+- delete all `<script> xxxx </script>` 
+  ![](/post/2020-04-11-build-static-website-with-r-shiny_files/script.png)
+  
+- replace all `https://127.0.0.1:6230` with `https://johndoe.github.io`
+  ![](/post/2020-04-11-build-static-website-with-r-shiny_files/local_host.png)
+  
+**Step 4**: Push all files to the Github repository. Wait for a couple of minutes and your website is ready to visit at https:<span></span>//johndoe.github.io.
+
+Find all the files [here](https://github.com/GL-Li/johndoe.github.io) and remember to change "johndoe" to your Github account username.

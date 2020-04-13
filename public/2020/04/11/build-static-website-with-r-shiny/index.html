@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.69.0" />
 
-  <title>Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package &middot; R &amp; Census</title>
+  <title>Build a static website with R Shiny &middot; R &amp; Census</title>
 
   
   
@@ -210,8 +210,8 @@
 
 
 <div class="header">
-  <h1>Proccess 5-digit ZIP Code Tabulation Area (ZCTA5) data with totalcensus package</h1>
-  <span>GL Li</span>, <span>2017/12/23</span>
+  <h1>Build a static website with R Shiny</h1>
+  <span>GL Li</span>, <span>2020/04/11</span>
 </div>
 <div class="content">
 
@@ -220,89 +220,87 @@
   
 
 
-<p>This is an example of applications of <code>totalcensus</code> package. To install the package, follow the instructions at <a href="https://github.com/GL-Li/totalcensus" class="uri">https://github.com/GL-Li/totalcensus</a>.</p>
-<p>In this example, we examine data related to 5-digit ZIP Code Tabulation Area (ZCTA5), using 2016 ACS 5-year survey summary files. Let’s first load the libraries and then answer a couple questions related to zip code</p>
-<pre class="r"><code>library(totalcensus)
-library(data.table)
-library(magrittr)
-library(ggplot2)
-library(ggmap)</code></pre>
-<div id="whats-the-population-in-a-zcta5" class="section level3">
-<h3>What’s the population in a ZCTA5</h3>
-<p>These population data can be easily obtained with the code below. There are 32898 ZCTA5s in the United States and a ZCTA5 has an average population of 9656 and a median population of 2780. The population distribution is highly skewed towards zero with 320 of them having no people living in and 1583 having population below 100. There are 252 zip code having population over 65000.</p>
-<pre class="r"><code># read population in each zip code
-zip_population &lt;- read_acs5year(
-    year = 2016,
-    states = &quot;US&quot;,
-    geo_headers = &quot;ZCTA5&quot;,
-    summary_level = &quot;860&quot;
+<p>Sounds stupid? Yes, it’s kind of throwing away 99% of Shiny’s power; and you can always build a static website with R markdown, blogdown, or bookdown.</p>
+<p>Anyway, please keep reading as it will save you time if you are an R users who</p>
+<ul>
+<li>want to make a portfolio website to showcase your work,</li>
+<li>but know little about web development,</li>
+<li>and yet prefer designing your own interface rather than using a popular theme.</li>
+</ul>
+<p>The idea is to take advantage of Shiny’s user interface design tools without relying on a Shiny server. Here is <a href="https://gl-li.github.io/">my portfolio website</a>. It is nowhere near fancy, but is eactly what I want.</p>
+<p>Without further ado, let’s get started. We will host the website on Github pages. Follow <a href="https://pages.github.com/">this instructions</a> to create a repository called <code>johndoe.github.io</code> (replace johndoe with your username) and clone the repository to your computer.</p>
+<p>Now let’s create a new Shiny project in the cloned directory. The file structure for this project is:</p>
+<p><img src="/post/2020-04-11-build-static-website-with-r-shiny_files/create_static_website_with_shiny_file_structure.png" /></p>
+<p>We use a simple <code>ui.R</code> as an example, which contains a picture (<code>birds.png</code>), some text (<code>birds.Rmd</code>) an internal link to a section in the same page, an external link to <a href="https://www.wikipedia.org/">Wikipedia</a> and a link to <code>sample.html</code> in subdirectory <code>/samples</code>. For the link to <code>sample.html</code>, we will use the true url at your website: <code>href = &quot;https://johndoe.github.io/samples/sample.html&quot;</code>.</p>
+<pre class="r"><code>library(shiny)
+ui &lt;- fluidPage(
+    sidebarLayout(
+        sidebarPanel(
+            width = 3,
+            h2(&quot;My Static website&quot;),
+            h3(&quot;Internal link example&quot;),
+            a(h4(&quot;Birds&quot;),
+              href = &quot;#birds&quot;),
+            hr(),
+            h3(&quot;External link example&quot;),
+            a(h4(&quot;Wikipedia&quot;),
+              href = &quot;https://en.wikipedia.org/wiki/Main_Page&quot;,
+              target = &quot;blank&quot;)
+        ),
+        
+        mainPanel(
+            width = 9,
+            h2(&quot;Link to a saved sample.html&quot;),
+            p(&quot;The url is https://johndoe.github.io/samples/sample.html&quot;),
+            a(h3(&quot;Lovely Birds&quot;),
+              href = &quot;https://johndoe.github.io/samples/sample.html&quot;,
+              target = &quot;blank&quot;),
+            hr(),
+            h2(&quot;Text and image example&quot;, id = &quot;birds&quot;),
+            fluidRow(
+                column(
+                    7,
+                    includeMarkdown(&quot;markdown/birds.Rmd&quot;)
+                ),
+                column(
+                    5,
+                    img(src = &quot;birds.png&quot;, width = &quot;100%&quot;)
+                )
+            ),
+        )
+    )
 )</code></pre>
-<pre><code>## 
-## Reading US 2016 ACS 5-year survey geography file</code></pre>
-<pre class="r"><code>summary(zip_population$population)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##       0     714    2780    9656   13040  115104</code></pre>
-</div>
-<div id="median-age-in-a-zcta5" class="section level3">
-<h3>Median age in a ZCTA5</h3>
-<p>Just for fun, let’s find out the median age of population living in each ZCTA5. The result is pretty interesting. After removing those ZCTA5s with population below 1000 and those with larger margin of error in median age estimate and population count, the smallest median age of a ZCTA5 is 19 and largest is 75.50. These numbers mean that some zip code tabulation area are dominated by very young people while some are dominated by very old people.</p>
-<pre class="r"><code># read median age 
-median_age &lt;- read_acs5year(
-    year = 2016,
-    states = &quot;US&quot;,
-    table_contents = &quot;median_age = B01002_001&quot;,
-    geo_headers = &quot;ZCTA5&quot;,
-    summary_level = &quot;860&quot;,
-    with_margin = TRUE
-) %&gt;%
-    # only keep good age estimate and population count
-    .[median_age_margin &lt; 0.1 * median_age] %&gt;%
-    .[population_margin &lt; 0.1 * population] %&gt;%
-    # remove ZCTA5 with population below 1000
-    .[population &gt; 1000]</code></pre>
-<pre><code>## 
-## Reading US 2016 ACS 5-year survey geography file</code></pre>
-<pre class="r"><code>summary(median_age$median_age)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   19.00   35.60   39.90   39.89   43.90   75.50</code></pre>
-<p>How are these extreme median ages possible for a zip code area which has thousands population? The young median age is easier to understand - many colleges are assigned exclusively with a zip code and the residents in this zip are mostly students living in dorms so the median age can be very low. The zip code areas with very old median age, though a surprise, are still understandable: these are the communities full of retired people.</p>
-<p>It is said that people like to go to South for warm weather after retirement. Can we see this from the median age data? Yes, old people went Florida!</p>
-<pre class="r"><code># download US map
-us_map &lt;- get_map(&quot;US&quot;, zoom = 4, color = &quot;bw&quot;)
-
-# plot ZCTA5 with 65 or up median age on map
-ggmap(us_map) + 
-    geom_point(data = median_age[median_age &gt; 65], 
-               aes(lon, lat, size = population),
-               color = &quot;red&quot;,
-               alpha = 0.5) +
-    ylim(25, 50) +
-    scale_size_area(max_size = 3) +
-    labs(
-        title = &quot;ZIP code area with median age above 65&quot;,
-        caption = &quot;Source: 2016 ACS 5-year survey&quot;,
-        x = NULL,
-        y = NULL
-    ) +
-    theme(
-        axis.text = element_blank(),
-        axis.ticks = element_blank()
-    )</code></pre>
-<p><img src="/post/2017-12-23-use-totalcensus-package-to-extract-block-level-data-of-boston-grouped-by-zip-code_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-</div>
+<p>The <code>serve.R</code> file contains an empty function as we do not have any interactive features in <code>ui.R</code>.</p>
+<pre class="r"><code>library(shiny)
+server &lt;- function(input, output) {
+    # empty
+}</code></pre>
+<p>With all the files in place, follow these steps to create the static website on github page.</p>
+<p><strong>Step 1</strong>: Run the Shiny app in RStudio and then open it in browser. The webpage is at localhost <code>127.0.0.1:6230</code> (may differ from yours) and looks like:</p>
+<p><img src="/post/2020-04-11-build-static-website-with-r-shiny_files/website_screen_shot.png" /></p>
+<p><strong>Step 2</strong>: Save this webpage as <code>index.html</code> under directory <code>johndoe.github.io</code> as complete html. An subdirectory <code>index_files</code> contains associated files is created automatically.</p>
+<p><strong>Step 3</strong>: Open <code>index.html</code> in a text editor.</p>
+<ul>
+<li><p>delete all <code>&lt;script&gt; xxxx &lt;/script&gt;</code>
+<img src="/post/2020-04-11-build-static-website-with-r-shiny_files/script.png" /></p></li>
+<li><p>replace all <code>https://127.0.0.1:6230</code> with <code>https://johndoe.github.io</code>
+<img src="/post/2020-04-11-build-static-website-with-r-shiny_files/local_host.png" /></p></li>
+</ul>
+<p><strong>Step 4</strong>: Push all files to the Github repository. Wait for a couple of minutes and your website is ready to visit at https:<span></span>//johndoe.github.io.</p>
+<p>Find all the files <a href="https://github.com/GL-Li/johndoe.github.io">here</a> and remember to change “johndoe” to your Github account username.</p>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2017/09/14/build-a-r-package-for-yourself/"><i class="fa fa-chevron-left"></i></a>
+    <a href="/2019/02/03/navigate-through-decennial-census-and-american-community-survey/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2017/09/14/build-a-r-package-for-yourself/">Build a R package for yourself</a>
+      <a href="/2019/02/03/navigate-through-decennial-census-and-american-community-survey/">Navigate through Decennial Census and American Community Survey</a>
     </nav>
     
   </div>
@@ -311,14 +309,8 @@ ggmap(us_map) +
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/">Determine relationship between census geographic entities with totalcensus package</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="/2017/12/28/use-totalcensus-package-to-determine-relationship-between-geographic-entities/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
