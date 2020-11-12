@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 - 2019. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 13 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Benford&#39;s Law and Census Data</title>
+      <link>/2020/11/11/benford-s-law-and-census-data/</link>
+      <pubDate>Wed, 11 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/11/11/benford-s-law-and-census-data/</guid>
+      <description>Benford’s law attracted lots of attention after the 2020 election, as some people attempted to use this law to question the integrity of the election. Benford’s law states that the frequency of the first digit of a large set of numerical data follows this rule: 30.1% are 1s, 17.6% are 2s, 12.5% are 3s, …, 4.6% are 9s. Therefore it can be used to detect data manipulation that leads to the violaton of the law.</description>
+    </item>
     
     <item>
       <title>Build a static website with R Shiny</title>

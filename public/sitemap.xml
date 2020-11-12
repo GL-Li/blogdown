@@ -3,27 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2020/11/11/benford-s-law-and-census-data/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/census/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2020/04/13/build-static-website-with-r-shiny/</loc>
     <lastmod>2020-04-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-04-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2020-04-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/shiny/</loc>
-    <lastmod>2020-04-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-04-13T00:00:00+00:00</lastmod>
   </url>
   
@@ -35,11 +45,6 @@
   <url>
     <loc>/tags/totalcensus/</loc>
     <lastmod>2019-02-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/census/</loc>
-    <lastmod>2018-12-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
