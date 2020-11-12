@@ -93,7 +93,7 @@ place <- read_decennial(2010, "US", summary_level = 'place', show_progress = FAL
 plot_together(place, 'All cities (places) in US. N = 29494.')
 ```
 
-**Census tract**: We have seen two good examples. Here we will see examples that does not follow the Benford's law. The first one is the population in census tracts. Most census tracts have a few thousands people. For the 2756 census tract in Michigan, the most frequent leading digit is 3 instead of 1.
+**Census tracts**: We have seen two good examples. Here we will see examples that do not follow the Benford's law. The first one is the population in census tracts. Most census tracts have a few thousands people. For the 2756 census tract in Michigan, the most frequent leading digit is 3 instead of 1.
 
 ```{r echo=FALSE}
 tract <- read_decennial(2010, "MI", summary_level = 'tract', show_progress = FALSE) %>%
@@ -102,7 +102,7 @@ tract <- read_decennial(2010, "MI", summary_level = 'tract', show_progress = FAL
 plot_together(tract, 'All census tracts in Michigan. N = 2756.')
 ```
 
-**Voting district** population does not obey the Benford's law either. Here we show the data for two cities, Chicago IL and Milwaukee WI. What can you tell from the distribution of the first digit? Do not expect the Benford's law to bring you any excitement.
+**Voting districts** population does not obey the Benford's law either. Here we show the data for two cities, Chicago IL and Milwaukee WI. What can you tell from the distribution of the first digit? Do not expect the Benford's law to bring you any excitement.
 
 ```{r echo=FALSE}
 chicago_vtd <- read_decennial(2010, 'IL', 
